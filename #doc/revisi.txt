@@ -1,0 +1,35 @@
+==== HALAMAN DAFTAR PEGAWAI ====
+- tabel yang ditampilkan tetep seperti itu, tapi pada saat d klik tombol edit, maka akan muncul semua
+- tambahkan button "Tambah Data" dan "PDF Excel Print" (sesuai halaman "Data presensi") dan tentunya fungsinya sesuai judul
+- tambahkan tabel "Tanggal lahir", "Jenis Kelamin", "Agama (berarti harus ada isian master data di Halaman Konfigurasi)", 
+  "status", "Divisi (berarti harus ada isian master data di Halaman Konfigurasi)", "Jabatan", "NIP",
+  "Kategori (karyawan tetap atau tidak tetap)","NoHP", "Alamat", "Kota", "Provinsi"
+
+
+==== HALAMAN KONFIGURASI ====
+- pada Variabel "Hari libur 1" tambakan button drop down "Divisi" --// karena tidak semua pegawai libur pada hari sabtu dan minggu, untuk memfilternya 
+  berdasarkan isian divisi 
+- pada Variabel "Hari libur 2" tambakan button drop down "Divisi" --// karena tidak semua pegawai libur pada hari sabtu dan minggu, untuk memfilternya 
+  berdasarkan isian divisi
+- untuk setting potongan jam masuk dan jam keluar beserta potongannya lihat software yang dibuat oleh ruslan
+
+
+
+==== HALAMAN DATA PRESENSI ====
+- untuk tampilan pada halaman web admin gpp seperti itu cuman sebelum tabel "keterangan" tambahkan tabel "Capture" yang pada saat diambil saat taping id atau absen
+  dengan ukuran kecil saja, cuman pada saat di klikgambar otomatis membesar dan tambahkan tabel dengan judul "Terlambat (tabel ini diisidari perhitungan
+  keterlambatn yang di setting pada halaman "KONFIGURASI" di menu edit variabel jam masuk dan jam keluar)" dan "Potongan (tabel ini juga berisi prosentase
+  yang telah disetting pada halaman konfigurasi) " sebelum tabel "Tanggal" --// lihat software yang dibuat sama ruslan
+- Tambahkan button "Input" (gunanya untuk inject absen secara manual tanpa taping ID, untuk kondisi tertentu seperti pejabat eseleon 1 dll)
+  sebelum button "pdf,excel dan print" oh ya pada saat klik input ini ada pilihan input presensi atau input "Tidak SKJ" potongan otomatis 2% dan jika tidak ada input
+  manual tidak SKJ maka di anggap ikut SKJ dan tidak ada potongan 
+- pada saat klik button "pdf,excel dan print" hasil outputnya jadikan landscape dengan otomatis memuat judul "Laporan Presensi" dan di bawahnya otomaatis 
+  memuat periode bulan dan tahun pada saat load data atau juga saat load nama pegawai
+- dan jika ada pegawai yang tidak absen maka pada halaman ini otomatis muncul status alpha dan potongan 4% dan otomatis pula ke insert pada halaman laporan
+
+
+
+==== PENAMBAHAN MENU HALAMAN LAPORAN ====
+- taruh dibawah menu "Data Presensi"
+- pada saat di klik munculkan seperti software yang dibuat "Ruslan" di menu "Laporan" cuman tambahkan total
+- tambahkan button "PDF, Excel dan Print" seperti contoh di halaman "Halaman Data Presensi" dan pada saat di klik sesuai contoh laporan  dan bentuknya landscape
