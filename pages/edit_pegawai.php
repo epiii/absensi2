@@ -7,19 +7,22 @@ if (!isset($_SESSION['page'])) {
 } else {
 	require_once './func/func_pegawai.php';
 	$data = GetOne($_GET['id']);
+	// pr($data);
 	// pr($data['tanggal_lahir']);
 	// $agama = GetAgama();
-	$status = GetStatus();
 	// $divisi = GetDivisi();
-	$jabatan = GetJabatan();
-	$kategori = GetKatKaryawan();
+	// $jabatan = GetJabatan();
 	// $provinsi = GetProvinsi();
-
+	// $kategori = GetKatKaryawan();
+	
+	$status = GetStatus2();
 	$agama = GetAgama2();
 	$divisi = GetDivisi2();
+	$jabatan = GetJabatan2();
+	$kategori = GetKatKaryawan2();
+	// pr($kategori);
+
 	// $status = GetStatus2();
-	// $jabatan = GetJabatan2();
-	// $kategori = GetKatKaryawan2();
 	// $provinsi = GetProvinsi2();
 
 ?>
@@ -91,13 +94,13 @@ if (!isset($_SESSION['page'])) {
 
 					<div class="tab-content">
 						<div class="tab-pane active" id="tab_1">
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label for="exampleInputEmail1">tag</label>
-								<input type="hidden" name="no" value="<?php echo $_GET['id'] ?>">
 								<input required class="form-control" type="text" value="<?php echo $data['tag']; ?>" name="tag" placeholder="Masukan tag">
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">nama</label>
+								<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
 								<input required class="form-control" type="text" value="<?php echo $data['nama']; ?>" name="nama" placeholder="Masukan nama">
 							</div>
 							<div class="form-group">
@@ -123,7 +126,7 @@ if (!isset($_SESSION['page'])) {
 									<option value=""></option>
 									<?php
 									foreach ($agama as $data_agama) { ?>
-										<option <?php echo $data_agama['kode_agama'] == $data['agama'] ? 'selected' : '' ?> value="<?php echo $data_agama['kode_agama']; ?>"> <?php echo $data_agama['nama_agama']; ?></option>
+										<option <?php echo $data_agama['id'] == $data['id_agama'] ? 'selected' : '' ?> value="<?php echo $data_agama['id']; ?>"> <?php echo $data_agama['nama_agama']; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -133,7 +136,7 @@ if (!isset($_SESSION['page'])) {
 									<option value=""></option>
 									<?php
 									foreach ($status as $data_status) { ?>
-										<option <?php echo $data_status['kode_nikah'] == $data['status_kawin'] ? 'selected' : '' ?> value="<?php echo $data_status['kode_nikah']; ?>"> <?php echo $data_status['keterangan']; ?></option>
+										<option <?php echo $data_status['id'] == $data['id_status_kawin'] ? 'selected' : '' ?> value="<?php echo $data_status['id']; ?>"> <?php echo $data_status['keterangan']; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -143,7 +146,7 @@ if (!isset($_SESSION['page'])) {
 									<option value=""></option>
 									<?php
 									foreach ($divisi as $data_divisi) { ?>
-										<option <?php echo $data_divisi['kode_divisi'] == $data['divisi'] ? 'selected' : '' ?> value="<?php echo $data_divisi['kode_divisi']; ?>"> <?php echo $data_divisi['nama_divisi']; ?></option>
+										<option <?php echo $data_divisi['id'] == $data['id_divisi'] ? 'selected' : '' ?> value="<?php echo $data_divisi['id']; ?>"> <?php echo $data_divisi['nama_divisi']; ?></option>
 									<?php } ?>
 								</select> </div>
 						</div>
@@ -211,7 +214,7 @@ if (!isset($_SESSION['page'])) {
 									<option value=""></option>
 									<?php
 									foreach ($jabatan as $data_jabatan) { ?>
-										<option <?php echo $data_jabatan['kode_jabatan'] == $data['jabatan'] ? 'selected' : '' ?> value="<?php echo $data_jabatan['kode_jabatan']; ?>"> <?php echo $data_jabatan['nama_jabatan']; ?></option>
+										<option <?php echo $data_jabatan['id'] == $data['id_jabatan'] ? 'selected' : '' ?> value="<?php echo $data_jabatan['id']; ?>"> <?php echo $data_jabatan['nama_jabatan']; ?></option>
 									<?php } ?>
 								</select>
 							</div>
@@ -224,7 +227,7 @@ if (!isset($_SESSION['page'])) {
 									<option value=""></option>
 									<?php
 									foreach ($kategori as $data_kategori) { ?>
-										<option <?php echo $data_kategori['kode_katkaryawan'] == $data['kategori_karyawan'] ? 'selected' : '' ?> value="<?php echo $data_kategori['kode_katkaryawan']; ?>"> <?php echo $data_kategori['nama_katkaryawan']; ?></option>
+										<option <?php echo $data_kategori['id'] == $data['id_kategori_karyawan'] ? 'selected' : '' ?> value="<?php echo $data_kategori['id']; ?>"> <?php echo $data_kategori['nama_katkaryawan']; ?></option>
 									<?php } ?>
 								</select>
 							</div>

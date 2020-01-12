@@ -54,7 +54,7 @@ void setup() {
 
     Serial.println(F("Scan a MIFARE Classic PICC to demonstrate read and write."));
     Serial.print(F("Using key (for A and B):"));
-    dump_byte_array(key.keyByte, MFRC522::MF_KEY_SIZE);
+    dump_byte_assoc(key.keyByte, MFRC522::MF_KEY_SIZE);
     Serial.println();
 
     Serial.println(F("BEWARE: Data will be written to the PICC, in sector #1"));
@@ -74,7 +74,7 @@ void loop() {
 
     // Show some details of the PICC (that is: the tag/card)
     Serial.print(F("Card UID:"));
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    dump_byte_assoc(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.println();
     Serial.print(F("PICC type: "));
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
@@ -126,7 +126,7 @@ void loop() {
         Serial.println(mfrc522.GetStatusCodeName(status));
     }
     Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-    dump_byte_array(buffer, 16); Serial.println();
+    dump_byte_assoc(buffer, 16); Serial.println();
     Serial.println();
 
     // Authenticate using key B
@@ -141,7 +141,7 @@ void loop() {
     // Write data to the block
     Serial.print(F("Writing data into block ")); Serial.print(blockAddr);
     Serial.println(F(" ..."));
-    dump_byte_array(dataBlock, 16); Serial.println();
+    dump_byte_assoc(dataBlock, 16); Serial.println();
     status = (MFRC522::StatusCode) mfrc522.MIFARE_Write(blockAddr, dataBlock, 16);
     if (status != MFRC522::STATUS_OK) {
         Serial.print(F("MIFARE_Write() failed: "));
@@ -158,7 +158,7 @@ void loop() {
         Serial.println(mfrc522.GetStatusCodeName(status));
     }
     Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-    dump_byte_array(buffer, 16); Serial.println();
+    dump_byte_assoc(buffer, 16); Serial.println();
 
     // Check that data in block is what we have written
     // by counting the number of bytes that are equal
@@ -192,7 +192,7 @@ void loop() {
 /**
  * Helper routine to dump a byte array as hex values to Serial.
  */
-void dump_byte_array(byte *buffer, byte bufferSize) {
+void dump_byte_assoc(byte *buffer, byte bufferSize) {
     for (byte i = 0; i < bufferSize; i++) {
         Serial.print(buffer[i] < 0x10 ? " 0" : " ");
         Serial.print(buffer[i], HEX);

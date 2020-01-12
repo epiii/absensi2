@@ -71,7 +71,7 @@ void setup() {
 
  //Via seriele monitor de bytes uitlezen in hexadecimaal
  
-void dump_byte_array(byte *buffer, byte bufferSize) {
+void dump_byte_assoc(byte *buffer, byte bufferSize) {
     for (byte i = 0; i < bufferSize; i++) {
         Serial.print(buffer[i] < 0x10 ? " 0" : " ");
         Serial.print(buffer[i], HEX);
@@ -79,7 +79,7 @@ void dump_byte_array(byte *buffer, byte bufferSize) {
 }
 //Via seriele monitor de bytes uitlezen in ASCI
 
-void dump_byte_array1(byte *buffer, byte bufferSize) {
+void dump_byte_assoc1(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
     Serial.write(buffer[i]);
@@ -118,12 +118,12 @@ bool try_key(MFRC522::MIFARE_Key *key)
         // Successful read
         result = true;
         Serial.print(F("Success with key:"));
-        dump_byte_array((*key).keyByte, MFRC522::MF_KEY_SIZE);
+        dump_byte_assoc((*key).keyByte, MFRC522::MF_KEY_SIZE);
         Serial.println();
         
         // Dump block data
         Serial.print(F("Block ")); Serial.print(block); Serial.print(F(":"));
-        dump_byte_array1(buffer, 16); //omzetten van hex naar ASCI
+        dump_byte_assoc1(buffer, 16); //omzetten van hex naar ASCI
         Serial.println();
         
         for (int p = 0; p < 16; p++) //De 16 bits uit de block uitlezen
@@ -210,7 +210,7 @@ Serial.println("Insert new card...");
 
     // Show some details of the PICC (that is: the tag/card)
     Serial.print(F("Card UID:"));
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    dump_byte_assoc(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.println();
     Serial.print(F("PICC type: "));
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
@@ -257,7 +257,7 @@ Serial.println("Insert new card...");
     Serial.print(block);
     Serial.println("\n");
           
-    dump_byte_array(waarde[block], 16); 
+    dump_byte_assoc(waarde[block], 16); 
     
           
      status = (MFRC522::StatusCode) mfrc522.MIFARE_Write(block, waarde[block], 16);
@@ -289,7 +289,7 @@ void keuze1(){ //Read card
 
     // Show some details of the PICC (that is: the tag/card)
     Serial.print(F("Card UID:"));
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    dump_byte_assoc(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.println();
     Serial.print(F("PICC type: "));
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);

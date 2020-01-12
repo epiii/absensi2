@@ -6466,7 +6466,7 @@
 	 * @type object
 	 * @ignore
 	 */
-	var __arrayProto = Array.prototype;
+	var __assocProto = Array.prototype;
 	
 	
 	/**
@@ -6642,7 +6642,7 @@
 		 * @returns {DataTables.Api} New API instance, comprising of the combined
 		 *   array.
 		 */
-		concat:  __arrayProto.concat,
+		concat:  __assocProto.concat,
 	
 	
 		context: [], // array of table settings objects
@@ -6672,8 +6672,8 @@
 		{
 			var a = [];
 	
-			if ( __arrayProto.filter ) {
-				a = __arrayProto.filter.call( this, fn, this );
+			if ( __assocProto.filter ) {
+				a = __assocProto.filter.call( this, fn, this );
 			}
 			else {
 				// Compatibility for browsers without EMCA-252-5 (JS 1.6)
@@ -6695,10 +6695,10 @@
 		},
 	
 	
-		join:    __arrayProto.join,
+		join:    __assocProto.join,
 	
 	
-		indexOf: __arrayProto.indexOf || function (obj, start)
+		indexOf: __assocProto.indexOf || function (obj, start)
 		{
 			for ( var i=(start || 0), ien=this.length ; i<ien ; i++ ) {
 				if ( this[i] === obj ) {
@@ -6778,7 +6778,7 @@
 		},
 	
 	
-		lastIndexOf: __arrayProto.lastIndexOf || function (obj, start)
+		lastIndexOf: __assocProto.lastIndexOf || function (obj, start)
 		{
 			// Bit cheeky...
 			return this.indexOf.apply( this.toArray.reverse(), arguments );
@@ -6792,8 +6792,8 @@
 		{
 			var a = [];
 	
-			if ( __arrayProto.map ) {
-				a = __arrayProto.map.call( this, fn, this );
+			if ( __assocProto.map ) {
+				a = __assocProto.map.call( this, fn, this );
 			}
 			else {
 				// Compatibility for browsers without EMCA-252-5 (JS 1.6)
@@ -6813,44 +6813,44 @@
 			} );
 		},
 	
-		pop:     __arrayProto.pop,
+		pop:     __assocProto.pop,
 	
 	
-		push:    __arrayProto.push,
+		push:    __assocProto.push,
 	
 	
 		// Does not return an API instance
-		reduce: __arrayProto.reduce || function ( fn, init )
+		reduce: __assocProto.reduce || function ( fn, init )
 		{
 			return _fnReduce( this, fn, init, 0, this.length, 1 );
 		},
 	
 	
-		reduceRight: __arrayProto.reduceRight || function ( fn, init )
+		reduceRight: __assocProto.reduceRight || function ( fn, init )
 		{
 			return _fnReduce( this, fn, init, this.length-1, -1, -1 );
 		},
 	
 	
-		reverse: __arrayProto.reverse,
+		reverse: __assocProto.reverse,
 	
 	
 		// Object with rows, columns and opts
 		selector: null,
 	
 	
-		shift:   __arrayProto.shift,
+		shift:   __assocProto.shift,
 	
 	
-		sort:    __arrayProto.sort, // ? name - order?
+		sort:    __assocProto.sort, // ? name - order?
 	
 	
-		splice:  __arrayProto.splice,
+		splice:  __assocProto.splice,
 	
 	
 		toArray: function ()
 		{
-			return __arrayProto.slice.call( this );
+			return __assocProto.slice.call( this );
 		},
 	
 	
@@ -6872,7 +6872,7 @@
 		},
 	
 	
-		unshift: __arrayProto.unshift
+		unshift: __assocProto.unshift
 	};
 	
 	

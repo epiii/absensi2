@@ -883,7 +883,7 @@ AmCharts.addInitHandler( function( chart ) {
 				return ( epoch - new Date( Date.UTC( 1899, 11, 30 ) ) ) / ( 24 * 60 * 60 * 1000 );
 			}
 
-			function sheet_from_array_of_arrays( data, opts ) {
+			function sheet_from_assoc_of_assocs( data, opts ) {
 				var ws = {};
 				var range = {
 					s: {
@@ -926,7 +926,7 @@ AmCharts.addInitHandler( function( chart ) {
 			}
 
 			wb.SheetNames.push( cfg.name );
-			wb.Sheets[ cfg.name ] = sheet_from_array_of_arrays( _this.toArray( cfg ) );
+			wb.Sheets[ cfg.name ] = sheet_from_assoc_of_assocs( _this.toArray( cfg ) );
 
 			data = XLSX.write( wb, {
 				bookType: "xlsx",

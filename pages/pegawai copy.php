@@ -50,7 +50,7 @@ if (isset($_SESSION['page'])) {
 							<?php
 							$sql = mysqli_query($dbconnect, "SELECT * FROM tb_id ORDER BY nama!=''");
 							// vd($sql);
-							while ($data = mysqli_fetch_array($sql)) {
+							while ($data = mysqli_fetch_assoc($sql)) {
 							?>
 
 								<tr class="odd gradeX">

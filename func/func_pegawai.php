@@ -11,7 +11,7 @@ function GetAll()
 	$query = "SELECT a.*, b.nama_jabatan as nama_jabatan, c.nama_divisi as nama_divisi FROM karyawan a left join jabatan b on a.jabatan = b.kode_jabatan left join divisi c on a.divisi = c.kode_divisi";
 	$exe = mysqli_query($dbconnect, $query);
 	// $exe = mysqli_query(Connect(), $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'no' => $data['no'],
 			'tag' => $data['tag'],
@@ -48,18 +48,18 @@ function GetAll()
 
 function GetOne($id)
 {
+	// vd($id);
 	global $dbconnect;
-	$query = "SELECT * FROM  `tb1_karyawan` WHERE  `no` =  '$id'";
+	$query = "SELECT * FROM  `tb1_karyawan` WHERE  `id` =  '$id'";
 	$exe = mysqli_query($dbconnect, $query);
-	$data = mysqli_fetch_array($exe);
+	$data = mysqli_fetch_assoc($exe);
 	// $tgl = $data['tanggal_lahir'];
 	// $tglx = explode('-', $tgl);
-
 	$res = array(
-		'no' => $data['no'],
+		'id' => $data['id'],
 		'tag' => $data['tag'],
 		'nama' => $data['nama'],
-		'jabatan' => $data['jabatan'],
+		'id_jabatan' => $data['id_jabatan'],
 		'jenis_kelamin' => $data['jenis_kelamin'],
 		'no_induk' => $data['no_induk'],
 		'tanggal_lahir' => $data['tanggal_lahir'],
@@ -71,14 +71,14 @@ function GetOne($id)
 		'kode_pos' => $data['kode_pos'],
 		'email' => $data['email'],
 		'goldar' => $data['goldar'],
-		'agama' => $data['agama'],
-		'status_kawin' => $data['status_kawin'],
-		'divisi' => $data['divisi'],
+		'id_agama' => $data['id_agama'],
+		'id_status_kawin' => $data['id_status_kawin'],
+		'id_divisi' => $data['id_divisi'],
 		'pendidikan' => $data['pendidikan'],
 		'gelar' => $data['gelar'],
 		'no_sk' => $data['no_sk'],
 		'nip' => $data['nip'],
-		'kategori_karyawan' => $data['kategori_karyawan'],
+		'id_kategori_karyawan' => $data['id_kategori_karyawan'],
 		'npwp' => $data['npwp'],
 		'norek' => $data['norek'],
 		'status' => $data['status'],
@@ -88,12 +88,39 @@ function GetOne($id)
 	return $res;
 }
 
+function GetKaryawan()
+{
+	global $dbconnect;
+	$query = "SELECT no, upper(nama) as nama, tag, nip from `tb1_karyawan`";
+	$exe = mysqli_query($dbconnect, $query);
+	while ($data = mysqli_fetch_assoc($exe)) {
+		$datas[] = array(
+			'no' => $data['no'],
+			'nama' => $data['nama'],
+			'tag' => $data['tag'],
+			'nip' => $data['nip']
+		);
+	}
+	return $datas;
+}
+
+function GetKaryawan2()
+{
+	global $dbconnect;
+	$query = "SELECT * from `tb1_karyawan`";
+	$exe = mysqli_query($dbconnect, $query);
+	while ($data = mysqli_fetch_assoc($exe)) {
+		$datas[] = $data;
+	}
+	return $datas;
+}
+
 function GetKatKaryawan()
 {
 	global $dbconnect;
 	$query = "SELECT * FROM  `tb1_kategori_karyawan`";
 	$exe = mysqli_query($dbconnect, $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['ID'],
 			'kode_katkaryawan' => $data['kode_katkaryawan'],
@@ -114,9 +141,9 @@ function GetKatKaryawan2()
 				SELECT id from tb2_setting where param =LOWER('kategori_karyawan')
 			)";
 	$exe = mysqli_query($dbconnect, $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
-			'ID' => $data['id'],
+			'id' => $data['id'],
 			'kode_katkaryawan' => $data['param'],
 			'nama_katkaryawan' => $data['value']
 		);
@@ -135,7 +162,7 @@ function GetProvinsi2()
 				SELECT id from tb2_setting where param =LOWER('provinsi')
 			)";
 	$exe = mysqli_query($dbconnect, $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['id'],
 			'kode_provinsi' => $data['param'],
@@ -151,7 +178,7 @@ function GetJabatan()
 	$query = "SELECT * FROM  `tb1_jabatan`";
 	$exe = mysqli_query($dbconnect, $query);
 	// $exe = mysqli_query(Connect(), $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['ID'],
 			'kode_jabatan' => $data['kode_jabatan'],
@@ -172,7 +199,7 @@ function GetJabatan2()
 						SELECT id from tb2_setting where param =LOWER('jabatan')
 					)";
 	$exe = mysqli_query($dbconnect, $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'id' => $data['id'],
 			'kode_jabatan' => $data['param'],
@@ -192,7 +219,7 @@ function GetAgama()
 	// var_dump($$dbconnect);
 	// exit();
 	//   $$dbconnect = mysqli_query(Connect(),$query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['ID'],
 			'kode_agama' => $data['kode_agama'],
@@ -216,7 +243,7 @@ function GetAgama2()
 	// pr($exe);
 	// exit();
 	//   $$dbconnect = mysqli_query(Connect(),$query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'id' => $data['id'],
 			'kode_agama' => $data['param'],
@@ -233,7 +260,7 @@ function GetStatus()
 	$query = "SELECT * FROM  tb1_status_pernikahan";
 	$exe = mysqli_query($dbconnect, $query);
 	// $exe = mysqli_query(Connect(), $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['ID'],
 			'kode_nikah' => $data['kode_nikah'],
@@ -254,10 +281,9 @@ function GetStatus2()
 				SELECT id from tb2_setting where param =LOWER('status_pernikahan')
 			)";
 	$exe = mysqli_query($dbconnect, $query);
-	// $exe = mysqli_query(Connect(), $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
-			'ID' => $data['id'],
+			'id' => $data['id'],
 			'kode_nikah' => $data['param'],
 			'keterangan' => $data['value']
 		);
@@ -271,7 +297,7 @@ function GetDivisi()
 	$query = "SELECT * FROM  `tb1_divisi`";
 	$exe = mysqli_query($dbconnect, $query);
 	// $exe = mysqli_query(Connect(), $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
 			'ID' => $data['ID'],
 			'kode_divisi' => $data['kode_divisi'],
@@ -292,9 +318,9 @@ function GetDivisi2()
 				SELECT id from tb2_setting where param =LOWER('Divisi')
 			)";
 	$exe = mysqli_query($dbconnect, $query);
-	while ($data = mysqli_fetch_array($exe)) {
+	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
-			'ID' => $data['id'],
+			'id' => $data['id'],
 			'kode_divisi' => $data['param'],
 			'nama_divisi' => $data['value']
 		);
@@ -418,4 +444,8 @@ if (isset($_POST['insert'])) {
 	Update($_POST['ID']);
 } else if (isset($_POST['delete'])) {
 	Delete($_POST['ID']);
+} else if (isset($_GET['karyawan_absensi'])) {
+	pr('masuk');
+	GetKaryawanAbsensi();
+	// Delete($_POST['ID']);
 }

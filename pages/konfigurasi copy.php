@@ -42,7 +42,7 @@ if(isset($_SESSION['page'])){
 										$sql = mysqli_query($dbconnect,"SELECT * FROM tb_settings");
 										$no='1';
 										// pr($sql);						
-										while($data = mysqli_fetch_array($sql)){
+										while($data = mysqli_fetch_assoc($sql)){
 									?>
 									
 									<tbody>

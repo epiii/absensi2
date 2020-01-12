@@ -15,9 +15,9 @@ $flag = '0';
 $flag = '0';
 $date = date('Y-m-d');
 $absent = $date;
-$query = "SELECT * FROM tb1_karyawan";
+$query = "SELECT * FROM tb1_karyawan order by id desc";
 $sql = mysqli_query($dbconnect, $query);
-// pr($sql);
+// vd($sql);
 // }
 
 ?>
@@ -61,7 +61,7 @@ $sql = mysqli_query($dbconnect, $query);
 								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 									<thead>
 										<tr>
-											<th>UID </th>
+											<th>NIP</th>
 											<th>Nama Pegawai</th>
 											<th>Email</th>
 											<th>Action</th>
@@ -70,45 +70,17 @@ $sql = mysqli_query($dbconnect, $query);
 
 									<tbody>
 										<?php
-										while ($data = mysqli_fetch_array($sql)) {
-											// if ($data['status'] == 'H') {
-											// 	$color = "table-success";
-											// } else if ($data['status'] == 'T') {
-											// 	$color = "table-secondary";
-											// } else if ($data['status'] == 'A') {
-											// 	$color = "table-danger";
-											// } else if ($data['status'] == 'I') {
-											// 	$color = "table-primary";
-											// } else if ($data['status'] == 'S') {
-											// 	$color = "table-info";
-											// } else if ($data['status'] == 'B') {
-											// 	$color = "table-warning";
-											// }
+										while ($data = mysqli_fetch_assoc($sql)) {
+											// vd($data);
 										?>
-
 											<tr class="<?php echo $color; ?>">
-												<td><?php echo $data['tag']; ?></td>
+												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
 												<td><?php echo $data['email']; ?></td>
 												<td>
 													<center>
-														<a href="index.php?page=edit_pegawai&id=<?php echo $data['no']; ?>" class="btn btn-primary btn-sm text-center">edit</a>
-
-														<!-- <form method="post" action="">
-															<input type="hidden" name="id" value="<?php echo $data['id']; ?>">
-															<button 
-																href="#" 
-																onclick="onDelete(<?php echo $data['id']; ?>)" 
-																type="button" 
-																class="btn btn-danger btn-sm text-center"
-															>
-																delete
-															</a>
-														</form> -->
-
-														<a href="#" onclick="onDelete(<?php echo $data['no']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
-														<!-- <a href="#" onclick="alert('anu')" class="delete_data btn btn-danger btn-sm text-center">delete</a> -->
-														<!-- <a onclick="return confirm('yakin mau menghapus data?')" data-confirm="<?php echo $data['no']; ?>" class="btn btn-danger btn-sm text-center">delete</a> -->
+														<a href="index.php?page=edit_pegawai&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">edit</a>
+														<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
 													</center>
 												</td>
 											</tr>
@@ -131,35 +103,37 @@ $sql = mysqli_query($dbconnect, $query);
 </section>
 
 <script>
-	$('.delete_data').on("click", function(e) {
-		var choice = confirm(id);
+	// $('.delete_data').on("click", function(e) {
+	// 	var choice = confirm(id);
 
-		if (choice) {
-			window.location.href = 'index.php?page=update_pegawai&' + id;
-			// window.location.href = $(this).attr('href');
-		}
-		e.preventDefault();
-	});
+	// 	if (choice) {
+	// 		window.location.href = 'index.php?page=update_pegawai&' + id;
+	// 		// window.location.href = $(this).attr('href');
+	// 	}
+	// 	e.preventDefault();
+	// });
 
-	$(document).ready(function() {});
+	// $(document).ready(function() {});
 
-	$('form').on('submit', function() {
-		alert('wkwk')
-	})
+	// $('form').on('submit', function() {
+	// 	alert('wkwk')
+	// })
+
+
+	// function onDelete(id) {
+	// 	var action = 'index.php?page=update_pegawai'; 
+	// 	var choice = confirm('yakin mau menghapus data ' + id + ' ?');
+	// 	alert(choice)
+	// 	return false
+
+	// 	if (choice) {
+
+	// 		window.location.href = 'index.php?page=update_pegawai&id=' + id;
+	// 	}
+	// }
 
 	function onDelete(id) {
-		var action = 'index.php?page=update_pegawai'; 
-		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
-		alert(choice)
-		return false
-
-		if (choice) {
-
-			window.location.href = 'index.php?page=update_pegawai&id=' + id;
-		}
-	}
-
-	function onDelete(id) {
+		// alert(id)
 		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
 		if (choice) {
 			window.location.href = 'konfig/delete_pegawai.php?id=' + id;

@@ -31,20 +31,20 @@ if (isset($_GET['timezone'])) {
 
 // Read and parse our events JSON file into an array of event data arrays.
 $json = file_get_contents(dirname(__FILE__) . '/../json/events.json');
-$input_arrays = json_decode($json, true);
+$input_assocs = json_decode($json, true);
 
 // Accumulate an output array of event data arrays.
-$output_arrays = array();
-foreach ($input_arrays as $array) {
+$output_assocs = array();
+foreach ($input_assocs as $array) {
 
 	// Convert the input array into a useful Event object
 	$event = new Event($array, $timezone);
 
 	// If the event is in-bounds, add it to the output
 	if ($event->isWithinDayRange($range_start, $range_end)) {
-		$output_arrays[] = $event->toArray();
+		$output_assocs[] = $event->toArray();
 	}
 }
 
 // Send JSON to the client.
-echo json_encode($output_arrays);
+echo json_encode($output_assocs);

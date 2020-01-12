@@ -13,7 +13,7 @@ if(isset($_SESSION['page'])) {
 $id = $_GET['id'];
 if($id=='9'){
 	$sql= mysqli_query($dbconnect,"SELECT*FROM tb_settings");
-	while($data = mysqli_fetch_array($sql)){
+	while($data = mysqli_fetch_assoc($sql)){
 		$parameter = $data['pwdemail'];
 	}
 

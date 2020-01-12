@@ -43,13 +43,13 @@
 			remove: function(i){
 				this.splice(i,1);
 			},
-			replace: function(new_array){
-				if (!new_array)
+			replace: function(new_assoc){
+				if (!new_assoc)
 					return;
-				if (!$.isArray(new_array))
-					new_array = [new_array];
+				if (!$.isArray(new_assoc))
+					new_assoc = [new_assoc];
 				this.clear();
-				this.push.apply(this, new_array);
+				this.push.apply(this, new_assoc);
 			},
 			clear: function(){
 				this.length = 0;

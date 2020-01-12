@@ -89,7 +89,7 @@ void loop() {
     mfrc522.PICC_ReadCardSerial(); //read the tag data
     // Show some details of the PICC (that is: the tag/card)
     Serial.print(F("Card UID:"));
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    dump_byte_assoc(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.println();
 
     clearInt(mfrc522);
@@ -106,7 +106,7 @@ void loop() {
 /**
  * Helper routine to dump a byte array as hex values to Serial.
  */
-void dump_byte_array(byte *buffer, byte bufferSize) {
+void dump_byte_assoc(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
     Serial.print(buffer[i], HEX);

@@ -78,14 +78,14 @@ var array_map = function(array, callback) {
 };
 
 var array_flat = function(array) {
-  var new_array = [],
+  var new_assoc = [],
       i;
 
   for (i = 0; i < array.length; i++) {
-    new_array = new_array.concat(array[i]);
+    new_assoc = new_assoc.concat(array[i]);
   }
 
-  return new_array;
+  return new_assoc;
 };
 
 var coordsToLatLngs = function(coords, useGeoJSON) {

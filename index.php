@@ -41,6 +41,9 @@ $_SESSION['page'] = 'index';
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
+  <link rel="stylesheet" type="text/css" href="vendor/assets/global/plugins/select2/select2.css" />
+
   <!-- loading -->
   <link rel="stylesheet" href="vendor/css/css-manual/loading.css">
 </head>
@@ -191,8 +194,8 @@ $_SESSION['page'] = 'index';
             include "pages/edit_konfigurasi.php";
             break;
 
-          case 'edit_absen':
-            include "pages/edit_absen.php";
+          case 'edit_absensi':
+            include "pages/edit_absensi.php";
             break;
 
           case 'edit_pengguna':
@@ -205,6 +208,10 @@ $_SESSION['page'] = 'index';
 
           case 'tambah_pegawai':
             include "pages/tambah_pegawai.php";
+            break;
+
+          case 'tambah_absensi':
+            include "pages/tambah_absensi.php";
             break;
 
           case 'login':
@@ -265,6 +272,8 @@ $_SESSION['page'] = 'index';
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 
+  <script type="text/javascript" src="vendor/assets/global/plugins/select2/select2.min.js"></script>
+
   <!-- nyamm  -->
 
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -276,6 +285,8 @@ $_SESSION['page'] = 'index';
   <script>
     $(document).ready(function() {
       var table = $('#example').DataTable({
+        paging: true,
+        pageLength: 5,
         blengthChange: false,
         bPaginate: false,
         bInfo: false,
@@ -387,7 +398,14 @@ $_SESSION['page'] = 'index';
     }
     loop();
   </script>
+  <script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>
+  <script src="vendor/js/combogrid/jquery.ui.combogrid-1.6.3.js"></script>
 
+  <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery-ui-1.10.1.custom.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery.ui.combogrid.css" />
+
+  <!-- <script src="vendor/js/jquery/jquery.min.js"></script>
+  <script src="vendor/js/inputmask/jquery.inputmask.js"></script> -->
 </body>
 
 </html>

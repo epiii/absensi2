@@ -5,7 +5,7 @@ require 'connection.php';
 
 //=====================================Load Settings From Datbase=======================================
 $sql= mysqli_query($dbconnect, "SELECT * FROM tb_settings");
-while($data = mysqli_fetch_array($sql)){
+while($data = mysqli_fetch_assoc($sql)){
 	$masuk_mulai = $data['masuk_mulai'];
 	$masuk_akhir = $data['masuk_akhir'];
 	$keluar_mulai = $data['keluar_mulai'];
@@ -84,7 +84,7 @@ function postdata($uid, $hari_ini, $time, $cek_absen){
 			}
 			else if($cek_absen == "out"){
 				$cek_masuk = mysqli_query($dbconnect, "select * from tb_absen WHERE id='$uid' AND date='$hari_ini'");
-					while($data = mysqli_fetch_array($cek_masuk)){
+					while($data = mysqli_fetch_assoc($cek_masuk)){
 						$masuk = $data['masuk'];
 						$status = $data['status'];
 							if($masuk != "" && $status != "T"){

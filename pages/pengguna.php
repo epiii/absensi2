@@ -48,7 +48,7 @@ if(isset($_SESSION['page'])){
 						<?php
 							$sql = mysqli_query($dbconnect,"SELECT * FROM tb_pengguna");
 								$no = '0';
-								while($data = mysqli_fetch_array($sql)){
+								while($data = mysqli_fetch_assoc($sql)){
 								if($data['level'] == '0'){
 									$role = "Admin";
 								}

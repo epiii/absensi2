@@ -55,7 +55,7 @@ void setup() {
 
     Serial.println(F("Scan a MIFARE Classic PICC to demonstrate Value Block mode."));
     Serial.print(F("Using key (for A and B):"));
-    dump_byte_array(key.keyByte, MFRC522::MF_KEY_SIZE);
+    dump_byte_assoc(key.keyByte, MFRC522::MF_KEY_SIZE);
     Serial.println();
     
     Serial.println(F("BEWARE: Data will be written to the PICC, in sector #1"));
@@ -75,7 +75,7 @@ void loop() {
 
     // Show some details of the PICC (that is: the tag/card)
     Serial.print(F("Card UID:"));
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
+    dump_byte_assoc(mfrc522.uid.uidByte, mfrc522.uid.size);
     Serial.println();
     Serial.print(F("PICC type: "));
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
@@ -265,7 +265,7 @@ void loop() {
 /**
  * Helper routine to dump a byte array as hex values to Serial.
  */
-void dump_byte_array(byte *buffer, byte bufferSize) {
+void dump_byte_assoc(byte *buffer, byte bufferSize) {
     for (byte i = 0; i < bufferSize; i++) {
         Serial.print(buffer[i] < 0x10 ? " 0" : " ");
         Serial.print(buffer[i], HEX);

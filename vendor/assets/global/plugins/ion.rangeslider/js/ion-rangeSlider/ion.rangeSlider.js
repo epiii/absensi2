@@ -100,7 +100,7 @@
                 var slider = $(this),
                     self = this,
                     allow_values = false,
-                    value_array = null;
+                    value_assoc = null;
 
                 if (slider.data("isActive")) {
                     return;
@@ -114,60 +114,60 @@
 
                 // check default values
                 if (slider.prop("value")) {
-                    value_array = slider.prop("value").split(";");
+                    value_assoc = slider.prop("value").split(";");
                 }
 
                 if (settings.type === "single") {
 
-                    if (value_array && value_array.length > 1) {
+                    if (value_assoc && value_assoc.length > 1) {
 
                         if (typeof settings.min !== "number") {
-                            settings.min = parseFloat(value_array[0]);
+                            settings.min = parseFloat(value_assoc[0]);
                         } else {
                             if (typeof settings.from !== "number") {
-                                settings.from = parseFloat(value_array[0]);
+                                settings.from = parseFloat(value_assoc[0]);
                             }
                         }
 
                         if (typeof settings.max !== "number") {
-                            settings.max = parseFloat(value_array[1]);
+                            settings.max = parseFloat(value_assoc[1]);
                         }
 
-                    } else if (value_array && value_array.length === 1) {
+                    } else if (value_assoc && value_assoc.length === 1) {
 
                         if (typeof settings.from !== "number") {
-                            settings.from = parseFloat(value_array[0]);
+                            settings.from = parseFloat(value_assoc[0]);
                         }
 
                     }
 
                 } else if (settings.type === "double") {
 
-                    if (value_array && value_array.length > 1) {
+                    if (value_assoc && value_assoc.length > 1) {
 
                         if (typeof settings.min !== "number") {
-                            settings.min = parseFloat(value_array[0]);
+                            settings.min = parseFloat(value_assoc[0]);
                         } else {
                             if (typeof settings.from !== "number") {
-                                settings.from = parseFloat(value_array[0]);
+                                settings.from = parseFloat(value_assoc[0]);
                             }
                         }
 
                         if (typeof settings.max !== "number") {
-                            settings.max = parseFloat(value_array[1]);
+                            settings.max = parseFloat(value_assoc[1]);
                         } else {
                             if (typeof settings.to !== "number") {
-                                settings.to = parseFloat(value_array[1]);
+                                settings.to = parseFloat(value_assoc[1]);
                             }
                         }
 
-                    } else if (value_array && value_array.length === 1) {
+                    } else if (value_assoc && value_assoc.length === 1) {
 
                         if (typeof settings.min !== "number") {
-                            settings.min = parseFloat(value_array[0]);
+                            settings.min = parseFloat(value_assoc[0]);
                         } else {
                             if (typeof settings.from !== "number") {
-                                settings.from = parseFloat(value_array[0]);
+                                settings.from = parseFloat(value_assoc[0]);
                             }
                         }
 
