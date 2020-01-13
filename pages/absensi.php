@@ -161,8 +161,8 @@ $sql = mysqli_query($dbconnect, $query);
 												$status = "";
 												$color = "";
 											}
-											// vd($status);
-											$capture = 'img/captures/' . $data['capture'];
+											$capture =  'img/' .($data['capture']=='' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
+											// vd($capture);
 										?>
 
 											<tr class="table-<?php echo $color; ?>">

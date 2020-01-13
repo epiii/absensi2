@@ -46,6 +46,12 @@ $_SESSION['page'] = 'index';
 
   <!-- loading -->
   <link rel="stylesheet" href="vendor/css/css-manual/loading.css">
+
+
+  <!-- combo grid  : old-->
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery-ui-1.10.1.custom.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery.ui.combogrid.css" /> -->
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -251,7 +257,10 @@ $_SESSION['page'] = 'index';
   <!-- REQUIRED SCRIPTS -->
 
   <!-- jQuery -->
-  <script src="vendor/js/jquery/jquery.min.js"></script>
+  <!-- <script src="vendor/js/jquery/jquery.min.js"></script> -->
+  <!-- <script src="vendor/js/jquery/jquery-3.4.1.min.js"></script> -->
+  <script src="vendor/js/combogrid/jquery-1.9.1.min.js"></script>
+
   <!-- Bootstrap 4 -->
   <script src="vendor/js/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
@@ -274,8 +283,12 @@ $_SESSION['page'] = 'index';
 
   <script type="text/javascript" src="vendor/assets/global/plugins/select2/select2.min.js"></script>
 
-  <!-- nyamm  -->
 
+  <!-- combo grid  : old-->
+  <!-- <script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>
+  <script src="vendor/js/combogrid/jquery.ui.combogrid-1.6.3.js"></script> -->
+
+  <!-- nyamm  -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -398,11 +411,29 @@ $_SESSION['page'] = 'index';
     }
     loop();
   </script>
+
+  <!-- combo grid  : new-->
+  <!-- <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+  <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> -->
+
+
+  <!-- combo grid  : new online-->
+  <!-- <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script> -->
+
+  <!-- combo grid  : old-->
   <script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>
   <script src="vendor/js/combogrid/jquery.ui.combogrid-1.6.3.js"></script>
-
+  <script src="vendor/js/combogrid/jquery.widget.min.js"></script>
   <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery-ui-1.10.1.custom.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery.ui.combogrid.css" />
+  <!-- input mask -->
+  <!-- <script src="vendor/js/jquery/jquery.min.js"></script>
+  <script src="vendor/js/inputmask/jquery.inputmask.js"></script> -->
 
   <!-- <script src="vendor/js/jquery/jquery.min.js"></script>
   <script src="vendor/js/inputmask/jquery.inputmask.js"></script> -->

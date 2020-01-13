@@ -11,28 +11,36 @@ if (isset($_GET['karyawan_absensi'])) {
 	// $sidx       = $_GET['sidx']; // get index row - i.e. user click to sort
 	$sord       = $_GET['sord']; // get the direction
 	$searchTerm = $_GET['searchTerm'];
-	$tanggal = '2020-01-17';
+	// $tanggal = '2020-01-17';
 	// $tanggal = $_GET['tanggal'];
 
 	$ss = 'SELECT 
 				k.id,
+				k.nama,
 				k.nip,
-				k.nama
-			FROM tb1_karyawan k 
+				j.*,
+				d.*,
+				kk.*
+			FROM tb1_karyawan k
+				LEFT JOIN vw_jabatan j on j.id_jabatan= k.id_jabatan
+				LEFT JOIN vw_divisi d on d.id_divisi = k.id_divisi
+				LEFT JOIN vw_katkaryawan kk on kk.id_katkaryawan= k.id_kategori_karyawan
 			WHERE 
 				k.nama LIKE "%' . $searchTerm . '%"  
-					';
+				OR k.nip LIKE "%' . $searchTerm . '%"  
+			';
 	// $ss = 'SELECT 
-	// 				k.id,
-	// 				k.nip,
-	// 				k.nama
-	// 			FROM tb1_karyawan k 
-	// 			WHERE 
-	// 				k.nama LIKE "%' . $searchTerm . '%"  
-	// 				AND k.id NOT IN (
-	// 					SELECT id_karyawan FROM tb_absen where date ="'.$tanggal.'"
-	// 				)
-	// 				';
+	// 			k.id,
+	// 			k.nip,
+	// 			k.nama
+	// 		FROM tb1_karyawan k 
+	// 		WHERE 
+	// 			k.nama LIKE "%' . $searchTerm . '%"  
+	// 			AND k.id NOT IN (
+	// 				SELECT id_karyawan FROM tb_absen where date ="' . $tanggal . '"
+	// 			)
+	// 			';
+	// pr($ss);
 	$result = mysqli_query($dbconnect, $ss);
 	$row    = mysqli_fetch_array($result);
 	$count  = mysqli_num_rows($result);
@@ -54,8 +62,12 @@ if (isset($_GET['karyawan_absensi'])) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$rows[] = array(
 			'id' => $row['id'],
+			'nip' => $row['nip']?$row['nip']:'-',
 			'nama' => $row['nama'],
-			'nip' => $row['nip']
+			'jabatan' => $row['nama_jabatan']?$row['nama_jabatan']:'-',
+			'id_jabatan' => $row['id_jabatan']?$row['id_jabatan']:'-',
+			'divisi' => $row['nama_divisi']?$row['nama_divisi']:'-',
+			'id_divisi' => $row['id_divisi']?$row['id_divisi']:'-',
 		);
 	}
 	// vd($rows);
