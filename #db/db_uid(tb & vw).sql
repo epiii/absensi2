@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-14 22:02:41
+Date: 2020-01-15 05:58:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,8 +32,8 @@ CREATE TABLE `tb1_admin` (
 -- ----------------------------
 -- Records of tb1_admin
 -- ----------------------------
-INSERT INTO `tb1_admin` VALUES ('6', 'Admin', 'admin', 'admin', 'EOD BARU.png', '0');
-INSERT INTO `tb1_admin` VALUES ('7', 'Rizal Bustani S.kom', 'operator', 'asdf', 'il_340x270.1381893948_7ngw.png', '1');
+INSERT INTO `tb1_admin` VALUES ('6', 'Admin', 'admin', 'adminx', 'EOD BARU.png', '0');
+INSERT INTO `tb1_admin` VALUES ('7', 'Rizal Bustani S.kom', 'operator', 'operator', 'il_340x270.1381893948_7ngw.png', '1');
 
 -- ----------------------------
 -- Table structure for tb1_agama
@@ -550,26 +550,27 @@ CREATE TABLE `tb_absen` (
   `id_karyawan` int(11) NOT NULL,
   `masuk` varchar(5) NOT NULL,
   `keluar` varchar(5) NOT NULL,
-  `masuk_minus` varchar(15) DEFAULT NULL,
-  `keluar_minus` varchar(15) DEFAULT NULL,
+  `masuk_minus` int(11) NOT NULL,
+  `keluar_minus` int(11) NOT NULL,
   `date` date NOT NULL,
   `status` varchar(10) NOT NULL,
   `capture` text DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
   `terlambat` varchar(20) DEFAULT NULL,
+  `potongan_keluar` float(11,0) DEFAULT NULL,
+  `potongan_masuk` float(11,0) DEFAULT NULL,
   `potongan` varchar(20) DEFAULT NULL,
   `mode` enum('auto','manual') DEFAULT 'auto',
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
 -- ----------------------------
-INSERT INTO `tb_absen` VALUES ('13', '0', '', '', null, null, '0000-00-00', '', null, '', '0', '0', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('14', '0', '', '', null, null, '0000-00-00', '', null, '', '0', '0', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('15', '20', '21:45', '21:45', null, null, '2020-01-17', 'H', null, '', '510', '2.5', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('16', '20', '', '', null, null, '2020-01-14', 'J', null, 'anu bos', '510', '2.5', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('24', '20', '', '', '0', '0', '2020-01-15', 'I', null, 'males', '0', null, null, '2', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('25', '20', '05:34', '16:30', '0', '0', '2020-01-15', 'H', null, '', '0', null, null, '0', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('26', '20', '', '', '0', '0', '2020-01-15', 'H', null, '', '0', null, null, '2', 'manual', '48');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -597,13 +598,14 @@ CREATE TABLE `tb_pengguna` (
   `password` varchar(22) NOT NULL,
   `level` int(1) NOT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
 -- ----------------------------
 INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0');
 INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0');
+INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0');
 
 -- ----------------------------
 -- Table structure for tb_rfid

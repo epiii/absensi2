@@ -128,6 +128,15 @@ $_SESSION['page'] = 'index';
             </li>
 
             <li class="nav-item">
+              <a href="index.php?page=laporan_absensi" class="nav-link">
+                <i class="nav-icon far fa-calendar-alt"></i>
+                <p>
+                  Laporan Presensi
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="index.php?page=pegawai" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
@@ -178,6 +187,10 @@ $_SESSION['page'] = 'index';
 
           case 'absensi':
             include "pages/absensi.php";
+            break;
+
+          case 'laporan_absensi':
+            include "pages/laporan_absensi.php";
             break;
 
           case 'pegawai':
