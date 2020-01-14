@@ -28,10 +28,14 @@ $query = ' 	SELECT
 					a.status,
 					a.mode,
 					a.id_karyawan,
+					a.potongan,
+					a.terlambat,
 					k.nip,
-					k.nama
+					k.nama,
+					tp.nama_tipepresensi
 				FROM tb_absen a
 				JOIN tb1_karyawan k ON k.id = a.id_karyawan
+				JOIN vw_tipepresensi tp ON tp.id_tipepresensi = a.id_tipe_presensi
 				WHERE
 					a.date >= "' . $tanggal_awal . '"
 				AND a.date <=  "' . $tanggal_akhir . '"';
@@ -116,7 +120,8 @@ $sql = mysqli_query($dbconnect, $query);
 								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
 									<thead>
 										<tr>
-											<th>UID </th>
+											<th>Tipe</th>
+											<th>NIP </th>
 											<th>Nama Pegawai</th>
 											<th>Jam Masuk</th>
 											<th>Jam Keluar</th>
@@ -125,6 +130,8 @@ $sql = mysqli_query($dbconnect, $query);
 											<th>Mode</th>
 											<th>Capture</th>
 											<th>Keterangan</th>
+											<th>Potongan</th>
+											<th>Keterlambatan</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -161,12 +168,13 @@ $sql = mysqli_query($dbconnect, $query);
 												$status = "";
 												$color = "";
 											}
-											$capture =  'img/' .($data['capture']=='' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
+											$capture =  'img/' . ($data['capture'] == '' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
 											// vd($capture);
 										?>
 
 											<tr class="table-<?php echo $color; ?>">
 												<!-- <tr> -->
+												<td><?php echo $data['nama_tipepresensi']; ?></td>
 												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
 												<td><?php echo $data['masuk']; ?></td>
@@ -188,6 +196,8 @@ $sql = mysqli_query($dbconnect, $query);
 													</a>
 												</td>
 												<td><?php echo $data['keterangan']; ?></td>
+												<td><?php echo $data['potongan']; ?>%</td>
+												<td><?php echo $data['terlambat']; ?> min</td>
 												<td>
 													<?php if ($data['mode'] == 'manual') { ?>
 														<center>
@@ -196,11 +206,6 @@ $sql = mysqli_query($dbconnect, $query);
 														</center>
 													<?php } ?>
 
-													<!-- <a href="./index.php?page=edit_absen&id=<?php echo $data['id']; ?>&nama=<?php echo $data['nama']; ?>&tanggal=<?php echo $data['date']; ?>&status=<?php echo $data['status']; ?>&flag=<?php echo $flag; ?>">
-														<b>
-															<center><?php echo $data['status']; ?></center>
-														</b>
-													</a> -->
 												</td>
 											</tr>
 

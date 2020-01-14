@@ -8,7 +8,6 @@ if (isset($_POST['add_absensi'])) {
 
 		$id_tipe_presensi = $_POST['id_tipe_presensi'];
 		$id_tipe_presensi = explode('-', $id_tipe_presensi);
-		// pr($id_tipe_presensi);
 
 		$id_divisi = $_POST['id_divisi'];
 		$id_karyawan = $_POST['id_karyawan'];
@@ -18,30 +17,46 @@ if (isset($_POST['add_absensi'])) {
 		$date = $_POST['date'];
 		$status = $_POST['status'];
 		$mode = 'manual';
-		// $capture = $_POST['capture'];
 		$keterangan = $_POST['keterangan'];
+		// $capture = $_POST['capture'];
 		// $potongan = $_POST['potongan'];
 
 		$valid = IsNotDuplicate([
 			'id_karyawan' => $id_karyawan,
+			'id_tipe_presensi' => $id_tipe_presensi[0],
 			'tanggal' => $date,
 		]);
 
-		$kalku = GetKeterlambatan([
-			'id_divisi' => $id_divisi,
-			'masuk' => $masuk,
-			'keluar' => $keluar,
-		]);
-		// pr($kalku);
-		$potongan = $kalku['tot_potongan'];
-		$terlambat = $kalku['tot_terlambat'];
+		$terlambat_keluar = 0;
+		$terlambat_masuk = 0;
+		$terlambat_total = 0;
+		$potongan_total = 0;
+
+		$itp = $id_tipe_presensi[1];
+		if ($itp == 'skj' || $itp == 'diklat') {
+			$potongan_total = '2'; // 2 %
+		} else if ($itp == 'dispensasi') {
+			$potongan_total = '3'; // 3 %
+		} else {
+			$kalku = GetKeterlambatan([
+				'id_divisi' => $id_divisi,
+				'masuk' => $masuk,
+				'keluar' => $keluar,
+			]);
+			$potongan_total = $kalku['potongan_total'];
+			$terlambat_masuk = $kalku['terlambat_masuk'];
+			$terlambat_keluar = $kalku['terlambat_keluar'];
+			$terlambat_total = $kalku['terlambat_total'];
+		}
+
 		if ($valid) {
-			// vd('$valid');
 			$query = "INSERT INTO `tb_absen` (
 				`id_karyawan`
 				,`id_tipe_presensi`
 				,`masuk`
+				,`masuk_minus`
 				,`keluar`
+				,`keluar_minus`
 				,`date`
 				,`status`
 				,`mode`
@@ -53,20 +68,23 @@ if (isset($_POST['add_absensi'])) {
 				'$id_karyawan'
 				,'$id_tipe_presensi[0]'
 				,'$masuk'
+				,'$terlambat_masuk'
 				,'$keluar'
+				,'$terlambat_keluar'
 				,'$date'
 				,'$status'
 				,'$mode'
 				,'$keterangan'
-				,'$potongan'
-				,'$terlambat'
+				,'$potongan_total'
+				,'$terlambat_total'
 			)";
+			// vd($query);
 			$exe = mysqli_query($dbconnect, $query);
 			$msg = $exe ? 'success' : 'failed,' . mysqli_error($dbconnect);
 			$ret = json_encode(['msg' => $msg, 'status' => $exe ? true : false]);
 			echo $ret;
-		} else { 
-			$ret = json_encode(['msg' => 'data karyawan dengan nama yang sama dan di hari yang sama sudah terdaftar', 'status' => false]);
+		} else {
+			$ret = json_encode(['msg' => 'data duplikat, (karyawan sudah melakukan presensi, tanggal dan tipe presensi sama) ', 'status' => false]);
 			echo $ret;
 		}
 	} else {

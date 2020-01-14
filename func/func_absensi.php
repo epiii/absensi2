@@ -100,7 +100,13 @@ if (isset($_REQUEST['ajax'])) {
 	function IsNotDuplicate($par)
 	{
 		global $dbconnect;
-		$sql = 'SELECT * from tb_absen WHERE id_karyawan = ' . $par['id_karyawan'] . ' AND date ="' . $par['tanggal'] . '"';
+		$sql = 'SELECT * 
+				FROM tb_absen
+				WHERE
+					id_karyawan = ' . $par['id_karyawan'] . '
+					AND id_tipe_presensi = ' . $par['id_tipe_presensi'] . '
+					AND date ="' . $par['tanggal'] . '"';
+		// vd($sql);
 		$exe = mysqli_query($dbconnect, $sql);
 		$num = mysqli_num_rows($exe);
 		// pr($num);
@@ -171,18 +177,21 @@ if (isset($_REQUEST['ajax'])) {
 		$mas_selisih = GetTimeDiff($mas_jam_real, $mas_jam_rule);
 		$mas_pot_per = 0;
 
-		// vd($mas_jam_rule);
+		// print_r($mas_jam_real);
+		// print_r($mas_jam_rule);
 		if ($mas_jam_real > $mas_jam_rule) {
+			// print_r($mas_selisih <= $mas_tel_1b);
 			if ($mas_selisih >= $mas_tel_1a && $mas_selisih <= $mas_tel_1b) {
 				$mas_pot_per = $mas_per_1;
+				// vd($mas_pot_per);
 				// vd('1');
 			} elseif ($mas_selisih >= $mas_tel_2a && $mas_selisih <= $mas_tel_2b) {
-				// vd('2');
 				$mas_pot_per = $mas_per_2;
+				// vd('2');
 			} elseif ($mas_selisih >= $mas_tel_3a && $mas_selisih <= $mas_tel_3b) {
 				$mas_pot_per = $mas_per_3;
 				// vd('3');
-			} else {
+			} elseif ($mas_selisih > $mas_tel_3b) {
 				$mas_pot_per = $mas_per_4;
 				// vd('5');
 			}
@@ -204,14 +213,28 @@ if (isset($_REQUEST['ajax'])) {
 				$kel_pot_per = $kel_per_2;
 			} elseif ($kel_selisih >= $kel_tel_3a && $kel_selisih <= $kel_tel_3b) {
 				$kel_pot_per = $kel_per_3;
-				vd('3');
+				// vd('3');
 			} else {
 				$kel_pot_per = $kel_per_4;
 			}
 		}
+		// print_r(
+		// 	$mas_selisih,
+		// 	$kel_selisih,
+		// 	$mas_jam_rule,
+		// 	$kel_jam_rule
+		// );
+
+		$terlambat_masuk = $mas_selisih < 0 ? 0 : $mas_selisih;
+		$terlambat_keluar = $kel_selisih < 0 ? 0 : $kel_selisih;
+
 		$ret = [
-			'tot_potongan' => $mas_pot_per + $kel_pot_per,
-			'tot_terlambat' => $mas_selisih + $kel_selisih,
+			'potongan_masuk' =>  $mas_pot_per,
+			'potongan_keluar' =>  $kel_pot_per,
+			'potongan_total' =>  $mas_pot_per + $kel_pot_per,
+			'terlambat_masuk' => $terlambat_masuk,
+			'terlambat_keluar' => $terlambat_keluar,
+			'terlambat_total' => $terlambat_masuk + $terlambat_keluar,
 		];
 		// vd($ret);
 		return $ret;

@@ -145,7 +145,7 @@ $tipe_presensi = GetTipePresensi2();
 						</label>
 					</div>
 					<div class="form-check-inline">
-						<input required class="form-check-input" type="radio" name="status" id="ijin" value="J">
+						<input required class="form-check-input" type="radio" name="status" id="ijin" value="I">
 						<label class="form-check-label" for="ijin">
 							Ijin
 						</label>
@@ -184,7 +184,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('masuk')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam" />
+								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam" required />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('masuk')" type="button">x</button>
 								</div>
@@ -210,7 +210,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('keluar')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam" />
+								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam" required />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('keluar')" type="button">x</button>
 								</div>
@@ -265,86 +265,6 @@ $tipe_presensi = GetTipePresensi2();
 			}
 		});
 
-
-		// $("#karyawan").combogrid({
-		// 	debug: true,
-		// 	width: '600px',
-		// 	colModel: [{
-		// 		'align': 'left',
-		// 		'columnName': 'id',
-		// 		'hide': true,
-		// 		'width': '15',
-		// 		'label': 'ID'
-		// 	}, {
-		// 		'align': 'left',
-		// 		'columnName': 'nip',
-		// 		'hide': true,
-		// 		'width': '15',
-		// 		'label': 'NIP'
-		// 	}, {
-		// 		'align': 'left',
-		// 		'columnName': 'nama',
-		// 		'width': '85',
-		// 		'label': 'NAMA'
-		// 	}],
-		// 	// url: './func/func_absensi.php?karyawan_absensi',
-		// 	// url: './func/func_absensi.php?karyawan_absensi&tanggal=' + $('#date').val(),
-		// 	url: './func/func_absensi.php?karyawan_absensi',
-		// 	// url: '?aksi=autocomp',
-		// 	select: function(event, ui) {
-		// 		// $('#d_rekeningH').val(ui.item.replid);
-		// 		// $(this).val(ui.item.nama);
-
-		// 		// alert('masuk select')
-		// 		// validasi input (tidak sesuai data dr server)
-		// 		// $(this).on('keyup', function(e) {
-		// 			alert('masuk keyup')
-		// 			// var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-		// 			// var keyCode = $.ui.keyCode;
-		// 			// if (key != keyCode.ENTER && key != keyCode.LEFT && key != keyCode.RIGHT && key != keyCode.UP && key != keyCode.DOWN) {
-		// 			// 	if ($('#d_rekeningH').val() != '') {
-		// 			// 		$('#d_rekeningH').val('');
-		// 			// 		$('#d_rekeningTB').val('');
-		// 			// 	}
-		// 			// }
-		// 		// });
-		// 		return false;
-		// 	}
-		// });
-		/* 		let el = {
-					elemFrom: 'karyawan',
-					url: './func/func_absensi.php?karyawan_absensi',
-					elemSet: ['karyawan', 'id_karyawan'],
-					column: [
-						// {
-						// 	'align': 'left',
-						// 	'columnName': 'id',
-						// 	'hide': true,
-						// 	'width': '15',
-						// 	'label': 'ID'
-						// },
-						{
-							'align': 'left',
-							'columnName': 'nip',
-							'hide': true,
-							'width': '15',
-							'label': 'NIP'
-						}, {
-							'align': 'left',
-							'columnName': 'nama',
-							'width': '35',
-							'label': 'NAMA'
-						},
-						{
-							'align': 'left',
-							'columnName': 'nama',
-							'width': '35',
-							'label': 'NAMA'
-						}
-					]
-				}
-				combogridFunc(el)
-		 */
 		let hasSelectedKary = false
 		$('#karyawan').combogrid({
 			debug: true,
@@ -400,15 +320,6 @@ $tipe_presensi = GetTipePresensi2();
 				let keluar_rule = kel.jam == undefined ? '' : (kel.jam + ':' + kel.menit)
 				$('#keluar_rule').val(keluar_rule);
 
-
-
-				// $('#id_jabatan').val(ui.item.id_jabatan);
-				// $('#jabatan').val(ui.item.jabatan);
-				// $('#id_divisi').val(ui.item.id_divisi);
-				// $('#divisi').val(ui.item.divisi);
-				// $('#rule_masuk').val(ui.item.rule_masuk);
-				// $('#rule_keluar').val(ui.item.rule_keluar);
-
 				// validasi input (tidak sesuai data dr server)
 				console.log('masuk set value')
 				// $('#' + el.elemFrom).on('keyup', function(e) {
@@ -450,93 +361,7 @@ $tipe_presensi = GetTipePresensi2();
 		return `${hours}:${minutes}`;
 	}
 
-	function combogridFunc() {
-		hasSelectedKary = false
-		if ($('#karyawan').val() != '') {
-			resetKaryawan()
-		} else {
-			// $('#karyawan').combogrid({
-			// 	debug: true,
-			// 	width: '600px',
-			// 	colModel: [
-			// 		// {
-			// 		// 	'align': 'left',
-			// 		// 	'columnName': 'id',
-			// 		// 	'hide': true,
-			// 		// 	'width': '15',
-			// 		// 	'label': 'ID'
-			// 		// },
-			// 		{
-			// 			'align': 'left',
-			// 			'columnName': 'nip',
-			// 			'hide': true,
-			// 			'width': '15',
-			// 			'label': 'NIP'
-			// 		}, {
-			// 			'align': 'left',
-			// 			'columnName': 'nama',
-			// 			'width': '35',
-			// 			'label': 'NAMA'
-			// 		},
-			// 		{
-			// 			'align': 'left',
-			// 			'columnName': 'nama',
-			// 			'width': '35',
-			// 			'label': 'NAMA'
-			// 		}
-			// 	],
-			// 	url: './func/func_absensi.php?karyawan_absensi',
-			// 	select: function(event, ui) {
-			// 		console.table(ui)
-			// 		console.log('data', ui.item.id)
-
-			// 		// set val 
-			// 		$('#karyawan').val(ui.item.nama);
-			// 		$('#id_karyawan').val(ui.item.id);
-
-			// 		// $('#id_jabatan').val(ui.item.id_jabatan);
-			// 		// $('#jabatan').val(ui.item.jabatan);
-			// 		// $('#id_divisi').val(ui.item.id_divisi);
-			// 		// $('#divisi').val(ui.item.divisi);
-			// 		// $('#rule_masuk').val(ui.item.rule_masuk);
-			// 		// $('#rule_keluar').val(ui.item.rule_keluar);
-
-			// 		// validasi input (tidak sesuai data dr server)
-			// 		console.log('masuk set value')
-			// 		// $('#' + el.elemFrom).on('keyup', function(e) {
-			// 		// 	var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-			// 		// 	console.log('has selected', key);
-			// 		// 	var keyCode = $.ui.keyCode;
-			// 		// 	if (key != keyCode.ENTER && key != keyCode.LEFT && key != keyCode.RIGHT && key != keyCode.UP && key != keyCode.DOWN) {
-			// 		// 		if ($('#' + el.elemFrom).val() != '') {
-			// 		// 			$('#' + el.elemFrom).val('')
-			// 		// 		}
-			// 		// 	}
-			// 		// });
-			// 		return false;
-			// 	}
-			// });
-		}
-	}
-
 	function onsubmitForm(el) {
-		// swal({
-		// 	title: 'Are you sure?',
-		// 	text: "It will permanently deleted !",
-		// 	type: 'warning',
-		// 	showCancelButton: true,
-		// 	confirmButtonColor: '#3085d6',
-		// 	cancelButtonColor: '#d33',
-		// 	confirmButtonText: 'Yes, delete it!'
-		// }).then(function(res) {
-		// 	console.log(res)
-		// 	// swal(
-		// 	// 	'Deleted!',
-		// 	// 	'Your file has been deleted.',
-		// 	// 	'success'
-		// 	// );
-		// })
-
 		swal({
 			title: 'Yakin melanjutkan?',
 			text: 'Pastikan semua data sudah terisi dengan benar',
@@ -546,7 +371,6 @@ $tipe_presensi = GetTipePresensi2();
 			// confirmButtonColor: '#DD6B55',
 			confirmButtonText: 'Ya',
 			cancelButtonText: 'Tidak'
-			// }).then(function(){
 		}).then((res) => {
 			console.log(res)
 			if (res.value) {
@@ -601,22 +425,33 @@ $tipe_presensi = GetTipePresensi2();
 		$('#keluar_rule').val('')
 	}
 
-
-
 	function statusPresensiFunc(sel) {
-		console.log('status pres', sel);
-		if (sel == 'H') {
-			$('.jam').removeAttr('style')
-			if ($('#karyawan').val() == '') {
+
+		let el = $('#id_tipe_presensi').val()
+		let tipex = el.split('-')
+		let tp = tipex[1]
+		console.log('status-=', sel);
+		console.log('tipe=', tp);
+
+		if (tp == 'harian') { // presensi harian
+			if (sel == 'H') {
+				$('.jam').removeAttr('style')
+				$('.input-jam').attr('required', true)
 				$('.keterangan').attr('style', 'display:none;')
-				$('.jam-rule').attr('style', 'display:none;')
 			} else {
-				$('.keterangan').attr('style', 'display:none;')
-				$('.jam-rule').removeAttr('style')
+				$('.keterangan').removeAttr('style')
+				$('.input-jam').removeAttr('required')
+				$('.jam-rule').attr('style', 'display:none;')
+				$('.jam').attr('style', 'display:none')
 			}
 		} else { // ijin , dll
-			$('.keterangan').removeAttr('style')
+			if (sel == 'H') {
+				$('.keterangan').attr('style', 'display:none;')
+			} else {
+				$('.keterangan').removeAttr('style')
+			}
 			$('.jam').attr('style', 'display:none;')
+			$('.input-jam').removeAttr('required')
 			$('.jam-rule').attr('style', 'display:none;')
 		}
 	}
@@ -670,17 +505,23 @@ $tipe_presensi = GetTipePresensi2();
 		let kode = selx[1]
 		console.log('tipe', kode)
 
-		if (kode == 'skj' || kode == '' || kode == undefined) { // tidak ikut skj
+		if (kode == 'harian') {
+			$('#hadir').removeAttr('disabled')
+			$('.jam').removeAttr('style')
+			$('.jam-rule').removeAttr('style')
+			// $('.status-presensi').removeAttr('style')
+		} else if (kode == 'skj') {
 			$('#hadir').attr('disabled', true)
 			$('.jam-rule').attr('style', 'display:none;')
 			$('.jam').attr('style', 'display:none;')
+			// } else if (kode == 'skj' || kode == '' || kode == undefined) { // tidak ikut skj
 			// statusPresensiFunc($('input[type=radio]').val())
 		} else { // 
 			$('#hadir').removeAttr('disabled')
-			$('.status-presensi #hadir').removeAttr('disabled')
-			$('.status-presensi').removeAttr('style')
-			$('.jam').removeAttr('style')
-			$('.jam-rule').removeAttr('style')
+			$('.jam-rule').attr('style', 'display:none;')
+			$('.jam').attr('style', 'display:none;')
+			// $('.status-presensi').removeAttr('style')
+			// $('.status-presensi #hadir').removeAttr('disabled')
 			// statusPresensiFunc($('input[type=radio]').val())
 		}
 	}

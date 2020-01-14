@@ -40,6 +40,7 @@ if (isset($_SESSION['page'])) {
 					<label for="exampleFormControlSelect1">Level</label>
 					<select class="form-control" name="role">
 						<option>Admin</option>
+						<option>User</option>
 					</select>
 
 				</div>
