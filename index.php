@@ -283,6 +283,8 @@ $_SESSION['page'] = 'index';
 
   <script type="text/javascript" src="vendor/assets/global/plugins/select2/select2.min.js"></script>
 
+  <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+
 
   <!-- combo grid  : old-->
   <!-- <script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>

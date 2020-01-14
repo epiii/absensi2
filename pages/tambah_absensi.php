@@ -46,8 +46,9 @@ $tipe_presensi = GetTipePresensi2();
 <section class="content ml-3 mr-3">
 	<div class="content">
 		<div class="container-fluid">
+			<!-- <button onclick="onsubmitFormx();">o</button> -->
 
-			<form action="./konfig/add_absensi.php" method="POST">
+			<form onsubmit="onsubmitForm(this);return false;" action="./konfig/add_absensi.php" method="POST">
 
 				<!-- <div class="form-group">
 					<label for="exampleInputEmail1">Tipe Presensi</label>
@@ -77,7 +78,7 @@ $tipe_presensi = GetTipePresensi2();
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1">search</span>
 						</div>
-						<input type="hidden" id="id_karyawan">
+						<input type="hidden" required id="id_karyawan" name="id_karyawan">
 						<input required onkeyup="onkeyupKaryawan(this.value)" id="karyawan" name="karyawan" type="text" class="form-control" placeholder="ketik nama atau nip karyawan ..." aria-label="ketik nama atau nip karyawan ..." aria-describedby="basic-addon2">
 						<div class="input-group-append">
 							<button id="resetKaryawanBtn" class="btn btn-secondary" onclick="resetKaryawan()" type="button">x</button>
@@ -108,43 +109,55 @@ $tipe_presensi = GetTipePresensi2();
 					]]
 				"></select> -->
 
-				<div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> jabatan:</label>
-					<input type="text" class="form-control input-medium" id="tag" name='tag' placeholder='Tag' readonly>
+
+				<div class="row mb-2">
+					<div class="col-md-4">
+
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> NIP:</label>
+							<input type="text" class="form-control " id="nip" name='nip' placeholder='NIP' readonly>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> jabatan:</label>
+							<input type="hidden" name="id_jabatan" id="id_jabatan">
+							<input type="text" class="form-control " id="jabatan" name='jabatan' placeholder='jabatan' readonly>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> divisi:</label>
+							<input type="hidden" name="id_divisi" id="id_divisi">
+							<input type="text" class="form-control " id="divisi" name='divisi' placeholder='divisi' readonly>
+						</div>
+					</div>
 				</div>
 
-				<!-- <div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> kode_jabatan:</label>
-					<input type="text" class="form-control input-medium" id="nama" name='nama' placeholder='Nama Karyawan' readonly>
-				</div> -->
-
-				<div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> NIP:</label>
-					<input type="text" class="form-control input-medium" id="nip" name='nip' placeholder='NIP' readonly>
-				</div>
-				
 				<label for="kode_jabatan">Status</label>
 				<div class="status-presensi">
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio" name="status" id="hadir" value="H">
+						<input required class="form-check-input" type="radio" name="status" id="hadir" value="H">
 						<label class="form-check-label" for="hadir">
 							Hadir
 						</label>
 					</div>
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio" name="status" id="ijin" value="J">
+						<input required class="form-check-input" type="radio" name="status" id="ijin" value="J">
 						<label class="form-check-label" for="ijin">
 							Ijin
 						</label>
 					</div>
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio" name="status" id="dinas" value="D">
+						<input required class="form-check-input" type="radio" name="status" id="dinas" value="D">
 						<label class="form-check-label" for="dinas">
 							Dinas Luar
 						</label>
 					</div>
 					<div class="form-check-inline">
-						<input class="form-check-input" type="radio" name="status" id="alpha" value="A">
+						<input required class="form-check-input" type="radio" name="status" id="alpha" value="A">
 						<label class="form-check-label" for="alpha">
 							Alpha
 						</label>
@@ -162,9 +175,9 @@ $tipe_presensi = GetTipePresensi2();
 				</div>
 
 
-
 				<div class="row mb-2">
 					<div class="col-md-6">
+
 						<div class="form-group jam" style="display:none;">
 							<label for="exampleInputEmail1">Jam Masuk (real)</label>
 							<div class="input-group mb-3">
@@ -183,7 +196,8 @@ $tipe_presensi = GetTipePresensi2();
 					<div class="col-md-6">
 						<div class="form-group jam-rule" style="display:none;">
 							<label for="exampleInputEmail1">Jam Masuk (rule)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly>
+							<input id="masuk_rule" type="text" class="form-control" readonly>
+							<!-- <input id="masuk_rule" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly> -->
 						</div>
 					</div>
 				</div>
@@ -208,7 +222,7 @@ $tipe_presensi = GetTipePresensi2();
 					<div class="col-md-6">
 						<div class="form-group jam-rule" style="display:none;">
 							<label for="exampleInputEmail1">Jam Pulang (rule)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly>
+							<input id="keluar_rule" type="text" class="form-control" readonly>
 						</div>
 					</div>
 				</div>
@@ -357,17 +371,35 @@ $tipe_presensi = GetTipePresensi2();
 				'width': '25',
 				'label': 'Divisi'
 			}],
-			url: './func/func_absensi.php?karyawan_absensi=',
+			url: './func/func_absensi.php?karyawan_absensi&ajax',
 			// url: './func/func_absensi.php?karyawan_absensi=&tanggal='+$('#date').val(),
 			select: function(event, ui) {
 				hasSelectedKary = true;
 				console.table(ui)
-				console.log('data', ui.item.id)
 
-				// set val 
+				// set : header 
 				$('#karyawan').val(ui.item.nama);
 				$('#id_karyawan').val(ui.item.id);
 				$('#karyawan').attr('readonly', true);
+
+				// set detail
+				// jabatan  
+				$('.karyawan-info').removeAttr('style')
+				$('#nip').val(ui.item.nip);
+				$('#jabatan').val(ui.item.jabatan);
+				$('#id_jabatan').val(ui.item.id_jabatan);
+				$('#divisi').val(ui.item.divisi);
+				$('#id_divisi').val(ui.item.id_divisi);
+
+				// jam dll
+				let mas = ui.item.rule_masuk
+				let masuk_rule = mas.jam == undefined ? '' : (mas.jam + ':' + mas.menit)
+				$('#masuk_rule').val(masuk_rule);
+
+				let kel = ui.item.rule_keluar
+				let keluar_rule = kel.jam == undefined ? '' : (kel.jam + ':' + kel.menit)
+				$('#keluar_rule').val(keluar_rule);
+
 
 
 				// $('#id_jabatan').val(ui.item.id_jabatan);
@@ -487,6 +519,71 @@ $tipe_presensi = GetTipePresensi2();
 		}
 	}
 
+	function onsubmitForm(el) {
+		// swal({
+		// 	title: 'Are you sure?',
+		// 	text: "It will permanently deleted !",
+		// 	type: 'warning',
+		// 	showCancelButton: true,
+		// 	confirmButtonColor: '#3085d6',
+		// 	cancelButtonColor: '#d33',
+		// 	confirmButtonText: 'Yes, delete it!'
+		// }).then(function(res) {
+		// 	console.log(res)
+		// 	// swal(
+		// 	// 	'Deleted!',
+		// 	// 	'Your file has been deleted.',
+		// 	// 	'success'
+		// 	// );
+		// })
+
+		swal({
+			title: 'Yakin melanjutkan?',
+			text: 'Pastikan semua data sudah terisi dengan benar',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			// confirmButtonColor: '#DD6B55',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+			// }).then(function(){
+		}).then((res) => {
+			console.log(res)
+			if (res.value) {
+				$.ajax({
+					url: './konfig/add_absensi.php',
+					data: 'add_absensi&ajax&' + $(el).serialize(),
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						console.log(dt);
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil menyimpan data'
+							typex = 'success'
+							colorx = 'btn btn-success'
+						} else {
+							titlex = 'Failed'
+							textx = 'Gagal menyimpan data, ' + dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						})
+					},
+				})
+			}
+		});
+		return false;
+	}
+
 	function onkeyupKaryawan(x) {
 		if (x != '')
 			$('#resetKaryawanBtn').addClass('btn-danger')
@@ -498,47 +595,14 @@ $tipe_presensi = GetTipePresensi2();
 		resetInput('karyawan')
 		$('#karyawan').removeAttr('readonly')
 		$('#resetKaryawanBtn').removeClass('btn-danger')
+		$('.karyawan-info>input').val('')
+		$('#id_karyawan').val('')
+		$('#masuk_rule').val('')
+		$('#keluar_rule').val('')
 	}
 
-	/* 	function combogridFunc(el) {
-			$('#' + el.elemFrom).combogrid({
-				debug: true,
-				width: '1024px',
-				colModel: el.column,
-				url: el.url,
-				select: function(event, ui) {
-					console.table(ui)
-					console.log('data', ui.item.id)
 
-					// set to : visible textbox
-					$('#' + el.elemFrom).val(ui.item.);
 
-					// set to : hidden textbox
-					el.elemSet.map(e => {
-						$('#' + e).val(ui.item.);
-					})
-
-					// $('#d_rekeningH').val(ui.item.replid);
-					// $(this).val(ui.item.nama);
-
-					// alert('masuk select')
-					// validasi input (tidak sesuai data dr server)
-					console.log('masuk set value')
-					// $('#' + el.elemFrom).on('keyup', function(e) {
-					// 	var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-					// 	console.log('has selected', key);
-					// 	var keyCode = $.ui.keyCode;
-					// 	if (key != keyCode.ENTER && key != keyCode.LEFT && key != keyCode.RIGHT && key != keyCode.UP && key != keyCode.DOWN) {
-					// 		if ($('#' + el.elemFrom).val() != '') {
-					// 			$('#' + el.elemFrom).val('')
-					// 		}
-					// 	}
-					// });
-					return false;
-				}
-			});
-		}
-	 */
 	function statusPresensiFunc(sel) {
 		console.log('status pres', sel);
 		if (sel == 'H') {
@@ -604,8 +668,9 @@ $tipe_presensi = GetTipePresensi2();
 		$('input[type=radio]').prop('checked', false);
 		let selx = sel.split('-')
 		let kode = selx[1]
+		console.log('tipe', kode)
 
-		if (kode == 'skj') { // tidak ikut skj
+		if (kode == 'skj' || kode == '' || kode == undefined) { // tidak ikut skj
 			$('#hadir').attr('disabled', true)
 			$('.jam-rule').attr('style', 'display:none;')
 			$('.jam').attr('style', 'display:none;')
@@ -614,8 +679,9 @@ $tipe_presensi = GetTipePresensi2();
 			$('#hadir').removeAttr('disabled')
 			$('.status-presensi #hadir').removeAttr('disabled')
 			$('.status-presensi').removeAttr('style')
+			$('.jam').removeAttr('style')
 			$('.jam-rule').removeAttr('style')
-			statusPresensiFunc($('input[type=radio]').val())
+			// statusPresensiFunc($('input[type=radio]').val())
 		}
 	}
 
