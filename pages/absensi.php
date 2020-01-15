@@ -201,7 +201,7 @@ $sql = mysqli_query($dbconnect, $query);
 												<td>
 													<?php if ($data['mode'] == 'manual') { ?>
 														<center>
-															<a href="index.php?page=edit_absensi&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">edit</a>
+															<!-- <a href="index.php?page=edit_absensi&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">edit</a> -->
 															<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
 														</center>
 													<?php } ?>
