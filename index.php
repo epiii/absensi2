@@ -312,15 +312,37 @@ $_SESSION['page'] = 'index';
   <!--data tables function-->
   <script>
     $(document).ready(function() {
+      // $('#example').DataTable({
+      //   dom: 'Bfrtip',
+      //   buttons: [{
+      //     extend: 'pdfHtml5',
+      //     orientation: 'landscape',
+      //     pageSize: 'LEGAL'
+      //   }]
+      // });
+
+      // Append a caption to the table before the DataTables initialisation
+
+      // $('#example').append('<caption style="caption-side: bottom">A fictional company\'s staff table.</caption>');
+
       var table = $('#example').DataTable({
+        dom: 'Bfrtip',
         paging: true,
         pageLength: 5,
         blengthChange: false,
         bPaginate: false,
         bInfo: false,
         buttons: [{
-            extend: 'pdf',
-            className: 'btn-danger'
+            // extend: 'pdf',
+            extend: 'pdfHtml5',
+            className: 'btn-danger',
+            orientation: 'landscape',
+            download: 'open',
+            messageTop: 'Januari 2020 || Divisi Keuangan ',
+            messageBottom: 'keterangan bawah',
+            exportOptions: {
+              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            },
           },
           {
             extend: 'excel',

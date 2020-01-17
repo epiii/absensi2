@@ -294,6 +294,9 @@ $tipe_presensi = GetTipePresensi2();
 			url: './func/func_absensi.php?karyawan_absensi&ajax',
 			// url: './func/func_absensi.php?karyawan_absensi=&tanggal='+$('#date').val(),
 			select: function(event, ui) {
+				resetInput('masuk')
+				resetInput('keluar')
+
 				hasSelectedKary = true;
 				console.table(ui)
 
@@ -433,6 +436,9 @@ $tipe_presensi = GetTipePresensi2();
 		console.log('status-=', sel);
 		console.log('tipe=', tp);
 
+		resetInput('masuk')
+		resetInput('keluar')
+
 		if (tp == 'harian') { // presensi harian
 			if (sel == 'H') {
 				$('.jam').removeAttr('style')
@@ -504,6 +510,9 @@ $tipe_presensi = GetTipePresensi2();
 		let selx = sel.split('-')
 		let kode = selx[1]
 		console.log('tipe', kode)
+
+		resetInput('masuk')
+		resetInput('keluar')
 
 		if (kode == 'harian') {
 			$('#hadir').removeAttr('disabled')

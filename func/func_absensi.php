@@ -176,6 +176,8 @@ if (isset($_REQUEST['ajax'])) {
 		$mas_jam_rule = $mas_jam . ':' . $mas_menit;
 		$mas_selisih = GetTimeDiff($mas_jam_real, $mas_jam_rule);
 		$mas_pot_per = 0;
+		$mas_kat = 0;
+		$kel_kat = 0;
 
 		// print_r($mas_jam_real);
 		// print_r($mas_jam_rule);
@@ -183,17 +185,20 @@ if (isset($_REQUEST['ajax'])) {
 			// print_r($mas_selisih <= $mas_tel_1b);
 			if ($mas_selisih >= $mas_tel_1a && $mas_selisih <= $mas_tel_1b) {
 				$mas_pot_per = $mas_per_1;
-				// vd($mas_pot_per);
+				$mas_kat = '1';
 				// vd('1');
 			} elseif ($mas_selisih >= $mas_tel_2a && $mas_selisih <= $mas_tel_2b) {
 				$mas_pot_per = $mas_per_2;
+				$mas_kat = '2';
 				// vd('2');
 			} elseif ($mas_selisih >= $mas_tel_3a && $mas_selisih <= $mas_tel_3b) {
 				$mas_pot_per = $mas_per_3;
+				$mas_kat = '3';
 				// vd('3');
 			} elseif ($mas_selisih > $mas_tel_3b) {
 				$mas_pot_per = $mas_per_4;
-				// vd('5');
+				$mas_kat = '4';
+				// vd('4');
 			}
 		}
 
@@ -209,29 +214,31 @@ if (isset($_REQUEST['ajax'])) {
 			// vd('$kel_selisih');
 			if ($kel_selisih >= $kel_tel_1a && $kel_selisih <= $kel_tel_1b) {
 				$kel_pot_per = $kel_per_1;
+				$kel_kat = '1';
 			} elseif ($kel_selisih >= $kel_tel_2a && $kel_selisih <= $kel_tel_2b) {
 				$kel_pot_per = $kel_per_2;
+				$kel_kat = '2';
 			} elseif ($kel_selisih >= $kel_tel_3a && $kel_selisih <= $kel_tel_3b) {
 				$kel_pot_per = $kel_per_3;
+				$kel_kat = '3';
 				// vd('3');
 			} else {
 				$kel_pot_per = $kel_per_4;
+				$kel_kat = '4';
 			}
 		}
-		// print_r(
-		// 	$mas_selisih,
-		// 	$kel_selisih,
-		// 	$mas_jam_rule,
-		// 	$kel_jam_rule
-		// );
 
 		$terlambat_masuk = $mas_selisih < 0 ? 0 : $mas_selisih;
 		$terlambat_keluar = $kel_selisih < 0 ? 0 : $kel_selisih;
 
 		$ret = [
+			'kat_terlambat_masuk' => $mas_kat,
+			'kat_terlambat_keluar' => $kel_kat,
+
 			'potongan_masuk' =>  $mas_pot_per,
 			'potongan_keluar' =>  $kel_pot_per,
 			'potongan_total' =>  $mas_pot_per + $kel_pot_per,
+
 			'terlambat_masuk' => $terlambat_masuk,
 			'terlambat_keluar' => $terlambat_keluar,
 			'terlambat_total' => $terlambat_masuk + $terlambat_keluar,
@@ -249,6 +256,50 @@ if (isset($_REQUEST['ajax'])) {
 	// exit();
 
 
+
+	function GetDivisiRule()
+	{
+		global $dbconnect;
+		$query = "SELECT
+					vw.id_divisi,
+					vw.kode_divisi,
+					vw.nama_divisi,
+					mas.persen1 as mas_per_1,
+					mas.persen2 as mas_per_2,
+					mas.persen3 as mas_per_3,
+					mas.persen4 as mas_per_4,
+					
+					kel.persen1 as kel_per_1,
+					kel.persen2 as kel_per_2,
+					kel.persen3 as kel_per_3,
+					kel.persen4 as kel_per_4
+				FROM
+					vw_divisi vw
+					LEFT JOIN tb1_setting2 mas on mas.id_divisi = vw.id_divisi and mas.no='1'
+					LEFT JOIN tb1_setting2 kel on kel.id_divisi = vw.id_divisi and kel.no='2'
+				";
+		$exe = mysqli_query($dbconnect, $query);
+		while ($r = mysqli_fetch_assoc($exe)) {
+			$datas[] = array(
+				'id' => $r['id_divisi'],
+				'kode_divisi' => $r['kode_divisi'],
+				'nama_divisi' => $r['nama_divisi'],
+
+				// masuk 
+				'mas_per_1' => $r['mas_per_1'],
+				'mas_per_2' => $r['mas_per_2'],
+				'mas_per_3' => $r['mas_per_3'],
+				'mas_per_4' => $r['mas_per_4'],
+
+				// keluar 
+				'kel_per_1' => $r['kel_per_1'],
+				'kel_per_2' => $r['kel_per_2'],
+				'kel_per_3' => $r['kel_per_3'],
+				'kel_per_4' => $r['kel_per_4'],
+			);
+		}
+		return $datas;
+	}
 
 	function GetKaryawanAbsensi($id)
 	{

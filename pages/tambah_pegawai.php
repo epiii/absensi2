@@ -148,19 +148,19 @@ if (!isset($_SESSION['page'])) {
 						<div class="tab-pane" id="tab_2">
 							<div class="form-group">
 								<label for="exampleInputEmail1">no_hp</label>
-								<input required class="form-control" type="text" " name=" no_hp" placeholder="Masukan no_hp">
+								<input class="form-control" type="text" " name=" no_hp" placeholder="Masukan no_hp">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">alamat</label>
-								<input required class="form-control" type="text" " name=" alamat" placeholder="Masukan alamat">
+								<input class="form-control" type="text" " name=" alamat" placeholder="Masukan alamat">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">kota</label>
-								<input required class="form-control" type="text" " name=" kota" placeholder="Masukan kota">
+								<input class="form-control" type="text" " name=" kota" placeholder="Masukan kota">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">provinsi</label>
-								<input required class="form-control" type="text" " name=" provinsi" placeholder="Masukan provinsi">
+								<input class="form-control" type="text" " name=" provinsi" placeholder="Masukan provinsi">
 								<!-- <select name="provinsi" class="form-control input-medium">
 								<option value=""></option>
 								<?php

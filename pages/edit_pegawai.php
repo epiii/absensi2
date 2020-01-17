@@ -142,7 +142,7 @@ if (!isset($_SESSION['page'])) {
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">divisi</label>
-								<select name="divisi" class="form-control input-medium">
+								<select required name="divisi" class="form-control input-medium">
 									<option value=""></option>
 									<?php
 									foreach ($divisi as $data_divisi) { ?>
@@ -154,19 +154,19 @@ if (!isset($_SESSION['page'])) {
 						<div class="tab-pane" id="tab_2">
 							<div class="form-group">
 								<label for="exampleInputEmail1">no_hp</label>
-								<input required class="form-control" type="text" value="<?php echo $data['no_hp']; ?>" name="no_hp" placeholder="Masukan no_hp">
+								<input class="form-control" type="text" value="<?php echo $data['no_hp']; ?>" name="no_hp" placeholder="Masukan no_hp">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">alamat</label>
-								<input required class="form-control" type="text" value="<?php echo $data['alamat']; ?>" name="alamat" placeholder="Masukan alamat">
+								<input class="form-control" type="text" value="<?php echo $data['alamat']; ?>" name="alamat" placeholder="Masukan alamat">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">kota</label>
-								<input required class="form-control" type="text" value="<?php echo $data['kota']; ?>" name="kota" placeholder="Masukan kota">
+								<input class="form-control" type="text" value="<?php echo $data['kota']; ?>" name="kota" placeholder="Masukan kota">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">provinsi</label>
-								<input required class="form-control" type="text" value="<?php echo $data['provinsi']; ?>" name="provinsi" placeholder="Masukan provinsi">
+								<input class="form-control" type="text" value="<?php echo $data['provinsi']; ?>" name="provinsi" placeholder="Masukan provinsi">
 								<!-- <select name="provinsi" class="form-control input-medium">
 								<option value=""></option>
 								<?php
@@ -181,7 +181,7 @@ if (!isset($_SESSION['page'])) {
 						</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">email</label>
-								<input required class="form-control" type="text" value="<?php echo $data['email']; ?>" name="email" placeholder="Masukan email">
+								<input class="form-control" type="text" value="<?php echo $data['email']; ?>" name="email" placeholder="Masukan email">
 							</div>
 							<!-- <div class="form-group">
 							<label for="exampleInputEmail1">pendidikan</label>
@@ -206,7 +206,7 @@ if (!isset($_SESSION['page'])) {
 						</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">nip</label>
-								<input required class="form-control" type="text" value="<?php echo $data['nip']; ?>" name="nip" placeholder="Masukan nip">
+								<input  class="form-control" type="text" value="<?php echo $data['nip']; ?>" name="nip" placeholder="Masukan nip">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">jabatan</label>
@@ -233,7 +233,7 @@ if (!isset($_SESSION['page'])) {
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">npwp</label>
-								<input required class="form-control" type="text" value="<?php echo $data['npwp']; ?>" name="npwp" placeholder="Masukan npwp">
+								<input  class="form-control" type="text" value="<?php echo $data['npwp']; ?>" name="npwp" placeholder="Masukan npwp">
 							</div>
 							<!-- <div class="form-group">
 							<label for="exampleInputEmail1">norek</label>

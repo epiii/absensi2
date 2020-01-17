@@ -250,6 +250,10 @@ $sql = mysqli_query($dbconnect, $query);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <script>
+	let title = '<h2>wkwkwk</h2>'
+	// $('#example').append(title);
+	$('#example').append('<caption style="caption-side: bottom">huhuhuhu</caption>');
+
 	function onDelete(id) {
 		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
 		if (choice) {

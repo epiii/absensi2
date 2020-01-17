@@ -31,22 +31,45 @@ if (isset($_POST['add_absensi'])) {
 		$terlambat_masuk = 0;
 		$terlambat_total = 0;
 		$potongan_total = 0;
+		$potongan_masuk = 0;
+		$potongan_keluar = 0;
+
+		$kat_terlambat_masuk = 0;
+		$kat_terlambat_keluar = 0;
 
 		$itp = $id_tipe_presensi[1];
 		if ($itp == 'skj' || $itp == 'diklat') {
 			$potongan_total = '2'; // 2 %
 		} else if ($itp == 'dispensasi') {
 			$potongan_total = '3'; // 3 %
-		} else {
-			$kalku = GetKeterlambatan([
-				'id_divisi' => $id_divisi,
-				'masuk' => $masuk,
-				'keluar' => $keluar,
-			]);
-			$potongan_total = $kalku['potongan_total'];
-			$terlambat_masuk = $kalku['terlambat_masuk'];
-			$terlambat_keluar = $kalku['terlambat_keluar'];
-			$terlambat_total = $kalku['terlambat_total'];
+		} else { // harian
+			if ($status == 'H') {
+				$kalku = GetKeterlambatan([
+					'id_divisi' => $id_divisi,
+					'masuk' => $masuk,
+					'keluar' => $keluar,
+				]);
+				// vd($kalku);
+
+				// kategori telat 
+				$kat_terlambat_masuk = $kalku['kat_terlambat_masuk'];
+				$kat_terlambat_keluar = $kalku['kat_terlambat_keluar'];
+
+				// terlambat (menit)
+				$terlambat_masuk = $kalku['terlambat_masuk'];
+				$terlambat_keluar = $kalku['terlambat_keluar'];
+				$terlambat_total = $kalku['terlambat_total'];
+
+				// potongan (persen %)
+				$potongan_masuk = $kalku['potongan_masuk'];
+				$potongan_keluar = $kalku['potongan_keluar'];
+				$potongan_total = $kalku['potongan_total'];
+			} else if ($status == 'A') {
+				$kat_terlambat_masuk = 4;
+				$kat_terlambat_keluar = 4;
+				$masuk = '';
+				$keluar = '';
+			} 
 		}
 
 		if ($valid) {
@@ -62,7 +85,11 @@ if (isset($_POST['add_absensi'])) {
 				,`mode`
 				,`keterangan`
 				,`potongan`
+				,`potongan_masuk`
+				,`potongan_keluar`
 				,`terlambat`
+				,`kat_terlambat_masuk`
+				,`kat_terlambat_keluar`
 			)
 			VALUES (
 				'$id_karyawan'
@@ -76,7 +103,11 @@ if (isset($_POST['add_absensi'])) {
 				,'$mode'
 				,'$keterangan'
 				,'$potongan_total'
+				,'$potongan_masuk'
+				,'$potongan_keluar'
 				,'$terlambat_total'
+				,'$kat_terlambat_masuk'
+				,'$kat_terlambat_keluar'
 			)";
 			// vd($query);
 			$exe = mysqli_query($dbconnect, $query);
