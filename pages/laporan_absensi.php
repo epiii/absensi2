@@ -459,8 +459,8 @@ $divisi = GetDivisiRule();
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
-									<!-- <table class="table table-striped table-bordered table-hover" id="ss"> -->
+								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+								<!-- <table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;"> -->
 									<thead>
 										<tr>
 											<th style='display:none;'></th>
@@ -550,7 +550,7 @@ $divisi = GetDivisiRule();
 
 											// diklat
 											$jml_tel_diklat = $r['jml_tel_diklat'];
-											$jml_pot_diklat = floatval($jml_tel_diklat * $r['jml_pot_diklat']);
+											$jml_pot_diklat = floatval($r['jml_pot_diklat']);
 
 											//skj
 											$jml_tel_skj = $r['jml_tel_skj'];
