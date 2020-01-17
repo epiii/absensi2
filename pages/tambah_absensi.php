@@ -519,7 +519,7 @@ $tipe_presensi = GetTipePresensi2();
 			$('.jam').removeAttr('style')
 			$('.jam-rule').removeAttr('style')
 			// $('.status-presensi').removeAttr('style')
-		} else if (kode == 'skj') {
+		} else if (kode == 'skj' || kode == 'dispensasi') {
 			$('#hadir').attr('disabled', true)
 			$('.jam-rule').attr('style', 'display:none;')
 			$('.jam').attr('style', 'display:none;')

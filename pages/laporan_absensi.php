@@ -12,10 +12,10 @@ $id_divisi = isset($_POST['id_divisi']) ? $idArr[0] : '';
 
 // potongan : masuk %/
 // pr($_POST);
-$mas_per_1 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[1] : '';
-$mas_per_2 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[2] : '';
-$mas_per_3 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[3] : '';
-$mas_per_4 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[4] : '';
+$mas_per_1 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[1] : '0.25';
+$mas_per_2 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[2] : '1';
+$mas_per_3 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[3] : '2';
+$mas_per_4 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[4] : '2.5';
 
 // potongan :keluar %
 $kel_per_1 = isset($_POST['id_divisi']) && $_POST['id_divisi'] != '' ?  $idArr[5] : '';
@@ -58,6 +58,30 @@ $query = 'SELECT
 			)jml_tel_kel_1
 			,(
 				SELECT
+					count(*) * a.potongan_masuk
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_masuk= "1"
+			)jml_pot_mas_1
+			,(
+				SELECT
+					count(*) * a.potongan_keluar
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_keluar= "1"
+			)jml_pot_kel_1
+			,(
+				SELECT
 					count(*)
 				FROM
 					tb_absen a
@@ -80,6 +104,30 @@ $query = 'SELECT
                     a.status="H" and 
 					a.kat_terlambat_keluar= "2"
 			)jml_tel_kel_2
+			,(
+				SELECT
+					count(*) * a.potongan_masuk
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_masuk= "2"
+			)jml_pot_mas_2
+			,(
+				SELECT
+					count(*) * a.potongan_keluar
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_keluar= "2"
+			)jml_pot_kel_2
 			,(
 				SELECT
 					count(*)
@@ -106,6 +154,30 @@ $query = 'SELECT
 			)jml_tel_kel_3
 			,(
 				SELECT
+					count(*) * a.potongan_masuk
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_masuk= "3"
+			)jml_pot_mas_3
+			,(
+				SELECT
+					count(*) * a.potongan_keluar
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_keluar= "3"
+			)jml_pot_kel_3
+			,(
+				SELECT
 					count(*)
 				FROM
 					tb_absen a
@@ -129,6 +201,30 @@ $query = 'SELECT
 					a.kat_terlambat_keluar= "4"
 			)jml_tel_kel_4
 			,(
+				SELECT
+					count(*) * a.potongan_masuk
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_masuk= "4"
+			)jml_pot_mas_4
+			,(
+				SELECT
+					count(*) * a.potongan_keluar
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="H" and 
+					a.kat_terlambat_keluar= "4"
+			)jml_pot_kel_4
+			,(
 					SELECT
 					count(*)
 				FROM
@@ -139,13 +235,125 @@ $query = 'SELECT
                     a.date<="' . $tanggal_akhir . '" and
                     a.status="A" 
 			)jml_tel_mas_5
+			,(
+				SELECT
+					count(*)
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan = k.id AND
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" AND
+					a. STATUS != "H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="diklat"
+					)
+			)jml_tel_diklat
+			,(
+				SELECT
+					count(*) * a.potongan
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan = k.id AND
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" AND
+					a. STATUS != "H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="diklat"
+					)
+			)jml_pot_diklat
+			,(
+				SELECT
+					count(*)
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan = k.id AND
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" AND
+					a. STATUS != "H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="skj"
+					)
+			)jml_tel_skj
+			,(
+				SELECT
+					count(*)*a.potongan
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan = k.id AND
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" AND
+					a. STATUS != "H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="skj"
+					)
+			)jml_pot_skj
+			,(
+				SELECT
+					count(*)
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan = k.id AND
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" AND
+					a. STATUS != "H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="dispensasi"
+					)
+			)jml_tel_dispensasi
+			,(
+				SELECT
+					count(*) * a.potongan
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status!="H" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="dispensasi"
+					)
+			)jml_pot_dispensasi
+			,(
+				SELECT
+					count(*) 
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="A" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="harian"
+					)
+			)jml_tel_alpha
+			,(
+				SELECT
+					count(*) * a.potongan
+				FROM
+					tb_absen a
+				WHERE
+					a.id_karyawan=k.id and 
+                    a.date>="' . $tanggal_awal . '" and 
+                    a.date<="' . $tanggal_akhir . '" and
+                    a.status="A" AND
+					a.id_tipe_presensi = (
+						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="harian"
+					)
+			)jml_pot_alpha
 		FROM
 			tb1_karyawan k';
 $query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
 pr($query);
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
-// pr($divisi);
+
 ?>
 <!-- <span class="label label-default">Default</span> -->
 <div class="content-header ml-3 mr-3">
@@ -250,9 +458,10 @@ $divisi = GetDivisiRule();
 					<div class="row mt-2">
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
-								<table class="table table-striped table-bordered table-hover" id="ss">
-									<thead>
 
+								<table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
+									<!-- <table class="table table-striped table-bordered table-hover" id="ss"> -->
+									<thead>
 										<tr>
 											<th style='display:none;'></th>
 											<th width="30" rowspan="3" style="vertical-align:middle">No</th>
@@ -278,48 +487,118 @@ $divisi = GetDivisiRule();
 											<th class="text-center" width="80">JML</th>
 										</tr>
 										<tr>
+											<!-- >5 m  -->
 											<th class="text-center" width="80">jml</th>
 											<th class="text-center" width="80"><?php echo $mas_per_1; ?>%</th>
+
+											<!-- >30 m  -->
 											<th class="text-center" width="80">jml</th>
 											<th class="text-center" width="80"><?php echo $mas_per_2; ?>%</th>
+
+											<!-- >60 m  -->
 											<th class="text-center" width="80">jml</th>
 											<th class="text-center" width="80"><?php echo $mas_per_3; ?>%</th>
+
+											<!-- >120 m  -->
 											<th class="text-center" width="80">jml</th>
 											<th class="text-center" width="80"><?php echo $mas_per_4; ?>%</th>
+
+											<!-- TMK   -->
 											<th class="text-center" width="80">jml</th>
 											<th class="text-center" width="80">4%</th>
+
+											<!-- diklat -->
 											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">%</th>
+											<th class="text-center" width="80">2%</th>
+
+											<!-- skj -->
 											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">%</th>
+											<th class="text-center" width="80">2%</th>
+
+											<!-- finger -->
 											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">%</th>
+											<th class="text-center" width="80">2%</th>
+
+											<!-- dispen -->
 											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">%</th>
+											<th class="text-center" width="80">3%</th>
+
+											<!-- jml persen : tdk hadir -->
 											<th class="text-center" width="80">%</th>
 										</tr>
 									</thead>
+
 									<tbody>
 										<?php
 										$no = 0;
 										while ($r = mysqli_fetch_assoc($sql)) {
+											// harian 
+											$jml_tel_1 = $r['jml_tel_mas_1'] + $r['jml_tel_kel_1'];
+											$jml_pot_1 = floatval($r['jml_pot_mas_1'] + $r['jml_pot_kel_1']);
+
+											$jml_tel_2 = $r['jml_tel_mas_2'] + $r['jml_tel_kel_2'];
+											$jml_pot_2 = floatval($r['jml_pot_mas_2'] + $r['jml_pot_kel_2']);
+
+											$jml_tel_3 = $r['jml_tel_mas_3'] + $r['jml_tel_kel_3'];
+											$jml_pot_3 = floatval($r['jml_pot_mas_3'] + $r['jml_pot_kel_3']);
+
+											$jml_tel_4 = $r['jml_tel_mas_4'] + $r['jml_tel_kel_4'];
+											$jml_pot_4 = floatval($r['jml_pot_mas_4'] + $r['jml_pot_kel_4']);
+
+											$jml_tel_5 = $r['jml_tel_mas_5'];
+											$jml_pot_5 = $jml_tel_5 * 4;
+
+											// diklat
+											$jml_tel_diklat = $r['jml_tel_diklat'];
+											$jml_pot_diklat = floatval($jml_tel_diklat * $r['jml_pot_diklat']);
+
+											//skj
+											$jml_tel_skj = $r['jml_tel_skj'];
+											$jml_pot_skj = floatval($r['jml_pot_skj']);
+
+											//skj
+											$jml_tel_alpha = $r['jml_tel_alpha'];
+											$jml_pot_alpha =  floatval($r['jml_pot_alpha']);
+
+											//dispensasi
+											$jml_tel_dispensasi = $r['jml_tel_dispensasi'];
+											$jml_pot_dispensasi = floatval($r['jml_pot_dispensasi']);
+
+											// total 
+											$jml_tot_absent = $jml_pot_1 + $jml_pot_2 + $jml_pot_3 + $jml_pot_4 + $jml_pot_5 + $jml_pot_diklat + $jml_pot_skj + $jml_pot_alpha + $jml_pot_dispensasi;
+											$jml_tot_present = 100 - $jml_tot_absent;
+
 											$no++;
-											// pr($r);
-											// pr($r['jml_tel_mas_1']+$r['jml_tel_kel_1']);
-											$tr = '<tr>
-													<td>' . $no . '</td>
-													<td>' . $r['nama'] . '</td>
-													<td>' . $r['nip'] . '</td>
-													<td>' . ($r['jml_tel_mas_1'] + $r['jml_tel_kel_1']) . '</td>
-													<td>99%</td>
-													<td>' . ($r['jml_tel_mas_2'] + $r['jml_tel_kel_2']) . '</td>
-													<td>99%</td>
-													<td>' . ($r['jml_tel_mas_3'] + $r['jml_tel_kel_3']) . '</td>
-													<td>99%</td>
-													<td>' . ($r['jml_tel_mas_4'] + $r['jml_tel_kel_4']) . '</td>
-													<td>99%</td>
-													<td>' . $r['jml_tel_mas_5']  . '</td>
-													<td>' . ($r['jml_tel_mas_5'] * 4) . '</td>
+											$tr = '<tr class="text-right">
+													<td class="text-right">' . $no . '</td>
+													<td class="text-left">' . $r['nama'] . '</td>
+													<td class="text-left">' . $r['nip'] . '</td>
+													
+													<td>' . ($jml_tel_1 == 0 ? '-' : $jml_tel_1) . '</td>
+													<td>' . ($jml_pot_1 == 0 ? '-' : $jml_pot_1 . '%') . '</td>
+													<td>' . ($jml_tel_2 == 0 ? '-' : $jml_tel_2) . '</td>
+													<td>' . ($jml_pot_2 == 0 ? '-' : $jml_pot_2 . '%') . '</td>
+													<td>' . ($jml_tel_3 == 0 ? '-' : $jml_tel_3) . '</td>
+													<td>' . ($jml_pot_3 == 0 ? '-' : $jml_pot_3 . '%') . '</td>
+													<td>' . ($jml_tel_4 == 0 ? '-' : $jml_tel_4) . '</td>
+													<td>' . ($jml_pot_4 == 0 ? '-' : $jml_pot_4 . '%') . '</td>
+													<td>' . ($jml_tel_5 == 0 ? '-' : $jml_tel_5) . '</td>
+													<td>' . ($jml_pot_5 == 0 ? '-' : $jml_pot_5 . '%') . '</td>
+
+													<td>' . ($jml_tel_diklat == 0 ? '-' : $jml_tel_diklat) . '</td>
+													<td>' . ($jml_pot_diklat == 0 ? '-' : $jml_pot_diklat . '%') . '</td>
+
+													<td>' . ($jml_tel_skj == 0 ? '-' : $jml_tel_skj) . '</td>
+													<td>' . ($jml_pot_skj == 0 ? '-' : $jml_pot_skj . '%') . '</td>
+
+													<td>' . ($jml_tel_alpha == 0 ? '-' : $jml_tel_alpha) . '</td>
+													<td>' . ($jml_pot_alpha == 0 ? '-' : $jml_pot_alpha . '%') . '</td>
+													
+													<td>' . ($jml_tel_dispensasi == 0 ? '-' : $jml_tel_dispensasi) . '</td>
+													<td>' . ($jml_pot_dispensasi == 0 ? '-' : $jml_pot_dispensasi . '%') . '</td>
+													
+													<td>' . $jml_tot_absent . '%</td>
+													<td>' . $jml_tot_present . '%</td>
 												</tr>
 												';
 											// <td>' . $r['jml_tel_kel_5'] . '%</td>

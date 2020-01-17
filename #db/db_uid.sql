@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-17 22:24:55
+Date: 2020-01-18 04:24:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ CREATE TABLE `tb_absen` (
   `mode` enum('auto','manual') DEFAULT 'auto',
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
@@ -55,13 +55,18 @@ INSERT INTO `tb_absen` VALUES ('78', '20', '10:58', '16:30', '178', '0', '4', '0
 INSERT INTO `tb_absen` VALUES ('79', '5', '10:58', '16:30', '178', '0', '4', '0', '2020-01-07', 'H', null, '', '178', '0.00', '2.50', '2.50', 'manual', '47');
 INSERT INTO `tb_absen` VALUES ('80', '5', '08:20', '16:30', '20', '0', '1', '0', '2020-01-16', 'H', null, '', '20', '0.00', '0.25', '0.25', 'manual', '47');
 INSERT INTO `tb_absen` VALUES ('81', '5', '08:20', '15:55', '20', '35', '1', '2', '2020-01-14', 'H', null, '', '55', '1.00', '0.25', '1.25', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('82', '5', '08:20', '15:55', '0', '0', '0', '0', '2020-01-15', 'A', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('82', '5', '08:20', '15:55', '0', '0', '0', '0', '2020-01-15', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
 INSERT INTO `tb_absen` VALUES ('83', '17', '08:25', '16:55', '25', '5', '1', '1', '2020-01-16', 'H', null, '', '30', '0.25', '0.25', '0.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('84', '20', '', '16:55', '0', '0', '0', '0', '2020-01-03', 'A', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('84', '20', '', '', '0', '0', '0', '0', '2020-01-03', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
 INSERT INTO `tb_absen` VALUES ('85', '20', '', '', '0', '0', '0', '0', '2020-01-16', 'I', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('86', '20', '', '', '0', '0', '4', '4', '2020-01-24', 'A', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('86', '20', '', '', '0', '0', '0', '0', '2020-01-24', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
 INSERT INTO `tb_absen` VALUES ('87', '20', '', '', '0', '0', '0', '0', '2020-01-24', 'H', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
 INSERT INTO `tb_absen` VALUES ('88', '20', '', '', '0', '0', '0', '0', '2020-01-10', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
+INSERT INTO `tb_absen` VALUES ('89', '20', '', '', '0', '0', '0', '0', '2020-01-17', 'D', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('90', '20', '', '', '0', '0', '0', '0', '2020-01-20', 'D', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('91', '20', '', '', '0', '0', '0', '0', '2020-01-20', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
+INSERT INTO `tb_absen` VALUES ('92', '20', '', '', '0', '0', '0', '0', '2020-01-21', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
+INSERT INTO `tb_absen` VALUES ('93', '20', '', '', '0', '0', '0', '0', '2020-01-22', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
 
 -- ----------------------------
 -- Table structure for tb_id
