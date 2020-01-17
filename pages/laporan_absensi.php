@@ -142,7 +142,7 @@ $query = 'SELECT
 		FROM
 			tb1_karyawan k';
 $query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
-// pr($query);
+pr($query);
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
 // pr($divisi);
