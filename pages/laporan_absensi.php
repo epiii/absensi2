@@ -468,7 +468,7 @@ $divisi = GetDivisiRule();
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">No.</th>
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">Nama</th>
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">NIP</th>
-											<th class="text-center bg-warning" colspan="19">Keterlambatan Rumus</th>
+											<th class="text-center bg-warning" colspan="19">Tingkat Ketidakhadiran Berdasarkan Rumus Skor</th>
 											<th class="text-center bg-secondary" style="vertical-align:middle" rowspan="3">
 												Kehadiran
 												<br />100-(jml%)
@@ -651,7 +651,7 @@ $divisi = GetDivisiRule();
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
-			pageLength: 5,
+			pageLength: 10,
 			lengthMenu: [
 				[5, 10, 25, 50, -1],
 				[5, 10, 25, 50, "All"]
