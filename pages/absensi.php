@@ -117,7 +117,7 @@ $sql = mysqli_query($dbconnect, $query);
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;">
 									<thead>
 										<tr>
 											<th>Tipe</th>
@@ -251,8 +251,8 @@ $sql = mysqli_query($dbconnect, $query);
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <script>
 	let title = '<h2>wkwkwk</h2>'
-	// $('#example').append(title);
-	$('#example').append('<caption style="caption-side: bottom">huhuhuhu</caption>');
+	// $('#absensiTbl').append(title);
+	$('#absensiTbl').append('<caption style="caption-side: bottom">huhuhuhu</caption>');
 
 	function onDelete(id) {
 		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
@@ -270,4 +270,40 @@ $sql = mysqli_query($dbconnect, $query);
 		$('#modalImg').attr('src', urlx);
 		$('#myModal').modal('show');
 	}
+
+	$(document).ready(function() {
+		var table = $('#absensiTbl').DataTable({
+			dom: 'Bfrtip',
+			paging: true,
+			pageLength: 5,
+			blengthChange: false,
+			bPaginate: false,
+			bInfo: false,
+			buttons: [{
+					// extend: 'pdf',
+					extend: 'pdfHtml5',
+					className: 'btn-danger',
+					orientation: 'landscape',
+					download: 'open',
+					messageTop: 'Januari 2020 || Divisi Keuangan ',
+					messageBottom: 'keterangan bawah',
+					exportOptions: {
+						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+					},
+				},
+				{
+					extend: 'excel',
+					className: 'btn-success'
+				},
+				{
+					extend: 'print',
+					className: 'btn-info'
+				}
+			]
+		});
+
+		// table.buttons().container()
+		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
+
+	})
 </script>

@@ -459,72 +459,73 @@ $divisi = GetDivisiRule();
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
-								<!-- <table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;"> -->
+								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+									<!-- <table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;"> -->
 									<thead>
+
 										<tr>
-											<th style='display:none;'></th>
-											<th width="30" rowspan="3" style="vertical-align:middle">No</th>
-											<th width="30" rowspan="3" style="vertical-align:middle">Nama</th>
-											<th width="30" rowspan="3" style="vertical-align:middle">NIP</th>
-											<!-- <th align="center" width="100" rowspan="3">NIP</th> -->
-											<th width="250" class="info text-center" colspan="19">Tingkat Ketidakhadiran berdasarkan Rumus skor</th>
-											<th class="text-center" class="info" style="vertical-align:middle" width="80" rowspan="3">
-												Tingkat kehadiran
+											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">No.</th>
+											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">Nama</th>
+											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">NIP</th>
+											<th class="text-center bg-warning" colspan="19">Keterlambatan Rumus</th>
+											<th class="text-center bg-secondary" style="vertical-align:middle" rowspan="3">
+												Kehadiran
 												<br />100-(jml%)
 											</th>
 										</tr>
-										<tr>
-											<th class="text-center" colspan="2" width="80">05-30 menit</th>
-											<th class="text-center" colspan="2" width="80">31-60 menit</th>
-											<th class="text-center" colspan="2" width="80">61-120 menit</th>
-											<th class="text-center" colspan="2" width="80">>120 menit</th>
-											<th class="text-center" colspan="2" width="80">TMK 1 hari</th>
-											<th class="text-center" colspan="2" width="80">Diklat</th>
-											<th class="text-center" colspan="2" width="80">Tidak SKJ</th>
-											<th class="text-center" colspan="2" width="80">Tidak Finger</th>
-											<th class="text-center" colspan="2" width="80">Dispensasi</th>
-											<th class="text-center" width="80">JML</th>
+
+										<tr class="bg-warning">
+											<th class="text-center" colspan="2">05-30 menit</th>
+											<th class="text-center" colspan="2">31-60 menit</th>
+											<th class="text-center" colspan="2">61-120 menit</th>
+											<th class="text-center" colspan="2">>120 menit</th>
+											<th class="text-center" colspan="2">TMK 1 hari</th>
+											<th class="text-center" colspan="2">Diklat</th>
+											<th class="text-center" colspan="2">Tidak SKJ</th>
+											<th class="text-center" colspan="2">Tidak Finger</th>
+											<th class="text-center" colspan="2">Dispensasi</th>
+											<th class="text-center">JML</th>
 										</tr>
-										<tr>
+
+										<tr class="bg-warning">
 											<!-- >5 m  -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80"><?php echo $mas_per_1; ?>%</th>
+											<th>jml</th>
+											<th><?php echo $mas_per_1; ?>%</th>
 
 											<!-- >30 m  -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80"><?php echo $mas_per_2; ?>%</th>
+											<th>jml</th>
+											<th><?php echo $mas_per_2; ?>%</th>
 
 											<!-- >60 m  -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80"><?php echo $mas_per_3; ?>%</th>
+											<th>jml</th>
+											<th><?php echo $mas_per_3; ?>%</th>
 
 											<!-- >120 m  -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80"><?php echo $mas_per_4; ?>%</th>
+											<th>jml</th>
+											<th><?php echo $mas_per_4; ?>%</th>
 
 											<!-- TMK   -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">4%</th>
+											<th>jml</th>
+											<th>4%</th>
 
 											<!-- diklat -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">2%</th>
+											<th>jml</th>
+											<th>2%</th>
 
 											<!-- skj -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">2%</th>
+											<th>jml</th>
+											<th>2%</th>
 
 											<!-- finger -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">2%</th>
+											<th>jml</th>
+											<th>2%</th>
 
 											<!-- dispen -->
-											<th class="text-center" width="80">jml</th>
-											<th class="text-center" width="80">3%</th>
+											<th>jml</th>
+											<th>3%</th>
 
 											<!-- jml persen : tdk hadir -->
-											<th class="text-center" width="80">%</th>
+											<th>%</th>
 										</tr>
 									</thead>
 
@@ -574,31 +575,31 @@ $divisi = GetDivisiRule();
 													<td class="text-left">' . $r['nama'] . '</td>
 													<td class="text-left">' . $r['nip'] . '</td>
 													
-													<td>' . ($jml_tel_1 == 0 ? '-' : $jml_tel_1) . '</td>
-													<td>' . ($jml_pot_1 == 0 ? '-' : $jml_pot_1 . '%') . '</td>
-													<td>' . ($jml_tel_2 == 0 ? '-' : $jml_tel_2) . '</td>
-													<td>' . ($jml_pot_2 == 0 ? '-' : $jml_pot_2 . '%') . '</td>
-													<td>' . ($jml_tel_3 == 0 ? '-' : $jml_tel_3) . '</td>
-													<td>' . ($jml_pot_3 == 0 ? '-' : $jml_pot_3 . '%') . '</td>
-													<td>' . ($jml_tel_4 == 0 ? '-' : $jml_tel_4) . '</td>
-													<td>' . ($jml_pot_4 == 0 ? '-' : $jml_pot_4 . '%') . '</td>
-													<td>' . ($jml_tel_5 == 0 ? '-' : $jml_tel_5) . '</td>
-													<td>' . ($jml_pot_5 == 0 ? '-' : $jml_pot_5 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_1 == 0 ? '-' : $jml_tel_1) . '</td>
+													<td class="text-right">' . ($jml_pot_1 == 0 ? '-' : $jml_pot_1 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_2 == 0 ? '-' : $jml_tel_2) . '</td>
+													<td class="text-right">' . ($jml_pot_2 == 0 ? '-' : $jml_pot_2 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_3 == 0 ? '-' : $jml_tel_3) . '</td>
+													<td class="text-right">' . ($jml_pot_3 == 0 ? '-' : $jml_pot_3 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_4 == 0 ? '-' : $jml_tel_4) . '</td>
+													<td class="text-right">' . ($jml_pot_4 == 0 ? '-' : $jml_pot_4 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_5 == 0 ? '-' : $jml_tel_5) . '</td>
+													<td class="text-right">' . ($jml_pot_5 == 0 ? '-' : $jml_pot_5 . '%') . '</td>
 
-													<td>' . ($jml_tel_diklat == 0 ? '-' : $jml_tel_diklat) . '</td>
-													<td>' . ($jml_pot_diklat == 0 ? '-' : $jml_pot_diklat . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_diklat == 0 ? '-' : $jml_tel_diklat) . '</td>
+													<td class="text-right">' . ($jml_pot_diklat == 0 ? '-' : $jml_pot_diklat . '%') . '</td>
 
-													<td>' . ($jml_tel_skj == 0 ? '-' : $jml_tel_skj) . '</td>
-													<td>' . ($jml_pot_skj == 0 ? '-' : $jml_pot_skj . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_skj == 0 ? '-' : $jml_tel_skj) . '</td>
+													<td class="text-right">' . ($jml_pot_skj == 0 ? '-' : $jml_pot_skj . '%') . '</td>
 
-													<td>' . ($jml_tel_alpha == 0 ? '-' : $jml_tel_alpha) . '</td>
-													<td>' . ($jml_pot_alpha == 0 ? '-' : $jml_pot_alpha . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_alpha == 0 ? '-' : $jml_tel_alpha) . '</td>
+													<td class="text-right">' . ($jml_pot_alpha == 0 ? '-' : $jml_pot_alpha . '%') . '</td>
 													
-													<td>' . ($jml_tel_dispensasi == 0 ? '-' : $jml_tel_dispensasi) . '</td>
-													<td>' . ($jml_pot_dispensasi == 0 ? '-' : $jml_pot_dispensasi . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_dispensasi == 0 ? '-' : $jml_tel_dispensasi) . '</td>
+													<td class="text-right">' . ($jml_pot_dispensasi == 0 ? '-' : $jml_pot_dispensasi . '%') . '</td>
 													
-													<td>' . $jml_tot_absent . '%</td>
-													<td>' . $jml_tot_present . '%</td>
+													<td class="text-right">' . $jml_tot_absent . '%</td>
+													<td class="text-right">' . $jml_tot_present . '%</td>
 												</tr>
 												';
 											// <td>' . $r['jml_tel_kel_5'] . '%</td>
@@ -638,6 +639,44 @@ $divisi = GetDivisiRule();
 		$('#modalImg').attr('src', urlx);
 		$('#myModal').modal('show');
 	}
+
+	$(document).ready(function() {
+		var table = $('#absensiTbl').DataTable({
+			dom: 'Bfrtip',
+			paging: true,
+			pageLength: 10,
+			blengthChange: false,
+			bPaginate: false,
+			bInfo: false,
+			buttons: [{
+					// extend: 'pdf',
+					extend: 'pdfHtml5',
+					className: 'btn-danger',
+					orientation: 'landscape',
+					download: 'open',
+					// messageTop: ''+<?php echo $id_divisi; ?>+'',
+					messageTop: 'Januari 2020 || Divisi Keuangan ',
+					messageBottom: 'keterangan bawah',
+					exportOptions: {
+						// columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+						filename: "nyamm"
+					},
+				},
+				{
+					extend: 'excel',
+					className: 'btn-success'
+				},
+				{
+					extend: 'print',
+					className: 'btn-info'
+				}
+			]
+		});
+
+		// table.buttons().container()
+		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
+
+	})
 </script>
 
 <?php

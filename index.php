@@ -163,6 +163,7 @@ $_SESSION['page'] = 'index';
               </a>
             </li>
 
+            <!-- 
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -177,7 +178,6 @@ $_SESSION['page'] = 'index';
               </ul>
 
             </li>
-
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-share"></i> <span>Multilevel</span>
@@ -210,7 +210,7 @@ $_SESSION['page'] = 'index';
                 </li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
               </ul>
-            </li>
+            </li> -->
 
           </ul>
         </nav>
@@ -374,38 +374,38 @@ $_SESSION['page'] = 'index';
 
       // $('#example').append('<caption style="caption-side: bottom">A fictional company\'s staff table.</caption>');
 
-      var table = $('#example').DataTable({
-        dom: 'Bfrtip',
-        paging: true,
-        pageLength: 5,
-        blengthChange: false,
-        bPaginate: false,
-        bInfo: false,
-        buttons: [{
-            // extend: 'pdf',
-            extend: 'pdfHtml5',
-            className: 'btn-danger',
-            orientation: 'landscape',
-            download: 'open',
-            messageTop: 'Januari 2020 || Divisi Keuangan ',
-            messageBottom: 'keterangan bawah',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-            },
-          },
-          {
-            extend: 'excel',
-            className: 'btn-success'
-          },
-          {
-            extend: 'print',
-            className: 'btn-info'
-          }
-        ]
-      });
+      // var table = $('#example').DataTable({
+      //   dom: 'Bfrtip',
+      //   paging: true,
+      //   pageLength: 5,
+      //   blengthChange: false,
+      //   bPaginate: false,
+      //   bInfo: false,
+      //   buttons: [{
+      //       // extend: 'pdf',
+      //       extend: 'pdfHtml5',
+      //       className: 'btn-danger',
+      //       orientation: 'landscape',
+      //       download: 'open',
+      //       messageTop: 'Januari 2020 || Divisi Keuangan ',
+      //       messageBottom: 'keterangan bawah',
+      //       exportOptions: {
+      //         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      //       },
+      //     },
+      //     {
+      //       extend: 'excel',
+      //       className: 'btn-success'
+      //     },
+      //     {
+      //       extend: 'print',
+      //       className: 'btn-info'
+      //     }
+      //   ]
+      // });
 
-      table.buttons().container()
-        .appendTo('#example_wrapper .col-md-6:eq(0)');
+      // table.buttons().container()
+      //   .appendTo('#example_wrapper .col-md-6:eq(0)');
 
     });
   </script>
