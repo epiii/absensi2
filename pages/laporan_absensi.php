@@ -402,11 +402,12 @@ $divisi = GetDivisiRule();
 
 			<div class="card">
 				<div class="card-header " style="height: 82px;">
+
 					<form action="" method="POST">
 						<div class="row">
 							<div class="col-sm-3">
 								<label>Divisi</label>
-								<select id="id_divisi" name="id_divisi" onchange="tipePresensiFunc(this.value)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
+								<select onchange="this.form.submit()" id="id_divisi" name="id_divisi" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
 									<option value="">-Semua Divisi-</option>
 									<?php
 									foreach ($divisi as $data) { ?>
@@ -418,11 +419,11 @@ $divisi = GetDivisiRule();
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Awal</label>
-								<input class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal">
+								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Akhir</label>
-								<input class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir">
+								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
 							</div>
 							<div class="col-sm-3">
 								<label>.</label>
@@ -640,11 +641,21 @@ $divisi = GetDivisiRule();
 		$('#myModal').modal('show');
 	}
 
+	function getMonthName(date) {
+		const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		const ret = monthNames[parseInt(date) - 1]
+		return ret;
+	}
+
 	$(document).ready(function() {
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
-			pageLength: 10,
+			pageLength: 5,
+			lengthMenu: [
+				[5, 10, 25, 50, -1],
+				[5, 10, 25, 50, "All"]
+			],
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
@@ -654,8 +665,23 @@ $divisi = GetDivisiRule();
 					className: 'btn-danger',
 					orientation: 'landscape',
 					download: 'open',
-					// messageTop: ''+<?php echo $id_divisi; ?>+'',
-					messageTop: 'Januari 2020 || Divisi Keuangan ',
+					title: function() {
+						let title = 'Daftar Perhitungan Skor Kehadiran Pegawai\n'
+						let subTitle = $('#id_divisi :selected').text()
+						st = subTitle.trim().split(' ')
+
+						return title + ($('#id_divisi :selected').val() == '' ? '' : 'Divisi '+st[1])
+					},
+					messageTop: function() {
+						let tanggal_awal = $('#tanggal_awal').val()
+						let tgl_awal = tanggal_awal.split('-')
+						let ta = tgl_awal[2] + ' ' + getMonthName(tgl_awal[1]) + ' ' + tgl_awal[0]
+
+						let tanggal_akhir = $('#tanggal_akhir').val()
+						let tgl_akhir = tanggal_akhir.split('-')
+						let tr = tgl_akhir[2] + ' ' + getMonthName(tgl_akhir[1]) + ' ' + tgl_akhir[0]
+						return 'Tanggal :' + ta + ' s/d ' + tr
+					},
 					messageBottom: 'keterangan bawah',
 					exportOptions: {
 						// columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -669,7 +695,8 @@ $divisi = GetDivisiRule();
 				{
 					extend: 'print',
 					className: 'btn-info'
-				}
+				},
+				'colvis',
 			]
 		});
 
