@@ -41,9 +41,10 @@ if (isset($_SESSION['page'])) {
 					<!-- <tbody> -->
 					<tbody class="bg-white">
 						<?php
-						$sql = mysqli_query($dbconnect, "SELECT * FROM tb2_setting");
+						$query = "SELECT * from tb2_setting where id_parent is null";
+						$sql = mysqli_query($dbconnect, $query);
 						$no = '1';
-						// vd($sql);						
+						// vd($query);						
 						while ($data = mysqli_fetch_assoc($sql)) {
 						?>
 							<tr class="odd gradeX">
