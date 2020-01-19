@@ -262,6 +262,10 @@ $_SESSION['page'] = 'index';
             include "pages/edit_konfigurasi.php";
             break;
 
+          case 'edit_konfigurasi_jam':
+            include "pages/edit_konfigurasi_jam.php";
+            break;
+
           case 'edit_absensi':
             include "pages/edit_absensi.php";
             break;

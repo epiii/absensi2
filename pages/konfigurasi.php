@@ -49,7 +49,7 @@ if (isset($_SESSION['page'])) {
 						while ($data = mysqli_fetch_assoc($sql)) {
 						?>
 							<tr class="odd gradeX">
-								<td><?php echo $no; ?></td>
+								<td class="text-center"><?php echo $no; ?></td>
 								<td><?php echo $data['param']; ?></td>
 								<td><?php echo $data['value'] ? $data['value'] : '-'; ?></td>
 								<td>
@@ -63,12 +63,24 @@ if (isset($_SESSION['page'])) {
 						}
 						?>
 						<tr class="odd gradeX">
-							<td><?php echo $no; ?></td>
+							<td class="text-center"><?php echo $no; ?></td>
 							<td>Jam Masuk</td>
 							<td>-</td>
 							<td>
 								<center>
-									<a href="./index.php?page=edit_konfigurasi&id=&param=" class="btn btn-outline-primary btn-sm">
+									<a href="./index.php?page=edit_konfigurasi_jam&id=1" class="btn btn-outline-primary btn-sm">
+									<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
+								</a>
+							</center>
+						</td>
+					</tr>
+						<tr class="odd gradeX">
+							<td class="text-center"><?php echo ++$no; ?></td>
+							<td>Jam Keluar</td>
+							<td>-</td>
+							<td>
+								<center>
+									<a href="./index.php?page=edit_konfigurasi_jam&id=2" class="btn btn-outline-primary btn-sm">
 										<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
 									</a>
 								</center>
