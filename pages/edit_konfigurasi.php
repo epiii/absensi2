@@ -43,9 +43,10 @@ $sql = mysqli_query($dbconnect, $query);
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body text-center">
-					<form action="./konfig/update_konfigurasi.php" method="POST">
+					<form id="formParam" onsubmit="alert(9999);onsubmitForm(this);return false;" method="POST">
 						<div class="form-group text-left">
 							<label for="param_sub">Parameter</label>
+							<input type="hidden" name="id_sub" id="id_sub">
 							<input required class="form-control" type="text" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
 						</div>
 						<div class="form-group text-left">
@@ -56,8 +57,8 @@ $sql = mysqli_query($dbconnect, $query);
 				</div>
 				<div class="modal-footer">
 					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Reset</button> -->
-					<button type="button" class="btn btn-default" onclick="resetFrom()">Reset</button>
-					<button type="button" class="btn btn-primary">Simpan</button>
+					<button type="button" class="btn btn-default" onclick="resetFormSub()">Reset</button>
+					<button type="button" onclick="onsubmitForm($('#formParam'));" class="btn btn-primary">Simpan</button>
 				</div>
 			</div>
 
@@ -88,6 +89,8 @@ $sql = mysqli_query($dbconnect, $query);
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12 col-md-offset-2">
+
+						<h3 class="text-center">Sub Parameter</h3>
 						<div class="table table-hover">
 
 							<div class="text-right">
@@ -96,10 +99,11 @@ $sql = mysqli_query($dbconnect, $query);
 								</button>
 							</div>
 
-							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 								<!-- <table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;"> -->
 								<thead>
 									<tr class="bg-secondary text-center">
+										<th>id</th>
 										<th>Parameter</th>
 										<th>Value</th>
 										<th>Status</th>
@@ -115,14 +119,13 @@ $sql = mysqli_query($dbconnect, $query);
 										$clr = $status == '1' ? 'success' : 'secondary';
 									?>
 										<tr class="table-<?php echo $color; ?>">
+											<td><?php echo $data['id']; ?></td>
 											<td><?php echo $data['param']; ?></td>
 											<td><?php echo $data['value']; ?> </td>
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
-											<td>
-												<center>
-													<a href="#" onclick="openModal(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a>
-													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a> -->
-												</center>
+											<td class="text-center">
+												<button href="#" class="btn btn-primary btn-sm text-center">edit</button>
+												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
 											</td>
 
 										</tr>
@@ -145,11 +148,71 @@ $sql = mysqli_query($dbconnect, $query);
 
 <script>
 	function openModal(urlx) {
-		$('#modalImg').attr('src', urlx);
 		$('#myModal').modal('show');
 	}
+
+	function resetFormSub() {
+		console.log('masuk reset ')
+		$('#param_sub').val('');
+		$('#value_sub').val('');
+	}
+
+	function onsubmitForm(el) {
+		swal({
+			title: 'Yakin melanjutkan?',
+			text: 'Pastikan semua data sudah terisi dengan benar',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			// confirmButtonColor: '#DD6B55',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((res) => {
+			console.log(res)
+			if (res.value) {
+				$.ajax({
+					url: './konfig/update_konfigurasi.php',
+					data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						console.log(dt);
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil menyimpan data'
+							typex = 'success'
+							colorx = 'btn btn-success'
+							$('#myModal').modal('hide');
+						} else {
+							titlex = 'Failed'
+							textx = dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						resetFormSub()
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						})
+					},
+				})
+			}
+		});
+		return false;
+	}
+
 	$(document).ready(function() {
 
+		$('#myModal').on('hidden.bs.modal', function() {
+			console.log('modal closed')
+			resetFormSub()
+			$('#id_sub').val('')
+		})
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
 			pageLength: 10,
@@ -157,12 +220,30 @@ $sql = mysqli_query($dbconnect, $query);
 				[5, 10, 25, 50, -1],
 				[5, 10, 25, 50, "All"]
 			],
+			"columnDefs": [{
+				"targets": [0],
+				"visible": false,
+			}],
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
 
 		});
 
+		$('#detKonfigTbl tbody').on('click', 'button', function() {
+			var data = table.row($(this).parents('tr')).data();
+			$('#id_sub').val(data[0])
+			$('#param_sub').val(data[1])
+			$('#value_sub').val(data[2])
+			openModal()
+		});
+
+		function onClickEdit(par) {
+			var data = table.row($(par).parents('tr')).data();
+			console.log(data)
+
+			// alert(data[0] + "'s salary is: " + data[5]);
+		}
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
 
