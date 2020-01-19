@@ -32,6 +32,38 @@ $sql = mysqli_query($dbconnect, $query);
 			</div><!-- /.col -->
 		</div><!-- /.row -->
 	</div><!-- /.container-fluid -->
+
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Form Sub Parameter</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body text-center">
+					<form action="./konfig/update_konfigurasi.php" method="POST">
+						<div class="form-group text-left">
+							<label for="param_sub">Parameter</label>
+							<input required class="form-control" type="text" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
+						</div>
+						<div class="form-group text-left">
+							<label for="param_sub">Value</label>
+							<input required class="form-control" type="text" name="value_sub" id="value_sub" placeholder="Masukan Value">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Reset</button> -->
+					<button type="button" class="btn btn-default" onclick="resetFrom()">Reset</button>
+					<button type="button" class="btn btn-primary">Simpan</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
 </div>
 
 <section class="content ml-3 mr-3" id="box">
@@ -59,7 +91,7 @@ $sql = mysqli_query($dbconnect, $query);
 						<div class="table table-hover">
 
 							<div class="text-right">
-								<button class="btn btn-primary ">
+								<button onclick="openModal()" class="btn btn-primary ">
 									<i class="fas fa-plus" data-toggle="tooltip" title="Edit"></i>
 								</button>
 							</div>
@@ -88,7 +120,8 @@ $sql = mysqli_query($dbconnect, $query);
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
 											<td>
 												<center>
-													<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
+													<a href="#" onclick="openModal(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a>
+													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a> -->
 												</center>
 											</td>
 
@@ -109,7 +142,12 @@ $sql = mysqli_query($dbconnect, $query);
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <script>
+	function openModal(urlx) {
+		$('#modalImg').attr('src', urlx);
+		$('#myModal').modal('show');
+	}
 	$(document).ready(function() {
 
 		var table = $('#detKonfigTbl').DataTable({

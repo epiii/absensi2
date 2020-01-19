@@ -103,8 +103,9 @@ $sql = mysqli_query($dbconnect, $query);
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
 											<td>
 												<center>
-													<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a>
-													<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
+													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a> -->
+													<a href="#" onclick="openModal(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a>
+													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a> -->
 												</center>
 											</td>
 
