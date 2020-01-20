@@ -140,8 +140,9 @@ $sql = mysqli_query($dbconnect, $query);
 									while ($data = mysqli_fetch_assoc($sql)) {
 										// pr($data);
 										$status = $data['isActive'];
+										$ico = $status == '1' ? 'check' : 'minus';
 										$txt = $status == '1' ? 'Active' : 'Inactive';
-										$clr = $status == '1' ? 'success' : 'secondary';
+										$clr = $status == '1' ? 'success' : 'default';
 										$isHidden = is_null($data['hasUsed']) || $data['hasUsed'] == '' ? '' : 'style=display:none';
 										// pr($isHidden);
 									?>
@@ -149,10 +150,19 @@ $sql = mysqli_query($dbconnect, $query);
 											<td><?php echo $data['id']; ?></td>
 											<td><?php echo $data['param']; ?></td>
 											<td><?php echo $data['value']; ?> </td>
-											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
 											<td class="text-center">
-												<button href="#" class="btn btn-primary btn-sm text-center">edit</button>
-												<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
+												<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
+													<i class="fas fa-<?php echo $ico; ?>"></i>
+													<?php echo ' ' . $txt; ?>
+												</button>
+												<!-- <span class="badge badge-<?php echo $clr; ?>">
+													<i class="fas fa-check"></i>
+													<?php echo ' ' . $txt; ?>
+												</span> -->
+											</td>
+											<td class="text-center">
+												<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+												<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 											</td>
 
 										</tr>
@@ -201,6 +211,53 @@ $sql = mysqli_query($dbconnect, $query);
 				$.ajax({
 					url: './konfig/delete_konfigurasi.php',
 					data: 'id=' + par,
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil menghapus data'
+							typex = 'success'
+							colorx = 'btn btn-success'
+						} else {
+							titlex = 'Failed'
+							textx = 'Gagal menghapus data, ' + dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						}).then(function() {
+							location.reload()
+						})
+					}
+				})
+			}
+		})
+	}
+
+	function changeStatus(par) {
+		swal({
+			title: 'Yakin mengganti status?',
+			text: '',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((res) => {
+			console.log(res)
+			
+			if (res.value) {
+				$.ajax({
+					url: './konfig/update_konfigurasi.php',
+					data: 'id=' + par+'&update_konfigurasi_status&ajax',
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {
@@ -303,7 +360,6 @@ $sql = mysqli_query($dbconnect, $query);
 	}
 
 	$(document).ready(function() {
-
 		$('#myModal').on('hidden.bs.modal', function() {
 			console.log('modal closed')
 			resetFormSub()
@@ -326,7 +382,7 @@ $sql = mysqli_query($dbconnect, $query);
 
 		});
 
-		$('#detKonfigTbl tbody').on('click', 'button', function() {
+		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
 			var data = table.row($(this).parents('tr')).data();
 			$('#id_sub').val(data[0])
 			$('#param_sub').val(data[1])
@@ -337,8 +393,6 @@ $sql = mysqli_query($dbconnect, $query);
 		function onClickEdit(par) {
 			var data = table.row($(par).parents('tr')).data();
 			console.log(data)
-
-			// alert(data[0] + "'s salary is: " + data[5]);
 		}
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');

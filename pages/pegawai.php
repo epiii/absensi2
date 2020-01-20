@@ -58,7 +58,7 @@ $sql = mysqli_query($dbconnect, $query);
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
+								<table id="pegawaiTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 									<thead>
 										<tr>
 											<th>NIP</th>
@@ -102,6 +102,7 @@ $sql = mysqli_query($dbconnect, $query);
 	</div>
 </section>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 	// $('.delete_data').on("click", function(e) {
 	// 	var choice = confirm(id);
@@ -113,7 +114,42 @@ $sql = mysqli_query($dbconnect, $query);
 	// 	e.preventDefault();
 	// });
 
-	// $(document).ready(function() {});
+	$(document).ready(function() {
+		var table = $('#pegawaiTbl').DataTable({
+			dom: 'Bfrtip',
+			paging: true,
+			pageLength: 5,
+			blengthChange: false,
+			bPaginate: false,
+			bInfo: false,
+			buttons: [{
+					// extend: 'pdf',
+					extend: 'pdfHtml5',
+					className: 'btn-danger',
+					// orientation: 'landscape',
+					download: 'open',
+					// messageTop: 'Januari 2020 || Divisi Keuangan ',
+					// messageBottom: 'keterangan bawah',
+					exportOptions: {
+						columns: [0, 1, 2]
+					},
+					title: function() {
+						let title = 'Daftar Pegawai\n'
+						return title;
+					},
+				},
+				{
+					extend: 'excel',
+					className: 'btn-success'
+				},
+				{
+					extend: 'print',
+					className: 'btn-info'
+				}
+			]
+		});
+
+	});
 
 	// $('form').on('submit', function() {
 	// 	alert('wkwk')
