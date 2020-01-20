@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-18 04:25:01
+Date: 2020-01-20 08:41:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -490,12 +490,12 @@ CREATE TABLE `tb2_setting` (
   `order` int(11) DEFAULT NULL,
   `isActive` int(11) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
 -- ----------------------------
-INSERT INTO `tb2_setting` VALUES ('1', 'agama', '', null, null, '1');
+INSERT INTO `tb2_setting` VALUES ('1', 'agama', 'Agama', null, null, '1');
 INSERT INTO `tb2_setting` VALUES ('8', '01', 'Islam', '1', null, '1');
 INSERT INTO `tb2_setting` VALUES ('9', '02', 'Protestan', '1', null, '1');
 INSERT INTO `tb2_setting` VALUES ('10', '03', 'Katholik', '1', null, '1');
@@ -517,8 +517,6 @@ INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('27', 'Hari Kerja', '', null, null, '1');
 INSERT INTO `tb2_setting` VALUES ('28', '2019', '', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('29', '1', '29', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('30', '2', '22', '28', null, '1');
 INSERT INTO `tb2_setting` VALUES ('31', '3', '24', '28', null, '1');
 INSERT INTO `tb2_setting` VALUES ('32', '4', '', '28', null, '1');
 INSERT INTO `tb2_setting` VALUES ('33', '6', '', '28', null, '1');
@@ -564,7 +562,7 @@ CREATE TABLE `tb_absen` (
   `mode` enum('auto','manual') DEFAULT 'auto',
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
@@ -592,6 +590,11 @@ INSERT INTO `tb_absen` VALUES ('90', '20', '', '', '0', '0', '0', '0', '2020-01-
 INSERT INTO `tb_absen` VALUES ('91', '20', '', '', '0', '0', '0', '0', '2020-01-20', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
 INSERT INTO `tb_absen` VALUES ('92', '20', '', '', '0', '0', '0', '0', '2020-01-21', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
 INSERT INTO `tb_absen` VALUES ('93', '20', '', '', '0', '0', '0', '0', '2020-01-22', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
+INSERT INTO `tb_absen` VALUES ('94', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
+INSERT INTO `tb_absen` VALUES ('95', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
+INSERT INTO `tb_absen` VALUES ('96', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
+INSERT INTO `tb_absen` VALUES ('97', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
+INSERT INTO `tb_absen` VALUES ('98', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -619,7 +622,7 @@ CREATE TABLE `tb_pengguna` (
   `password` varchar(22) NOT NULL,
   `level` int(1) NOT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
@@ -627,6 +630,7 @@ CREATE TABLE `tb_pengguna` (
 INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0');
 INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0');
 INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0');
+INSERT INTO `tb_pengguna` VALUES ('9', 'adminz', 'adminz', '0');
 
 -- ----------------------------
 -- Table structure for tb_rfid
@@ -671,10 +675,11 @@ INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00'
 -- View structure for vw_agama
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_agama`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_agama` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_agama` AS SELECT
 	s2.id as id_agama,
 	s2.param as kode_agama,
-	s2.value as nama_agama
+	s2.value as nama_agama,
+	s2.isActive
 FROM
 	tb2_setting s2
 WHERE
@@ -692,9 +697,10 @@ WHERE
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_divisi`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_divisi` AS SELECT
-	s2.id as id_divisi,
-	s2.param as kode_divisi,
-	s2.value as nama_divisi
+	s2.id AS id_divisi,
+	s2.param AS kode_divisi,
+	s2.value 	AS nama_divisi,
+	s2.isActive
 FROM
 	tb2_setting s2
 WHERE
@@ -711,10 +717,11 @@ WHERE
 -- View structure for vw_jabatan
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_jabatan`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_jabatan` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_jabatan` AS SELECT
 	s2.id as id_jabatan,
 	s2.param as kode_jabatan,
-	s2.value as nama_jabatan
+	s2.value as nama_jabatan,
+	s2.isActive 
 FROM
 	tb2_setting s2
 WHERE
@@ -731,10 +738,11 @@ WHERE
 -- View structure for vw_katkaryawan
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_katkaryawan`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_katkaryawan` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_katkaryawan` AS SELECT
 	s2.id as id_katkaryawan,
 	s2.param as kode_katkaryawan,
-	s2.value as nama_katkaryawan
+	s2.value as nama_katkaryawan,
+	s2.isActive
 FROM
 	tb2_setting s2
 WHERE
@@ -751,10 +759,12 @@ WHERE
 -- View structure for vw_statuspernikahan
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_statuspernikahan`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_statuspernikahan` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_statuspernikahan` AS SELECT
 	s2.id as id_statuspernikahan,
 	s2.param as kode_statuspernikahan,
-	s2.value as nama_statuspernikahan
+	s2.value as nama_statuspernikahan,
+	s2.isActive
+
 FROM
 	tb2_setting s2
 WHERE
@@ -771,10 +781,11 @@ WHERE
 -- View structure for vw_tipepresensi
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_tipepresensi`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_tipepresensi` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_tipepresensi` AS SELECT
 	s2.id as id_tipepresensi,
 	s2.param as kode_tipepresensi,
-	s2.value as nama_tipepresensi
+	s2.value as nama_tipepresensi,
+	s2.isActive
 FROM
 	tb2_setting s2
 WHERE

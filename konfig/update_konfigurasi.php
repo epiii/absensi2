@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once './dev.php';
-
 if (isset($_REQUEST['update_konfigurasi']) && isset($_SESSION['page'])) {
 
 	if (isset($_POST['ajax'])) {
@@ -33,15 +32,9 @@ if (isset($_REQUEST['update_konfigurasi']) && isset($_SESSION['page'])) {
 		include 'connection.php';
 		$id = trim($_POST['id']);
 		$value = trim($_POST['value']);
-		// $id = mysql_real_escape_string(trim($_POST['id']));
-		// $parameter = mysql_real_escape_string(trim($_POST['param']));
-
-		$kolom = "";
 		$query = 'UPDATE tb2_setting SET 
 					value ="' . $value . '"
 					WHERE id=' . $id;
-
-		// vd($query);
 		$sql = mysqli_query($dbconnect, $query);
 
 		if ($sql) {

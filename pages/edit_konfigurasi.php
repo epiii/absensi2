@@ -14,8 +14,25 @@ $id = $_GET['id'];
 $parameter = $_GET['param'];
 $value = $_GET['value'];
 
-$query = "SELECT * from tb2_setting where id_parent =" . $id;
+
+$query = 'SELECT
+			v.id_' . $parameter . ' as id,
+			v.kode_' . $parameter . ' as param,
+			v.nama_' . $parameter . ' as value,
+			v.isActive,
+			tb.id_' . $parameter . ' as hasUsed
+		FROM vw_' . $parameter . ' v
+		left JOIN  (
+			SELECT
+				DISTINCT(k.id_' . $parameter . ')
+			FROM
+				tb1_karyawan k
+		) tb on tb.id_' . $parameter . ' = v.id_' . $parameter;
+// pr($query);
+// $query = "SELECT * from tb2_setting where id_parent =" . $id;
 $sql = mysqli_query($dbconnect, $query);
+// pr($sql);
+
 ?>
 
 <div class="content-header ml-3 mr-3">
@@ -43,15 +60,21 @@ $sql = mysqli_query($dbconnect, $query);
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body text-center">
-					<form id="formParam" onsubmit="alert(9999);onsubmitForm(this);return false;" method="POST">
+					<form id="formParam" method="POST">
 						<div class="form-group text-left">
 							<label for="param_sub">Parameter</label>
 							<input type="hidden" name="id_sub" id="id_sub">
-							<input required class="form-control" type="text" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
+							<input required class="form-control " type="text" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
+							<small id="param_sub_msg" style="display:none" class="text-danger">
+								required
+							</small>
 						</div>
 						<div class="form-group text-left">
 							<label for="param_sub">Value</label>
 							<input required class="form-control" type="text" name="value_sub" id="value_sub" placeholder="Masukan Value">
+							<small id="value_sub_msg" style="display:none" class="text-danger">
+								required
+							</small>
 						</div>
 					</form>
 				</div>
@@ -74,6 +97,7 @@ $sql = mysqli_query($dbconnect, $query);
 			<form action="./konfig/update_konfigurasi.php" method="POST">
 				<div class="form-group">
 					<label for="exampleInputEmail1">Parameter</label>
+					<input type="hidden" name="update_konfigurasi">
 					<input type="hidden" name="id" value=<?php echo $id; ?>>
 					<input readonly class="form-control" type="text" name="param" id="param" placeholder="Masukan Parameter" value="<?php echo $parameter ?>">
 					<!-- <small id="emailHelp" class="form-text text-muted"><?php echo $keterangan; ?></small> -->
@@ -114,9 +138,12 @@ $sql = mysqli_query($dbconnect, $query);
 								<tbody>
 									<?php
 									while ($data = mysqli_fetch_assoc($sql)) {
+										// pr($data);
 										$status = $data['isActive'];
 										$txt = $status == '1' ? 'Active' : 'Inactive';
 										$clr = $status == '1' ? 'success' : 'secondary';
+										$isHidden = is_null($data['hasUsed']) || $data['hasUsed'] == '' ? '' : 'style=display:none';
+										// pr($isHidden);
 									?>
 										<tr class="table-<?php echo $color; ?>">
 											<td><?php echo $data['id']; ?></td>
@@ -125,7 +152,7 @@ $sql = mysqli_query($dbconnect, $query);
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
 											<td class="text-center">
 												<button href="#" class="btn btn-primary btn-sm text-center">edit</button>
-												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
+												<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
 											</td>
 
 										</tr>
@@ -157,10 +184,10 @@ $sql = mysqli_query($dbconnect, $query);
 		$('#value_sub').val('');
 	}
 
-	function onsubmitForm(el) {
+	function onDelete(par) {
 		swal({
-			title: 'Yakin melanjutkan?',
-			text: 'Pastikan semua data sudah terisi dengan benar',
+			title: 'Yakin menghapus data?',
+			text: 'Pastikan data yang akan dihapus sudah benar',
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: 'btn btn-success',
@@ -169,41 +196,110 @@ $sql = mysqli_query($dbconnect, $query);
 			cancelButtonText: 'Tidak'
 		}).then((res) => {
 			console.log(res)
+
 			if (res.value) {
 				$.ajax({
-					url: './konfig/update_konfigurasi.php',
-					data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+					url: './konfig/delete_konfigurasi.php',
+					data: 'id=' + par,
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {
-						console.log(dt);
 						let titlex, textx, typex, colorx;
 						if (dt.status) {
 							titlex = 'Success'
-							textx = 'Berhasil menyimpan data'
+							textx = 'Berhasil menghapus data'
 							typex = 'success'
 							colorx = 'btn btn-success'
-							$('#myModal').modal('hide');
 						} else {
 							titlex = 'Failed'
-							textx = dt.msg
+							textx = 'Gagal menghapus data, ' + dt.msg
 							typex = 'error'
 							colorx = 'btn btn-danger'
 						}
 
-						resetFormSub()
 						swal({
 							title: titlex,
 							text: textx,
 							type: typex,
 							confirmButtonColor: colorx,
 							confirmButtonText: 'ok',
+						}).then(function() {
+							location.reload()
 						})
-					},
+					}
 				})
 			}
-		});
-		return false;
+		})
+	}
+
+	function onsubmitForm(el) {
+		let val = $('#param_sub').val()
+		let par = $('#param_sub').val()
+
+		if (par == '' || val == '') {
+			if (par == '') {
+				$('#param_sub').addClass('is-invalid')
+				$('#param_sub_msg').removeAttr('style')
+			}
+
+			if (val == '') {
+				$('#value_sub').addClass('is-invalid')
+				$('#value_sub_msg').removeAttr('style')
+			}
+		} else {
+			$('#value_sub_msg').attr('style', 'display:none')
+			$('#param_sub_msg').attr('style', 'display:none')
+			$('#param_sub').removeClass('is-invalid')
+			$('#value_sub').removeClass('is-invalid')
+			swal({
+				title: 'Yakin melanjutkan?',
+				text: 'Pastikan semua data sudah terisi dengan benar',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: 'btn btn-success',
+				// confirmButtonColor: '#DD6B55',
+				confirmButtonText: 'Ya',
+				cancelButtonText: 'Tidak'
+			}).then((res) => {
+				console.log(res)
+				if (res.value) {
+					$.ajax({
+						url: './konfig/update_konfigurasi.php',
+						data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						dataType: 'json',
+						method: 'post',
+						success: function(dt) {
+							console.log(dt);
+							let titlex, textx, typex, colorx;
+							if (dt.status) {
+								titlex = 'Success'
+								textx = 'Berhasil menyimpan data'
+								typex = 'success'
+								colorx = 'btn btn-success'
+								$('#myModal').modal('hide');
+							} else {
+								titlex = 'Failed'
+								textx = dt.msg
+								typex = 'error'
+								colorx = 'btn btn-danger'
+							}
+
+							resetFormSub()
+							swal({
+								title: titlex,
+								text: textx,
+								type: typex,
+								confirmButtonColor: colorx,
+								confirmButtonText: 'ok',
+							}).then(function() {
+								location.reload()
+							})
+						},
+					})
+				}
+			});
+			return false;
+		}
 	}
 
 	$(document).ready(function() {
