@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-20 08:41:34
+Date: 2020-01-21 04:08:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -490,7 +490,7 @@ CREATE TABLE `tb2_setting` (
   `order` int(11) DEFAULT NULL,
   `isActive` int(11) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -511,32 +511,34 @@ INSERT INTO `tb2_setting` VALUES ('19', '01', 'Eselon III', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('20', '02', 'Eselon IV', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('21', '03', 'Eselon V', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('22', 'divisi', 'Divisi', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('23', '01', 'Keuangan', '22', null, '1');
+INSERT INTO `tb2_setting` VALUES ('23', '', 'minggu', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('24', '02', 'Humas', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', '22', null, '1');
-INSERT INTO `tb2_setting` VALUES ('27', 'Hari Kerja', '', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('28', '2019', '', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('31', '3', '24', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('32', '4', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('33', '6', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('34', '8', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('35', '9', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('36', '10', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('37', '11', '', '28', null, '1');
-INSERT INTO `tb2_setting` VALUES ('38', '12', '', '28', null, '1');
+INSERT INTO `tb2_setting` VALUES ('27', 'hari_libur', 'Hari Libur', null, null, '1');
+INSERT INTO `tb2_setting` VALUES ('28', '2019-01-22', 'Ultah Bos', '27', null, '1');
 INSERT INTO `tb2_setting` VALUES ('39', 'kategori_karyawan', 'Kategori Karyawan', null, null, '1');
 INSERT INTO `tb2_setting` VALUES ('40', '01', 'karyawan tetap', '39', null, '1');
 INSERT INTO `tb2_setting` VALUES ('41', '02', 'karyawan tidak tetap', '39', null, '1');
-INSERT INTO `tb2_setting` VALUES ('42', 'provinsi', 'Provinsi', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('43', '01', 'Jawa Timur', '42', null, '1');
-INSERT INTO `tb2_setting` VALUES ('44', '02', 'Jawa Tengah', '42', null, '1');
-INSERT INTO `tb2_setting` VALUES ('45', '03', 'Jawa Barat', '42', null, '1');
 INSERT INTO `tb2_setting` VALUES ('46', 'tipe_presensi', 'Tipe Presensi', null, null, '1');
 INSERT INTO `tb2_setting` VALUES ('47', 'harian', 'Presensi Harian', '46', null, '1');
 INSERT INTO `tb2_setting` VALUES ('48', 'diklat', 'DIKLAT', '46', null, '1');
 INSERT INTO `tb2_setting` VALUES ('49', 'skj', 'SKJ', '46', null, '1');
 INSERT INTO `tb2_setting` VALUES ('50', 'dispensasi', 'Dispensasi', '46', null, '1');
+INSERT INTO `tb2_setting` VALUES ('69', '99', 'ESELON 99999', '18', null, '0');
+INSERT INTO `tb2_setting` VALUES ('70', 'flksjdlkfj', 'kjfdklsj', '1', null, '0');
+INSERT INTO `tb2_setting` VALUES ('71', '2020-01-25', 'imlek', '27', null, '1');
+INSERT INTO `tb2_setting` VALUES ('72', '2020-03-22', 'isra mi\'raj', '27', null, '1');
+INSERT INTO `tb2_setting` VALUES ('73', '2020-03-25', 'Nyepi', '27', null, '1');
+INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', '27', null, '1');
+INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', null, null, '1');
+INSERT INTO `tb2_setting` VALUES ('76', '23', 'sabtu', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('77', '23', 'minggu', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('78', '25', 'sabtu', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', '75', null, '1');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -711,6 +713,48 @@ WHERE
 			tb2_setting
 		WHERE
 			param = 'divisi'
+	) ;
+
+-- ----------------------------
+-- View structure for vw_hari_libur
+-- ----------------------------
+DROP VIEW IF EXISTS `vw_hari_libur`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_hari_libur` AS SELECT
+	s2.id as id_hari_libur,
+	s2.param as kode_hari_libur,
+	s2.value as nama_hari_libur,
+	s2.isActive 
+FROM
+	tb2_setting s2
+WHERE
+	s2.id_parent = (
+		SELECT
+			id
+		FROM
+			tb2_setting
+		WHERE
+			param = 'hari_libur'
+	) ;
+
+-- ----------------------------
+-- View structure for vw_hari_libur_2
+-- ----------------------------
+DROP VIEW IF EXISTS `vw_hari_libur_2`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_hari_libur_2` AS SELECT
+	s2.id as id_hari_libur,
+	s2.param as id_divisi,
+	s2.value as hari,
+	s2.isActive 
+FROM
+	tb2_setting s2
+WHERE
+	s2.id_parent = (
+		SELECT
+			id
+		FROM
+			tb2_setting
+		WHERE
+			param = 'hari_libur_2'
 	) ;
 
 -- ----------------------------

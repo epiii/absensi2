@@ -46,11 +46,25 @@ if (isset($_REQUEST['update_konfigurasi_status']) && isset($_SESSION['page'])) {
 		$param_sub = $_POST['param_sub'];
 		$value_sub = $_POST['value_sub'];
 
+		pr($_POST);
 		if (isset($_POST['id_sub']) && $_POST['id_sub'] != '') { // edit 
-			$query = 'UPDATE tb2_setting SET 
+			if ($_POST['ajax'] == 'multi') {
+
+				foreach ($value_sub as $k => $v) {
+					pr($v);
+				}
+				
+				pr($_POST['value_sub']);
+				$query = 'UPDATE tb2_setting SET 
 					param ="' . $param_sub . '",
 					value ="' . $value_sub . '"
 					WHERE id=' . $id_sub;
+			} else {
+				$query = 'UPDATE tb2_setting SET 
+					param ="' . $param_sub . '",
+					value ="' . $value_sub . '"
+					WHERE id=' . $id_sub;
+			}
 		} else { // add 
 			$query = 'INSERT INTO tb2_setting SET 
 					id_parent ="' . $_POST['id_parent'] . '",

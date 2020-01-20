@@ -54,7 +54,7 @@ if (isset($_SESSION['page'])) {
 								<td><?php echo $data['value'] ? $data['value'] : '-'; ?></td>
 								<td>
 									<center>
-										<a href="./index.php?page=edit_konfigurasi&id=<?php echo $data['id']; ?>&param=<?php echo $data['param']; ?>&value=<?php echo $data['value']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a>
+										<a href="./index.php?page=<?php echo $data['param'] == 'hari_libur_2' ? 'edit_konfigurasi_hari_libur_2' : 'edit_konfigurasi'; ?>&id=<?php echo $data['id']; ?>&param=<?php echo $data['param']; ?>&value=<?php echo $data['value']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a>
 									</center>
 								</td>
 								<?php $no++; ?>
@@ -69,11 +69,11 @@ if (isset($_SESSION['page'])) {
 							<td>
 								<center>
 									<a href="./index.php?page=edit_konfigurasi_jam&id=1" class="btn btn-outline-primary btn-sm">
-									<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
-								</a>
-							</center>
-						</td>
-					</tr>
+										<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
+									</a>
+								</center>
+							</td>
+						</tr>
 						<tr class="odd gradeX">
 							<td class="text-center"><?php echo ++$no; ?></td>
 							<td>Jam Keluar</td>
@@ -97,7 +97,7 @@ if (isset($_SESSION['page'])) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 	$(document).ready(function() {
-		
+
 		var table = $('#konfigurasiTbl').DataTable({
 			paging: true,
 			pageLength: 10,

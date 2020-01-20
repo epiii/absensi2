@@ -15,31 +15,15 @@ $parameter = $_GET['param'];
 $value = $_GET['value'];
 
 
-if ($parameter == 'hari_libur') {
-	$query = 'SELECT
-				v.id_hari_libur as id,
-				v.kode_hari_libur as param,
-				v.nama_hari_libur as value,
-				v.isActive,
-			null as hasUsed
-			FROM vw_hari_libur v';
-	$inputType = 'date';
-} else {
-	$query = 'SELECT
-				v.id_' . $parameter . ' as id,
-				v.kode_' . $parameter . ' as param,
-				v.nama_' . $parameter . ' as value,
-				v.isActive,
-				tb.id_' . $parameter . ' as hasUsed
-			FROM vw_' . $parameter . ' v
-			left JOIN  (
-				SELECT
-					DISTINCT(k.id_' . $parameter . ')
-				FROM
-					tb1_karyawan k
-			) tb on tb.id_' . $parameter . ' = v.id_' . $parameter;
-}
-// $query = "SELECT * from tb2_setting where id_parent =" . $id;
+$query = '	SELECT
+				d.id_divisi,
+				d.nama_divisi,
+				GROUP_CONCAT(l.hari) hari
+			FROM vw_divisi d 
+			LEFT JOIN 
+				vw_hari_libur_2 l ON d.id_divisi = l.id_divisi
+			GROUP BY l.id_divisi
+			ORDER BY d.nama_divisi';
 // vd($query);
 $sql = mysqli_query($dbconnect, $query);
 $num = mysqli_num_rows($sql);
@@ -72,20 +56,27 @@ $num = mysqli_num_rows($sql);
 				<div class="modal-body text-center">
 					<form id="formParam" method="POST">
 						<div class="form-group text-left">
-							<label for="param_sub">Parameter</label>
+							<label for="param_sub">Divisi</label>
 							<input type="hidden" name="id_sub" id="id_sub">
-							<input required class="form-control " type="<?php echo $inputType == 'date' ? 'date' : 'text'; ?>" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
+							<input disabled class="form-control " type="text" id="param_sub">
 							<small id="param_sub_msg" style="display:none" class="text-danger">
 								required
 							</small>
 						</div>
+
 						<div class="form-group text-left">
-							<label for="param_sub">Value</label>
-							<input required class="form-control" type="text" name="value_sub" id="value_sub" placeholder="Masukan Value">
-							<small id="value_sub_msg" style="display:none" class="text-danger">
-								required
-							</small>
+							<label for="hari">Hari</label><br>
+							<select class="form-control" id="value_sub" name="value_sub[]" multiple="multiple">
+								<option value="senin">Senin</option>
+								<option value="selasa">Selasa</option>
+								<option value="rabu">Rabu</option>
+								<option value="kamis">Kamis</option>
+								<option value="jumat">Jumat</option>
+								<option value="sabtu">Sabtu</option>
+								<option value="minggu">Minggu</option>
+							</select>
 						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -127,20 +118,13 @@ $num = mysqli_num_rows($sql);
 						<h3 class="text-center">Sub Parameter</h3>
 						<div class="table table-hover">
 
-							<div class="text-right">
-								<button onclick="openModal()" class="btn btn-primary ">
-									<i class="fas fa-plus" data-toggle="tooltip" title="Edit"></i>
-								</button>
-							</div>
-
 							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 								<!-- <table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;"> -->
 								<thead>
 									<tr class="bg-secondary text-center">
 										<th>id</th>
-										<th>Parameter</th>
-										<th>Value</th>
-										<th>Status</th>
+										<th>Divisi</th>
+										<th>Hari</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -148,33 +132,14 @@ $num = mysqli_num_rows($sql);
 								<tbody>
 									<?php
 									while ($data = mysqli_fetch_assoc($sql)) {
-										// pr($data);
-										$status = $data['isActive'];
-										$ico = $status == '1' ? 'check' : 'minus';
-										$txt = $status == '1' ? 'Active' : 'Inactive';
-										$clr = $status == '1' ? 'success' : 'default';
-										$isHidden = is_null($data['hasUsed']) || $data['hasUsed'] == '' ? '' : 'style=display:none';
-										// pr($isHidden);
 									?>
 										<tr class="table-<?php echo $color; ?>">
-											<td><?php echo $data['id']; ?></td>
-											<td><?php echo $data['param']; ?></td>
-											<td><?php echo $data['value']; ?> </td>
-											<td class="text-center">
-												<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
-													<i class="fas fa-<?php echo $ico; ?>"></i>
-													<?php echo ' ' . $txt; ?>
-												</button>
-												<!-- <span class="badge badge-<?php echo $clr; ?>">
-													<i class="fas fa-check"></i>
-													<?php echo ' ' . $txt; ?>
-												</span> -->
-											</td>
+											<td><?php echo $data['id_divisi']; ?></td>
+											<td><?php echo $data['nama_divisi']; ?></td>
+											<td><?php echo $data['hari']; ?> </td>
 											<td class="text-center">
 												<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
-												<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 											</td>
-
 										</tr>
 									<?php
 									}
@@ -192,7 +157,6 @@ $num = mysqli_num_rows($sql);
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 <script>
 	function openModal(urlx) {
 		$('#myModal').modal('show');
@@ -200,107 +164,10 @@ $num = mysqli_num_rows($sql);
 
 	function resetFormSub() {
 		console.log('masuk reset ')
-		$('#param_sub').val('');
 		$('#value_sub').val('');
-		$('#param_sub_msg').attr('style', 'display:none')
 		$('#value_sub_msg').attr('style', 'display:none')
-		$('#param_sub').removeClass('is-invalid')
 		$('#value_sub').removeClass('is-invalid')
-	}
-
-	function onDelete(par) {
-		swal({
-			title: 'Yakin menghapus data?',
-			text: 'Pastikan data yang akan dihapus sudah benar',
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: 'btn btn-success',
-			// confirmButtonColor: '#DD6B55',
-			confirmButtonText: 'Ya',
-			cancelButtonText: 'Tidak'
-		}).then((res) => {
-			console.log(res)
-
-			if (res.value) {
-				$.ajax({
-					url: './konfig/delete_konfigurasi.php',
-					data: 'id=' + par,
-					dataType: 'json',
-					method: 'post',
-					success: function(dt) {
-						let titlex, textx, typex, colorx;
-						if (dt.status) {
-							titlex = 'Success'
-							textx = 'Berhasil menghapus data'
-							typex = 'success'
-							colorx = 'btn btn-success'
-						} else {
-							titlex = 'Failed'
-							textx = 'Gagal menghapus data, ' + dt.msg
-							typex = 'error'
-							colorx = 'btn btn-danger'
-						}
-
-						swal({
-							title: titlex,
-							text: textx,
-							type: typex,
-							confirmButtonColor: colorx,
-							confirmButtonText: 'ok',
-						}).then(function() {
-							location.reload()
-						})
-					}
-				})
-			}
-		})
-	}
-
-	function changeStatus(par) {
-		swal({
-			title: 'Yakin mengganti status?',
-			text: '',
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: 'btn btn-success',
-			confirmButtonText: 'Ya',
-			cancelButtonText: 'Tidak'
-		}).then((res) => {
-			console.log(res)
-
-			if (res.value) {
-				$.ajax({
-					url: './konfig/update_konfigurasi.php',
-					data: 'id=' + par + '&update_konfigurasi_status&ajax',
-					dataType: 'json',
-					method: 'post',
-					success: function(dt) {
-						let titlex, textx, typex, colorx;
-						if (dt.status) {
-							titlex = 'Success'
-							textx = 'Berhasil mengganti status'
-							typex = 'success'
-							colorx = 'btn btn-success'
-						} else {
-							titlex = 'Failed'
-							textx = 'Gagal mengganti status, ' + dt.msg
-							typex = 'error'
-							colorx = 'btn btn-danger'
-						}
-
-						swal({
-							title: titlex,
-							text: textx,
-							type: typex,
-							confirmButtonColor: colorx,
-							confirmButtonText: 'ok',
-						}).then(function() {
-							location.reload()
-						})
-					}
-				})
-			}
-		})
+		$('#value_sub').multiselect('deselectAll', true);
 	}
 
 	function onsubmitForm(el) {
@@ -336,7 +203,7 @@ $num = mysqli_num_rows($sql);
 				if (res.value) {
 					$.ajax({
 						url: './konfig/update_konfigurasi.php',
-						data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						data: 'update_konfigurasi&ajax=multi&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -374,11 +241,15 @@ $num = mysqli_num_rows($sql);
 	}
 
 	$(document).ready(function() {
+
+		// $('#value_sub').multiselect();
+
 		$('#myModal').on('hidden.bs.modal', function() {
 			console.log('modal closed')
 			resetFormSub()
 			$('#id_sub').val('')
 		})
+
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
 			pageLength: 10,
@@ -398,9 +269,13 @@ $num = mysqli_num_rows($sql);
 
 		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
 			var data = table.row($(this).parents('tr')).data();
+			let hari = data[2].split(',');
+			console.log(hari)
 			$('#id_sub').val(data[0])
 			$('#param_sub').val(data[1])
 			$('#value_sub').val(data[2])
+			$('#value_sub').multiselect('select', hari);
+
 			openModal()
 		});
 
@@ -413,3 +288,9 @@ $num = mysqli_num_rows($sql);
 
 	})
 </script>
+
+<style>
+	.mt-100 {
+		margin-top: 100px
+	}
+</style>

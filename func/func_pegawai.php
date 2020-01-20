@@ -192,18 +192,25 @@ function GetJabatan2()
 {
 	global $dbconnect;
 	$query = "	SELECT *
-				FROM
-					tb2_setting
-				WHERE
-					id_parent= (
-						SELECT id from tb2_setting where param =LOWER('jabatan')
-					)";
+				FROM vw_jabatan
+				WHERE isActive=1";
+	// $query = "	SELECT *
+	// 			FROM
+	// 				tb2_setting
+	// 			WHERE
+	// 				id_parent= (
+	// 					SELECT id from tb2_setting where param =LOWER('jabatan')
+	// 				)";
 	$exe = mysqli_query($dbconnect, $query);
 	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
-			'id' => $data['id'],
-			'kode_jabatan' => $data['param'],
-			'nama_jabatan' => $data['value']
+			'id' => $data['id_jabatan'],
+			'kode_jabatan' => $data['kode_jabatan'],
+			'nama_jabatan' => $data['nama_jabatan'],
+
+			// 'id' => $data['id'],
+			// 'kode_jabatan' => $data['param'],
+			// 'nama_jabatan' => $data['value']
 		);
 	}
 	return $datas;
@@ -233,21 +240,24 @@ function GetAgama2()
 {
 	global $dbconnect;
 	$query = "	SELECT *
-				FROM
-					tb2_setting
-				WHERE
-					id_parent= (
-						SELECT id from tb2_setting where param ='agama'
-					)";
+				FROM vw_agama
+				WHERE isActive=1";
+	// $query = "	SELECT *
+	// 			FROM
+	// 				tb2_setting
+	// 			WHERE
+	// 				id_parent= (
+	// 					SELECT id from tb2_setting where param ='agama'
+	// 				)";
 	$exe = mysqli_query($dbconnect, $query);
-	// pr($exe);
-	// exit();
-	//   $$dbconnect = mysqli_query(Connect(),$query);
 	while ($data = mysqli_fetch_assoc($exe)) {
 		$datas[] = array(
-			'id' => $data['id'],
-			'kode_agama' => $data['param'],
-			'nama_agama' => $data['value']
+			'id' => $data['id_agama'],
+			'kode_agama' => $data['kode_agama'],
+			'nama_agama' => $data['nama_agama']
+			// 'id' => $data['id'],
+			// 'kode_agama' => $data['param'],
+			// 'nama_agama' => $data['value']
 		);
 	}
 	return $datas;

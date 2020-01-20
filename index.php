@@ -262,6 +262,10 @@ $_SESSION['page'] = 'index';
             include "pages/edit_konfigurasi.php";
             break;
 
+          case 'edit_konfigurasi_hari_libur_2':
+            include "pages/edit_konfigurasi_hari_libur_2.php";
+            break;
+
           case 'edit_konfigurasi_jam':
             include "pages/edit_konfigurasi_jam.php";
             break;
@@ -350,6 +354,9 @@ $_SESSION['page'] = 'index';
   <script type="text/javascript" src="vendor/assets/global/plugins/select2/select2.min.js"></script>
 
   <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" type="text/css" />
 
 
   <!-- combo grid  : old-->
