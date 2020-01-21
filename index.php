@@ -155,6 +155,15 @@ $_SESSION['page'] = 'index';
             </li>
 
             <li class="nav-item">
+              <a href="index.php?page=master" class="nav-link">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>
+                  Master
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="index.php?page=konfigurasi" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
@@ -248,6 +257,10 @@ $_SESSION['page'] = 'index';
 
           case 'pengguna':
             include "pages/pengguna.php";
+            break;
+
+          case 'master':
+            include "pages/master.php";
             break;
 
           case 'konfigurasi':
