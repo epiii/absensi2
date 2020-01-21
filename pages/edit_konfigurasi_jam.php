@@ -71,9 +71,9 @@ $divisi = GetDivisi2();
 						<div class="row mb-2">
 							<div class="col-md-4">
 								<div class="form-group text-left">
-									<label for="jam_masuk">Jam Masuk</label>
+									<label for="jam_masuk">Jam <?php echo $mode; ?></label>
 									<input placeholder="HH:MM" id="jam_keluar" name="jam_keluar" class="form-control input-jam input" required />
-									<input placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam input" required />
+									<input style="display:none" placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam input" required />
 									<small id="jam_masuk" style="display:none" class="text-danger">
 										required
 									</small>
@@ -355,7 +355,7 @@ $divisi = GetDivisi2();
 												<center>
 													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a> -->
 													<a href="#" onclick="openModal(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center"><i class="fas fa-edit"></i></a>
-													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a> -->
+													<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 												</center>
 											</td>
 
@@ -404,9 +404,60 @@ $divisi = GetDivisi2();
 		$('#myModal').modal('show');
 	}
 
+	function onDelete(par) {
+		swal({
+			title: 'Yakin menghapus data?',
+			text: 'Pastikan data yang akan dihapus sudah benar',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			// confirmButtonColor: '#DD6B55',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((res) => {
+
+			if (res.value) {
+				console.log(par)
+				// return false
+
+				$.ajax({
+					url: './konfig/delete_konfigurasi.php',
+					data: 'konfigurasi_jam&id=' + par,
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil menghapus data'
+							typex = 'success'
+							colorx = 'btn btn-success'
+						} else {
+							titlex = 'Failed'
+							textx = 'Gagal menghapus data, ' + dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						}).then(function() {
+							location.reload()
+						})
+					}
+				})
+			}
+		})
+	}
+
 	function onsubmitForm(el) {
 		let id_divisi = $('#id_divisi').val()
 		let jam_masuk = $('#jam_masuk').val()
+		let jam_keluar = $('#jam_keluar').val()
 
 		let persen1 = $('#persen1').val()
 		let persen2 = $('#persen2').val()

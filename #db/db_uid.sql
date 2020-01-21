@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-21 04:07:52
+Date: 2020-01-21 09:31:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -560,7 +560,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -644,7 +644,7 @@ INSERT INTO `tb2_setting` VALUES ('19', '01', 'Eselon III', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('20', '02', 'Eselon IV', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('21', '03', 'Eselon V', '18', null, '1');
 INSERT INTO `tb2_setting` VALUES ('22', 'divisi', 'Divisi', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('23', '', 'minggu', '22', null, '1');
+INSERT INTO `tb2_setting` VALUES ('23', '01', 'Keuangan', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('24', '02', 'Humas', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', '22', null, '1');
 INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', '22', null, '1');
