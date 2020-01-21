@@ -52,7 +52,7 @@ $divisi = GetDivisi2();
 				</div>
 				<div class="modal-body text-center">
 					<form id="formParam" method="POST">
-						<input type="hidden" name="id_sub" id="id_sub">
+						<input type="hidden" name="id" id="id">
 
 						<div class="form-group text-left">
 							<label for="id_divisi">Divisi</label>
@@ -569,11 +569,11 @@ $divisi = GetDivisi2();
 				console.log(res)
 				if (res.value) {
 					console.log($(el).serialize())
-					return false;
+					// return false;
 
 					$.ajax({
 						url: './konfig/update_konfigurasi.php',
-						data: 'update_konfigurasi&ajax&id_parent=&' + $(el).serialize(),
+						data: 'update_konfigurasi_jam&ajax&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -584,7 +584,7 @@ $divisi = GetDivisi2();
 								textx = 'Berhasil menyimpan data'
 								typex = 'success'
 								colorx = 'btn btn-success'
-								$('#myModal').modal('hide');
+								// $('#myModal').modal('hide');
 							} else {
 								titlex = 'Failed'
 								textx = dt.msg
@@ -592,7 +592,7 @@ $divisi = GetDivisi2();
 								colorx = 'btn btn-danger'
 							}
 
-							resetFormSub()
+							// resetFormSub()
 							swal({
 								title: titlex,
 								text: textx,
