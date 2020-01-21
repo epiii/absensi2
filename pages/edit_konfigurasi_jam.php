@@ -56,14 +56,14 @@ $divisi = GetDivisi2();
 
 						<div class="form-group text-left">
 							<label for="id_divisi">Divisi</label>
-							<select id="id_divisi" name="id_divisi" required class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
+							<select id="id_divisi" name="id_divisi" required class="select2_category form-control input-large input" data-placeholder="Choose a Category" tabindex="1">
 								<option value="">-Pilih Divisi-</option>
 								<?php
 								foreach ($divisi as $data) { ?>
 									<option value="<?php echo $data['id']; ?>"><?php echo '(' . $data['kode_divisi'] . ') ' . $data['nama_divisi']; ?></option>
 								<?php } ?>
 							</select>
-							<small id="value_sub_msg" style="display:none" class="text-danger">
+							<small id="id_divisi_msg" style="display:none" class="text-danger">
 								required
 							</small>
 						</div>
@@ -71,9 +71,13 @@ $divisi = GetDivisi2();
 						<div class="row mb-2">
 							<div class="col-md-4">
 								<div class="form-group text-left">
-									<label for="param_sub">Jam <?php echo $mode; ?></label>
-									<input placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam" required />
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<label for="jam_masuk">Jam Masuk</label>
+									<input placeholder="HH:MM" id="jam_keluar" name="jam_keluar" class="form-control input-jam input" required />
+									<input placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam input" required />
+									<small id="jam_masuk" style="display:none" class="text-danger">
+										required
+									</small>
+									<small id="jam_keluar" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -86,12 +90,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Dari</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1a" id="telat1a" placeholder="20">
+										<input required class="form-control input-num input" type="text" name="telat1a" id="telat1a" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat1a_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -101,12 +105,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Sampai</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1b" id="telat1b" placeholder="20">
+										<input required class="form-control input-num input" type="text" name="telat1b" id="telat1b" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat1b_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -120,7 +124,7 @@ $divisi = GetDivisi2();
 											<span class="input-group-text">%</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="persen1_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -133,12 +137,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Dari</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1a" id="telat1a" placeholder="20">
+										<input required class="form-control input-num" type="text" name="telat2a" id="telat2a" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat2a_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -148,12 +152,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Sampai</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1b" id="telat1b" placeholder="20">
+										<input required class="form-control input-num" type="text" name="telat2b" id="telat2b" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat2b_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -162,12 +166,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Potongan</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-pers" type="text" name="persen1" id="persen1" placeholder="25">
+										<input required class="form-control input-pers" type="text" name="persen2" id="persen2" placeholder="25">
 										<div class="input-group-append">
 											<span class="input-group-text">%</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="persen2_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -180,12 +184,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Dari</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1a" id="telat1a" placeholder="20">
+										<input required class="form-control input-num" type="text" name="telat3a" id="telat3a" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat3a_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -195,12 +199,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Sampai</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-num" type="text" name="telat1b" id="telat1b" placeholder="20">
+										<input required class="form-control input-num" type="text" name="telat3b" id="telat3b" placeholder="20">
 										<div class="input-group-append">
 											<span class="input-group-text">menit</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="telat3b_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -209,12 +213,12 @@ $divisi = GetDivisi2();
 								<div class="form-group text-left">
 									<label for="param_sub">Potongan</label>
 									<div class="input-group mb-3">
-										<input required class="form-control input-pers" type="text" name="persen1" id="persen1" placeholder="25">
+										<input required class="form-control input-pers" type="text" name="persen3" id="persen3" placeholder="25">
 										<div class="input-group-append">
 											<span class="input-group-text">%</span>
 										</div>
 									</div>
-									<small id="value_sub_msg" style="display:none" class="text-danger">
+									<small id="persen3_msg" style="display:none" class="text-danger">
 										required
 									</small>
 								</div>
@@ -231,7 +235,7 @@ $divisi = GetDivisi2();
 										<span class="input-group-text">%</span>
 									</div>
 								</div>
-								<small id="value_sub_msg" style="display:none" class="text-danger">
+								<small id="persen4_msg" style="display:none" class="text-danger">
 									required
 								</small>
 							</div>
@@ -248,6 +252,9 @@ $divisi = GetDivisi2();
 											<span class="input-group-text">:00</span>
 										</div>
 									</div>
+									<small id="batas1_msg" style="display:none" class="text-danger">
+										required
+									</small>
 								</div>
 							</div>
 							<!-- <span>s/d</span> -->
@@ -260,6 +267,9 @@ $divisi = GetDivisi2();
 											<span class="input-group-text">:00</span>
 										</div>
 									</div>
+									<small id="batas2_msg" style="display:none" class="text-danger">
+										required
+									</small>
 								</div>
 							</div>
 						</div>
@@ -395,24 +405,157 @@ $divisi = GetDivisi2();
 	}
 
 	function onsubmitForm(el) {
-		let val = $('#param_sub').val()
-		let par = $('#param_sub').val()
+		let id_divisi = $('#id_divisi').val()
+		let jam_masuk = $('#jam_masuk').val()
 
-		if (par == '' || val == '') {
-			if (par == '') {
-				$('#param_sub').addClass('is-invalid')
-				$('#param_sub_msg').removeAttr('style')
+		let persen1 = $('#persen1').val()
+		let persen2 = $('#persen2').val()
+		let persen3 = $('#persen3').val()
+		let persen4 = $('#persen4').val()
+
+		let telat1a = $('#telat1a').val()
+		let telat1b = $('#telat1b').val()
+
+		let telat2a = $('#telat2a').val()
+		let telat2b = $('#telat2b').val()
+
+		let telat3a = $('#telat3a').val()
+		let telat3b = $('#telat3b').val()
+
+		let batas1 = $('#batas1').val()
+		let batas2 = $('#batas2').val()
+
+		console.log(jam_masuk)
+		if (
+			id_divisi == '' ||
+			jam_masuk == '' ||
+			persen1 == '' ||
+			persen1 == '' ||
+			telat1a == '' ||
+			telat1b == '' ||
+			persen2 == '' ||
+			telat2a == '' ||
+			telat2b == '' ||
+			persen3 == '' ||
+			telat3a == '' ||
+			telat3b == '' ||
+			persen4 == '' ||
+			batas1 == '' ||
+			batas2 == ''
+		) {
+			if (id_divisi == '') {
+				$('#id_divisi').addClass('is-invalid')
+				$('#id_divisi_msg').removeAttr('style')
+			} else {
+				$('#id_divisi').removeClass('is-invalid')
+				$('#id_divisi_msg').attr('style', 'display:none')
 			}
 
-			if (val == '') {
-				$('#value_sub').addClass('is-invalid')
-				$('#value_sub_msg').removeAttr('style')
+			if (jam_masuk == '') {
+				$('#jam_masuk').addClass('is-invalid')
+				$('#jam_masuk_msg').removeAttr('style')
+			} else {
+				$('#jam_masuk').removeClass('is-invalid')
+				$('#jam_masuk_msg').attr('style', 'display:none')
+			}
+
+			if (persen1 == '') {
+				$('#persen1').addClass('is-invalid')
+				$('#persen1_msg').removeAttr('style')
+			} else {
+				$('#persen1').removeClass('is-invalid')
+				$('#persen1_msg').attr('style', 'display:none')
+			}
+
+			if (persen2 == '') {
+				$('#persen2').addClass('is-invalid')
+				$('#persen2_msg').removeAttr('style')
+			} else {
+				$('#persen2').removeClass('is-invalid')
+				$('#persen2_msg').attr('style', 'display:none')
+			}
+
+			if (persen3 == '') {
+				$('#persen3').addClass('is-invalid')
+				$('#persen3_msg').removeAttr('style')
+			} else {
+				$('#persen3').removeClass('is-invalid')
+				$('#persen3_msg').attr('style', 'display:none')
+			}
+
+			if (persen4 == '') {
+				$('#persen4').addClass('is-invalid')
+				$('#persen4_msg').removeAttr('style')
+			} else {
+				$('#persen4').removeClass('is-invalid')
+				$('#persen4_msg').attr('style', 'display:none')
+			}
+
+			if (telat1a == '') {
+				$('#telat1a').addClass('is-invalid')
+				$('#telat1a_msg').removeAttr('style')
+			} else {
+				$('#telat1a').removeClass('is-invalid')
+				$('#telat1a_msg').attr('style', 'display:none')
+			}
+
+			if (telat1b == '') {
+				$('#telat1b').addClass('is-invalid')
+				$('#telat1b_msg').removeAttr('style')
+			} else {
+				$('#telat1b').removeClass('is-invalid')
+				$('#telat1b_msg').attr('style', 'display:none')
+			}
+
+			if (telat2a == '') {
+				$('#telat2a').addClass('is-invalid')
+				$('#telat2a_msg').removeAttr('style')
+			} else {
+				$('#telat2a').removeClass('is-invalid')
+				$('#telat2a_msg').attr('style', 'display:none')
+			}
+
+			if (telat2b == '') {
+				$('#telat2b').addClass('is-invalid')
+				$('#telat2b_msg').removeAttr('style')
+			} else {
+				$('#telat2b').removeClass('is-invalid')
+				$('#telat2b_msg').attr('style', 'display:none')
+			}
+
+			if (telat3a == '') {
+				$('#telat3a').addClass('is-invalid')
+				$('#telat3a_msg').removeAttr('style')
+			} else {
+				$('#telat3a').removeClass('is-invalid')
+				$('#telat3a_msg').attr('style', 'display:none')
+			}
+
+			if (telat3b == '') {
+				$('#telat3b').addClass('is-invalid')
+				$('#telat3b_msg').removeAttr('style')
+			} else {
+				$('#telat3b').removeClass('is-invalid')
+				$('#telat3b_msg').attr('style', 'display:none')
+			}
+
+			if (batas1 == '') {
+				$('#batas1').addClass('is-invalid')
+				$('#batas1_msg').removeAttr('style')
+			} else {
+				$('#batas1').removeClass('is-invalid')
+				$('#batas1_msg').attr('style', 'display:none')
+			}
+
+			if (batas2 == '') {
+				$('#batas2').addClass('is-invalid')
+				$('#batas2_msg').removeAttr('style')
+			} else {
+				$('#batas2').removeClass('is-invalid')
+				$('#batas2_msg').attr('style', 'display:none')
 			}
 		} else {
-			$('#value_sub_msg').attr('style', 'display:none')
-			$('#param_sub_msg').attr('style', 'display:none')
-			$('#param_sub').removeClass('is-invalid')
-			$('#value_sub').removeClass('is-invalid')
+
 			swal({
 				title: 'Yakin melanjutkan?',
 				text: 'Pastikan semua data sudah terisi dengan benar',
@@ -430,7 +573,7 @@ $divisi = GetDivisi2();
 
 					$.ajax({
 						url: './konfig/update_konfigurasi.php',
-						data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						data: 'update_konfigurasi&ajax&id_parent=&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -466,7 +609,6 @@ $divisi = GetDivisi2();
 			return false;
 		}
 	}
-
 
 	$(document).ready(function() {
 
