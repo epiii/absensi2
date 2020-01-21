@@ -5,7 +5,7 @@ require_once 'connection.php';
 
 if (isset($_SESSION['page'])) {
 	if (isset($_POST['id'])) {
-		if (isset($_POST['konfigurasi_jam'])) {
+		if (isset($_POST['master_jam'])) {
 			$query = "DELETE  FROM `tb1_setting2` WHERE id='" . $_POST['id'] . "'";
 		} else {
 			$query = "DELETE  FROM `tb2_setting` WHERE id='" . $_POST['id'] . "'";

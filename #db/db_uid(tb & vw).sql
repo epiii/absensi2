@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-21 09:31:23
+Date: 2020-01-21 13:23:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -427,7 +427,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -440,6 +440,7 @@ INSERT INTO `tb1_setting2` VALUES ('16', '1', '08', '00', '5', '30', '31', '60',
 INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('18', '2', '16', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '15', '19', '02', '24', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '03', '04', '26', '0000-00-00 00:00:00', '1');
+INSERT INTO `tb1_setting2` VALUES ('27', '1', '22', '22', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '', '24', '2020-01-21 10:46:51', '1');
 
 -- ----------------------------
 -- Table structure for tb1_status_pernikahan
@@ -490,7 +491,7 @@ CREATE TABLE `tb2_setting` (
   `order` int(11) DEFAULT NULL,
   `isActive` int(11) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -525,8 +526,6 @@ INSERT INTO `tb2_setting` VALUES ('47', 'harian', 'Presensi Harian', '46', null,
 INSERT INTO `tb2_setting` VALUES ('48', 'diklat', 'DIKLAT', '46', null, '1');
 INSERT INTO `tb2_setting` VALUES ('49', 'skj', 'SKJ', '46', null, '1');
 INSERT INTO `tb2_setting` VALUES ('50', 'dispensasi', 'Dispensasi', '46', null, '1');
-INSERT INTO `tb2_setting` VALUES ('69', '99', 'ESELON 99999', '18', null, '0');
-INSERT INTO `tb2_setting` VALUES ('70', 'flksjdlkfj', 'kjfdklsj', '1', null, '0');
 INSERT INTO `tb2_setting` VALUES ('71', '2020-01-25', 'imlek', '27', null, '1');
 INSERT INTO `tb2_setting` VALUES ('72', '2020-03-22', 'isra mi\'raj', '27', null, '1');
 INSERT INTO `tb2_setting` VALUES ('73', '2020-03-25', 'Nyepi', '27', null, '1');
@@ -670,7 +669,6 @@ CREATE TABLE `tb_settings` (
 -- ----------------------------
 -- Records of tb_settings
 -- ----------------------------
-INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'emailpresensi@gmail.com', 'dtproduction', '1749B411');
 INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'emailpresensi@gmail.com', 'dtproduction', '1749B411');
 
 -- ----------------------------

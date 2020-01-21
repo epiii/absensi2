@@ -34,7 +34,7 @@ $divisi = GetDivisi2();
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="index.php?page=konfigurasi">Konfigurasi</a></li>
+					<li class="breadcrumb-item"><a href="index.php?page=master">master</a></li>
 					<li class="breadcrumb-item active">Edit</li>
 				</ol>
 			</div><!-- /.col -->
@@ -424,8 +424,9 @@ $divisi = GetDivisi2();
 				// return false
 
 				$.ajax({
-					url: './konfig/delete_konfigurasi.php',
-					data: 'konfigurasi_jam&id=' + par,
+					url: './konfig/delete_master.php',
+					// url: './konfig/delete_konfigurasi.php',
+					data: 'master_jam&id=' + par,
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {
@@ -658,8 +659,8 @@ $divisi = GetDivisi2();
 					// return false;
 
 					$.ajax({
-						url: './konfig/update_konfigurasi.php',
-						data: 'update_konfigurasi_jam&ajax&' + $(el).serialize(),
+						url: './konfig/update_master.php',
+						data: 'update_master_jam&ajax&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {

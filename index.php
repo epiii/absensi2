@@ -271,6 +271,10 @@ $_SESSION['page'] = 'index';
             include "pages/edit_pegawai.php";
             break;
 
+          case 'edit_master':
+            include "pages/edit_master.php";
+            break;
+
           case 'edit_konfigurasi':
             include "pages/edit_konfigurasi.php";
             break;
@@ -279,8 +283,8 @@ $_SESSION['page'] = 'index';
             include "pages/edit_konfigurasi_hari_libur_2.php";
             break;
 
-          case 'edit_konfigurasi_jam':
-            include "pages/edit_konfigurasi_jam.php";
+          case 'edit_master_jam':
+            include "pages/edit_master_jam.php";
             break;
 
           case 'edit_absensi':

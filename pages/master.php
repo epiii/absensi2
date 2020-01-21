@@ -54,7 +54,7 @@ if (isset($_SESSION['page'])) {
 								<td><?php echo $data['value'] ? $data['value'] : '-'; ?></td>
 								<td>
 									<center>
-										<a href="./index.php?page=<?php echo $data['param'] == 'hari_libur_2' ? 'edit_konfigurasi_hari_libur_2' : 'edit_konfigurasi'; ?>&id=<?php echo $data['id']; ?>&param=<?php echo $data['param']; ?>&value=<?php echo $data['value']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a>
+										<a href="./index.php?page=<?php echo $data['param'] == 'hari_libur_2' ? 'edit_konfigurasi_hari_libur_2' : 'edit_master'; ?>&id=<?php echo $data['id']; ?>&param=<?php echo $data['param']; ?>&value=<?php echo $data['value']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a>
 									</center>
 								</td>
 								<?php $no++; ?>
@@ -68,7 +68,7 @@ if (isset($_SESSION['page'])) {
 							<td>-</td>
 							<td>
 								<center>
-									<a href="./index.php?page=edit_konfigurasi_jam&id=1" class="btn btn-outline-primary btn-sm">
+									<a href="./index.php?page=edit_master_jam&id=1" class="btn btn-outline-primary btn-sm">
 										<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
 									</a>
 								</center>
@@ -80,7 +80,7 @@ if (isset($_SESSION['page'])) {
 							<td>-</td>
 							<td>
 								<center>
-									<a href="./index.php?page=edit_konfigurasi_jam&id=2" class="btn btn-outline-primary btn-sm">
+									<a href="./index.php?page=edit_master_jam&id=2" class="btn btn-outline-primary btn-sm">
 										<i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i>
 									</a>
 								</center>
