@@ -52,6 +52,7 @@ $divisi = GetDivisi2();
 				</div>
 				<div class="modal-body text-center">
 					<form id="formParam" method="POST">
+						<input type="hidden" name="mode" value="<?php echo $mode; ?>" id="mode">
 						<input type="hidden" name="id" id="id">
 
 						<div class="form-group text-left">
@@ -72,19 +73,24 @@ $divisi = GetDivisi2();
 							<div class="col-md-4">
 								<div class="form-group text-left">
 									<label for="jam_masuk">Jam <?php echo $mode; ?></label>
-									<input placeholder="HH:MM" id="jam_keluar" name="jam_keluar" class="form-control input-jam input" required />
-									<input style="display:none" placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam input" required />
-									<small id="jam_masuk" style="display:none" class="text-danger">
+									<input placeholder="HH:MM" id="jam" name="jam" class="form-control input-jam input" />
+									<small id="jam_msg" style="display:none" class="text-danger">
 										required
 									</small>
-									<small id="jam_keluar" style="display:none" class="text-danger">
+
+									<!-- <input placeholder="HH:MM" id="jam_masuk" name="jam_masuk" class="form-control input-jam input" />
+									<input style="display:none" placeholder="HH:MM" id="jam_keluar" name="jam_keluar" class="form-control input-jam input" />
+									<small id="jam_masuk_msg" style="display:none" class="text-danger">
 										required
 									</small>
+									<small id="jam_keluar_msg" style="display:none" class="text-danger">
+										required
+									</small> -->
 								</div>
 							</div>
 						</div>
 
-						<h4 class="text-left text-muted">Telat 1</h4>
+						<h5 class="text-left text-muted">Telat 1</h5>
 						<div class="row mb-3">
 							<div class="col-md-4">
 								<div class="form-group text-left">
@@ -351,12 +357,9 @@ $divisi = GetDivisi2();
 											<td class="text-left"><?php echo $data['telat3a'] . ' s/d ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen3'] . ' %'; ?></b><?php echo ''; ?></td>
 											<td class="text-left"><?php echo '> ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen4'] . ' %'; ?></b><?php echo ''; ?></td>
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
-											<td>
-												<center>
-													<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center">edit</a> -->
-													<a href="#" onclick="openModal(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm text-center"><i class="fas fa-edit"></i></a>
-													<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
-												</center>
+											<td class="text-center">
+												<!-- <button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button> -->
+												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 											</td>
 
 										</tr>
@@ -456,8 +459,10 @@ $divisi = GetDivisi2();
 
 	function onsubmitForm(el) {
 		let id_divisi = $('#id_divisi').val()
-		let jam_masuk = $('#jam_masuk').val()
-		let jam_keluar = $('#jam_keluar').val()
+
+		let jam = $('#jam').val()
+		// let jam_masuk = $('#jam_masuk').val()
+		// let jam_keluar = $('#jam_keluar').val()
 
 		let persen1 = $('#persen1').val()
 		let persen2 = $('#persen2').val()
@@ -475,11 +480,33 @@ $divisi = GetDivisi2();
 
 		let batas1 = $('#batas1').val()
 		let batas2 = $('#batas2').val()
+		// console.log(jam_masuk, jam_keluar)
+		// if (jam_masuk == '' || jam_keluar == '') {
+		// 	if (mode == 'masuk') {
+		// 		if (jam_masuk == '') {
+		// 			$('#jam_masuk').addClass('is-invalid')
+		// 			$('#jam_masuk_msg').removeAttr('style')
+		// 		} else {
+		// 			$('#jam_masuk').removeClass('is-invalid')
+		// 			$('#jam_masuk_msg').attr('style', 'display:none')
+		// 		}
+		// 	}
 
-		console.log(jam_masuk)
+		// 	if (mode == 'keluar') {
+		// 		if (jam_keluar == '') {
+		// 			$('#jam_keluar').addClass('is-invalid')
+		// 			$('#jam_keluar_msg').removeAttr('style')
+		// 		} else {
+		// 			$('#jam_keluar').removeClass('is-invalid')
+		// 			$('#jam_keluar_msg').attr('style', 'display:none')
+		// 		}
+		// 	}
+		// } else
 		if (
+			// jam_masuk == '' ||
+			// jam_keluar == '' ||
+			jam == '' ||
 			id_divisi == '' ||
-			jam_masuk == '' ||
 			persen1 == '' ||
 			persen1 == '' ||
 			telat1a == '' ||
@@ -494,6 +521,7 @@ $divisi = GetDivisi2();
 			batas1 == '' ||
 			batas2 == ''
 		) {
+
 			if (id_divisi == '') {
 				$('#id_divisi').addClass('is-invalid')
 				$('#id_divisi_msg').removeAttr('style')
@@ -502,13 +530,20 @@ $divisi = GetDivisi2();
 				$('#id_divisi_msg').attr('style', 'display:none')
 			}
 
-			if (jam_masuk == '') {
-				$('#jam_masuk').addClass('is-invalid')
-				$('#jam_masuk_msg').removeAttr('style')
+			if (jam == '') {
+				$('#jam').addClass('is-invalid')
+				$('#jam_msg').removeAttr('style')
 			} else {
-				$('#jam_masuk').removeClass('is-invalid')
-				$('#jam_masuk_msg').attr('style', 'display:none')
+				$('#jam').removeClass('is-invalid')
+				$('#jam_msg').attr('style', 'display:none')
 			}
+			// if (jam_masuk == '') {
+			// 	$('#jam_masuk').addClass('is-invalid')
+			// 	$('#jam_masuk_msg').removeAttr('style')
+			// } else {
+			// 	$('#jam_masuk').removeClass('is-invalid')
+			// 	$('#jam_masuk_msg').attr('style', 'display:none')
+			// }
 
 			if (persen1 == '') {
 				$('#persen1').addClass('is-invalid')
@@ -617,7 +652,7 @@ $divisi = GetDivisi2();
 				confirmButtonText: 'Ya',
 				cancelButtonText: 'Tidak'
 			}).then((res) => {
-				console.log(res)
+				console.log('masuk')
 				if (res.value) {
 					console.log($(el).serialize())
 					// return false;
@@ -663,6 +698,7 @@ $divisi = GetDivisi2();
 
 	$(document).ready(function() {
 
+
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
 			pageLength: 10,
@@ -673,9 +709,17 @@ $divisi = GetDivisi2();
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
-
 		});
 
+
+		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
+			var data = table.row($(this).parents('tr')).data();
+			console.log(data)
+			// $('#id_sub').val(data[0])
+			// $('#param_sub').val(data[1])
+			// $('#value_sub').val(data[2])
+			openModal()
+		});
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
 

@@ -44,11 +44,14 @@ if (isset($_REQUEST['update_konfigurasi_status']) && isset($_SESSION['page'])) {
 
 		$id = $_POST['id'];
 		$id_divisi = $_POST['id_divisi'];
-		$jam_keluar = $_POST['jam_keluar'];
-		$jam_masuk = $_POST['jam_masuk'];
+		$jam = $_POST['jam'];
+		$mode = strtolower($_POST['mode']);
+		// $jam_keluar = $_POST['jam_keluar'];
+		// $jam_masuk = $_POST['jam_masuk'];
 
-		$no = $jam_masuk == '' ? '2' : '1';
-		$jam = $jam_masuk == '' ? $jam_keluar : $jam_masuk;
+		$no = $mode == 'masuk' ? '1' : '2';
+		// $no = $jam_masuk == '' ? '2' : '1';
+		// $jam = $jam_masuk == '' ? $jam_keluar : $jam_masuk;
 		$jam = explode(':', $jam);
 		$telat1a = $_POST['telat1a'];
 		$telat1b = $_POST['telat1b'];
