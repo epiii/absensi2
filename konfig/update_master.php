@@ -68,9 +68,24 @@ if (isset($_REQUEST['update_master_status']) && isset($_SESSION['page'])) {
 
 		if (isset($_POST['id']) && $_POST['id'] != '') { // edit 
 			$query = 'UPDATE tb1_setting2 SET 
-						param ="' . $param_sub . '",
-						value ="' . $value_sub . '"
-						WHERE id=' . $id_sub;
+							no="' . $no . '", 
+							jam="' . $jam[0] . '", 
+							menit="' . $jam[1] . '", 
+							telat1a="' . $telat1a . '", 
+							telat1b="' . $telat1b . '", 
+							persen1="' . $persen1 . '", 
+							telat2a="' . $telat2a . '", 
+							telat2b="' . $telat2b . '", 
+							persen2="' . $persen2 . '", 
+							telat3a="' . $telat3a . '", 
+							telat3b="' . $telat3b . '", 
+							persen3="' . $persen3 . '", 
+							persen4="' . $persen4 . '", 
+							batas1="' . $batas1 . '", 
+							batas2="' . $batas2 . '",
+							id_divisi="' . $id_divisi . '"
+					WHERE id='.$_POST['id'].' 	
+							';
 		} else { // add 
 			$query = 'INSERT INTO tb1_setting2 SET 
 						id_divisi="' . $id_divisi . '", 

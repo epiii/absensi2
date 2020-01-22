@@ -405,16 +405,14 @@ $num = mysqli_num_rows($sql);
 
 		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
 			var data = table.row($(this).parents('tr')).data();
+			console.log(table)
+			console.log(data)
 			$('#id_sub').val(data[0])
 			$('#param_sub').val(data[1])
 			$('#value_sub').val(data[2])
 			openModal()
 		});
 
-		function onClickEdit(par) {
-			var data = table.row($(par).parents('tr')).data();
-			console.log(data)
-		}
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
 

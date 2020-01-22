@@ -18,7 +18,7 @@ $query = "	SELECT s.*,v.nama_divisi
 			WHERE s.no =" . $id;
 $sql = mysqli_query($dbconnect, $query);
 
-
+// pr($query);
 require_once './func/func_pegawai.php';
 $divisi = GetDivisi2();
 ?>
@@ -322,12 +322,14 @@ $divisi = GetDivisi2();
 								</button>
 							</div>
 
-							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 								<!-- <table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;"> -->
 								<thead>
 									<tr class="bg-secondary text-center">
-										<th>No</th>
+										<th>ID</th>
+										<th>id_divisi</th>
 										<th>Divisi</th>
+										<th>No</th>
 										<th>Jam <?php echo $mode; ?></th>
 										<th>Batas Absen</th>
 										<th>Telat 1</th>
@@ -348,6 +350,8 @@ $divisi = GetDivisi2();
 										$clr = $status == '1' ? 'success' : 'secondary';
 									?>
 										<tr class="text-center table-<?php echo $color; ?>">
+											<td><?php echo $data['id']; ?></td>
+											<td><?php echo $data['id_divisi']; ?></td>
 											<td><?php echo $no; ?></td>
 											<td class="text-left"><?php echo $data['nama_divisi']; ?></td>
 											<td><?php echo $data['jam'] . ':' . $data['menit']; ?></td>
@@ -358,7 +362,7 @@ $divisi = GetDivisi2();
 											<td class="text-left"><?php echo '> ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen4'] . ' %'; ?></b><?php echo ''; ?></td>
 											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
 											<td class="text-center">
-												<!-- <button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button> -->
+												<button class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
 												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 											</td>
 
@@ -462,8 +466,6 @@ $divisi = GetDivisi2();
 		let id_divisi = $('#id_divisi').val()
 
 		let jam = $('#jam').val()
-		// let jam_masuk = $('#jam_masuk').val()
-		// let jam_keluar = $('#jam_keluar').val()
 
 		let persen1 = $('#persen1').val()
 		let persen2 = $('#persen2').val()
@@ -481,31 +483,8 @@ $divisi = GetDivisi2();
 
 		let batas1 = $('#batas1').val()
 		let batas2 = $('#batas2').val()
-		// console.log(jam_masuk, jam_keluar)
-		// if (jam_masuk == '' || jam_keluar == '') {
-		// 	if (mode == 'masuk') {
-		// 		if (jam_masuk == '') {
-		// 			$('#jam_masuk').addClass('is-invalid')
-		// 			$('#jam_masuk_msg').removeAttr('style')
-		// 		} else {
-		// 			$('#jam_masuk').removeClass('is-invalid')
-		// 			$('#jam_masuk_msg').attr('style', 'display:none')
-		// 		}
-		// 	}
 
-		// 	if (mode == 'keluar') {
-		// 		if (jam_keluar == '') {
-		// 			$('#jam_keluar').addClass('is-invalid')
-		// 			$('#jam_keluar_msg').removeAttr('style')
-		// 		} else {
-		// 			$('#jam_keluar').removeClass('is-invalid')
-		// 			$('#jam_keluar_msg').attr('style', 'display:none')
-		// 		}
-		// 	}
-		// } else
 		if (
-			// jam_masuk == '' ||
-			// jam_keluar == '' ||
 			jam == '' ||
 			id_divisi == '' ||
 			persen1 == '' ||
@@ -522,7 +501,6 @@ $divisi = GetDivisi2();
 			batas1 == '' ||
 			batas2 == ''
 		) {
-
 			if (id_divisi == '') {
 				$('#id_divisi').addClass('is-invalid')
 				$('#id_divisi_msg').removeAttr('style')
@@ -538,13 +516,6 @@ $divisi = GetDivisi2();
 				$('#jam').removeClass('is-invalid')
 				$('#jam_msg').attr('style', 'display:none')
 			}
-			// if (jam_masuk == '') {
-			// 	$('#jam_masuk').addClass('is-invalid')
-			// 	$('#jam_masuk_msg').removeAttr('style')
-			// } else {
-			// 	$('#jam_masuk').removeClass('is-invalid')
-			// 	$('#jam_masuk_msg').attr('style', 'display:none')
-			// }
 
 			if (persen1 == '') {
 				$('#persen1').addClass('is-invalid')
@@ -656,7 +627,6 @@ $divisi = GetDivisi2();
 				console.log('masuk')
 				if (res.value) {
 					console.log($(el).serialize())
-					// return false;
 
 					$.ajax({
 						url: './konfig/update_master.php',
@@ -697,8 +667,42 @@ $divisi = GetDivisi2();
 		}
 	}
 
+	function resetFormSub() {
+		console.log('masuk reset ')
+		$('#id_divisi').val('')
+		$('#jam').val('')
+
+		$('#persen1').val('')
+		$('#persen2').val('')
+		$('#persen3').val('')
+		$('#persen4').val('')
+
+		$('#telat1a').val('')
+		$('#telat1b').val('')
+
+		$('#telat2a').val('')
+		$('#telat2b').val('')
+
+		$('#telat3a').val('')
+		$('#telat3b').val('')
+
+		$('#batas1').val('')
+		$('#batas2').val('')
+
+		$('#param_sub_msg').attr('style', 'display:none')
+		$('#value_sub_msg').attr('style', 'display:none')
+
+		$('#param_sub').removeClass('is-invalid')
+		$('#value_sub').removeClass('is-invalid')
+	}
+
 	$(document).ready(function() {
 
+		$('#myModal').on('hidden.bs.modal', function() {
+			console.log('modal closed')
+			resetFormSub()
+			$('#id_sub').val('')
+		})
 
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
@@ -714,11 +718,55 @@ $divisi = GetDivisi2();
 
 
 		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
-			var data = table.row($(this).parents('tr')).data();
-			console.log(data)
-			// $('#id_sub').val(data[0])
-			// $('#param_sub').val(data[1])
-			// $('#value_sub').val(data[2])
+			var dt = table.row(this).data();
+			console.table(dt)
+
+			// id 
+			$('#id').val(dt[0])
+
+			// telat 1 
+			let tel1 = dt[6].split(' ')
+			console.log('tel 1', tel1)
+
+			// telat 2 
+			let tel2 = dt[7].split(' ')
+			console.log('tel 2', tel2)
+
+			// telat 3 
+			let tel3 = dt[8].split(' ')
+			console.log('tel 3', tel3)
+
+			// telat 4 
+			let tel4 = dt[9].split(' ')
+			console.log('tel 4', tel4)
+
+			// batas  
+			let bts = dt[5].split('-')
+			let bts1 = bts[0].split(':')[0]
+			let bts2 = bts[1].split(':')[0]
+			console.log('bts', bts)
+
+			// return false;
+			$('#id_divisi').val(dt[1])
+			$('#jam').val(dt[4])
+
+			$('#persen1').val(tel1[5])
+			$('#persen2').val(tel2[5])
+			$('#persen3').val(tel3[5])
+			$('#persen4').val(tel4[4])
+
+			$('#telat1a').val(tel1[0])
+			$('#telat1b').val(tel1[2])
+
+			$('#telat2a').val(tel2[0])
+			$('#telat2b').val(tel2[2])
+
+			$('#telat3a').val(tel3[0])
+			$('#telat3b').val(tel3[2])
+
+			$('#batas1').val(bts1)
+			$('#batas2').val(bts2)
+
 			openModal()
 		});
 		// table.buttons().container()
