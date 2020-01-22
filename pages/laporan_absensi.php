@@ -660,7 +660,16 @@ $divisi = GetDivisiRule();
 			bPaginate: false,
 			bInfo: false,
 			buttons: [{
+					// header only 1st page 
+					// customize: function(doc) {
+					// 	doc.content[1].table.headerRows = 0;
+					// },
+					columns: [{
+							"tooltip": "Tooltip text",
+						},
+					],
 					// extend: 'pdf',
+					titleAttr: 'Export to PDF',
 					extend: 'pdfHtml5',
 					className: 'btn-danger',
 					orientation: 'landscape',
@@ -670,7 +679,7 @@ $divisi = GetDivisiRule();
 						let subTitle = $('#id_divisi :selected').text()
 						st = subTitle.trim().split(' ')
 
-						return title + ($('#id_divisi :selected').val() == '' ? '' : 'Divisi '+st[1])
+						return title + ($('#id_divisi :selected').val() == '' ? '' : 'Divisi ' + st[1])
 					},
 					messageTop: function() {
 						let tanggal_awal = $('#tanggal_awal').val()
@@ -685,7 +694,8 @@ $divisi = GetDivisiRule();
 					messageBottom: 'keterangan bawah',
 					exportOptions: {
 						// columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-						filename: "nyamm"
+						filename: "nyamm",
+						orthogonal: 'export'
 					},
 				},
 				{

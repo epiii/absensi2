@@ -13,7 +13,7 @@ if (isset($_SESSION['page'])) {
 $id = $_GET['id'];
 $parameter = $_GET['param'];
 $value = $_GET['value'];
-
+$isVisible = true;
 
 if ($parameter == 'hari_libur') {
 	$query = 'SELECT
@@ -24,6 +24,39 @@ if ($parameter == 'hari_libur') {
 			null as hasUsed
 			FROM vw_hari_libur v';
 	$inputType = 'date';
+} elseif ($parameter == 'tipe_presensi') {
+	$query = 'SELECT
+				v.id_tipepresensi as id,
+				v.kode_tipepresensi as param,
+				v.nama_tipepresensi as value,
+				v.isActive,
+				null as hasUsed
+			FROM vw_tipepresensi v';
+	$isVisible = false;
+} elseif ($parameter == 'status_pernikahan') {
+	$query = 'SELECT
+				v.id_statuspernikahan AS id,
+				v.kode_statuspernikahan AS param,
+				v.nama_statuspernikahan AS value ,
+				v.isActive,
+				tb.id_status_kawin as hasUsed
+			FROM
+				vw_statuspernikahan v
+				LEFT JOIN (
+					SELECT DISTINCT(id_status_kawin) from tb1_karyawan 
+				)tb on tb.id_status_kawin = v.id_statuspernikahan';
+} elseif ($parameter == 'kategori_karyawan') {
+	$query = 'SELECT
+				v.id_katkaryawan AS id,
+				v.kode_katkaryawan AS param,
+				v.nama_katkaryawan AS value ,
+				v.isActive,
+				tb.id_kategori_karyawan as hasUsed
+			FROM
+				vw_katkaryawan v
+				LEFT JOIN (
+					SELECT DISTINCT(id_kategori_karyawan) from tb1_karyawan 
+				)tb on tb.id_kategori_karyawan= v.id_katkaryawan';
 } else {
 	$query = 'SELECT
 				v.id_' . $parameter . ' as id,
@@ -49,7 +82,7 @@ $num = mysqli_num_rows($sql);
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">EDIT PARAMETER</h1>
+				<h1 class="m-0 text-dark">Edit <?php echo $value; ?></h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
@@ -104,35 +137,33 @@ $num = mysqli_num_rows($sql);
 	<div class="content">
 		<div class="container-fluid">
 
-			<form action="./konfig/update_master.php" method="POST">
-			<!-- <form action="./konfig/update_konfigurasi.php" method="POST"> -->
+			<!-- <form action="./konfig/update_master.php" method="POST">
 				<div class="form-group">
 					<label for="exampleInputEmail1">Parameter</label>
 					<input type="hidden" name="update_master">
 					<input type="hidden" name="id" value=<?php echo $id; ?>>
 					<input readonly class="form-control" type="text" name="param" id="param" placeholder="Masukan Parameter" value="<?php echo $parameter ?>">
-					<!-- <small id="emailHelp" class="form-text text-muted"><?php echo $keterangan; ?></small> -->
 				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Value</label>
 					<input required class="form-control" type="text" name="value" id="value" placeholder="Masukan Value" value="<?php echo $value ?>">
 				</div>
 				<button type="submit" class="btn btn-primary mt-3" value="simpan">Simpan Konfigurasi</button>
-				<!-- <button type="submit" class="btn btn-outline-primary mt-3" value="simpan">Simpan Konfigurasi</button> -->
-			</form>
+			</form> -->
 
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12 col-md-offset-2">
 
-						<h3 class="text-center">Sub Parameter</h3>
+						<!-- <h3 class="text-center">Sub Parameter</h3> -->
 						<div class="table table-hover">
-
-							<div class="text-right">
-								<button onclick="openModal()" class="btn btn-primary ">
-									<i class="fas fa-plus" data-toggle="tooltip" title="Edit"></i>
-								</button>
-							</div>
+							<?php if ($isVisible) { ?>
+								<div class="text-right">
+									<button onclick="openModal()" class="btn btn-primary ">
+										<i class="fas fa-plus" data-toggle="tooltip" title="Edit"></i>
+									</button>
+								</div>
+							<?php } ?>
 
 							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 								<!-- <table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;"> -->
@@ -141,8 +172,10 @@ $num = mysqli_num_rows($sql);
 										<th>id</th>
 										<th>Parameter</th>
 										<th>Value</th>
-										<th>Status</th>
-										<th>Action</th>
+										<?php if ($isVisible) { ?>
+											<th>Status</th>
+											<th>Action</th>
+										<?php } ?>
 									</tr>
 								</thead>
 
@@ -161,21 +194,20 @@ $num = mysqli_num_rows($sql);
 											<td><?php echo $data['id']; ?></td>
 											<td><?php echo $data['param']; ?></td>
 											<td><?php echo $data['value']; ?> </td>
-											<td class="text-center">
-												<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
-													<i class="fas fa-<?php echo $ico; ?>"></i>
-													<?php echo ' ' . $txt; ?>
-												</button>
-												<!-- <span class="badge badge-<?php echo $clr; ?>">
-													<i class="fas fa-check"></i>
-													<?php echo ' ' . $txt; ?>
-												</span> -->
-											</td>
-											<td class="text-center">
-												<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
-												<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
-											</td>
 
+											<?php if ($isVisible) { ?>
+												<td class="text-center">
+													<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
+														<i class="fas fa-<?php echo $ico; ?>"></i>
+														<?php echo ' ' . $txt; ?>
+													</button>
+												</td>
+
+												<td class="text-center">
+													<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+													<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
+												</td>
+											<?php } ?>
 										</tr>
 									<?php
 									}

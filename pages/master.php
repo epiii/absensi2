@@ -33,8 +33,9 @@ if (isset($_SESSION['page'])) {
 					<thead class="bg-secondary">
 						<tr class="text-center">
 							<th>No</th>
+							<th>Variabel</th>
 							<th>Parameter</th>
-							<th>Value</th>
+							<th>Keterangan</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -52,6 +53,7 @@ if (isset($_SESSION['page'])) {
 								<td class="text-center"><?php echo $no; ?></td>
 								<td><?php echo $data['param']; ?></td>
 								<td><?php echo $data['value'] ? $data['value'] : '-'; ?></td>
+								<td><?php echo $data['note']; ?></td>
 								<td>
 									<center>
 										<a href="./index.php?page=<?php echo $data['param'] == 'hari_libur_2' ? 'edit_konfigurasi_hari_libur_2' : 'edit_master'; ?>&id=<?php echo $data['id']; ?>&param=<?php echo $data['param']; ?>&value=<?php echo $data['value']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a>
@@ -64,8 +66,9 @@ if (isset($_SESSION['page'])) {
 						?>
 						<tr class="odd gradeX">
 							<td class="text-center"><?php echo $no; ?></td>
+							<td>jam_masuk</td>
 							<td>Jam Masuk</td>
-							<td>-</td>
+							<td>Jadwal Jam karyawan untuk melakukan absensi kehadiran </td>
 							<td>
 								<center>
 									<a href="./index.php?page=edit_master_jam&id=1" class="btn btn-outline-primary btn-sm">
@@ -76,8 +79,9 @@ if (isset($_SESSION['page'])) {
 						</tr>
 						<tr class="odd gradeX">
 							<td class="text-center"><?php echo ++$no; ?></td>
+							<td>jam_keluar</td>
 							<td>Jam Keluar</td>
-							<td>-</td>
+							<td>Jadwal Jam karyawan untuk melakukan absensi pulang</td>
 							<td>
 								<center>
 									<a href="./index.php?page=edit_master_jam&id=2" class="btn btn-outline-primary btn-sm">

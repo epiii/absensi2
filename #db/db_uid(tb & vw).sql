@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-21 13:23:15
+Date: 2020-01-23 04:27:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -299,7 +299,7 @@ CREATE TABLE `tb1_karyawan` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_karyawan
@@ -308,7 +308,7 @@ INSERT INTO `tb1_karyawan` VALUES ('4', '123321', 'Ajang Rahmat', '0', '1', '', 
 INSERT INTO `tb1_karyawan` VALUES ('5', '124421', 'Ade Rahayu', '0', '2', '', '2019-05-10', '083483923829', 'Surabaya', '', '', '', '', '', '0', '', '23', '', '', '', '88888', '0', '', '', '', '2019-05-28 21:09:14', '0');
 INSERT INTO `tb1_karyawan` VALUES ('6', '1872141250', 'Asep Wanda Komara', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '24', '', '', '', '999999', '0', '', '', '1', '2019-05-28 21:09:14', '0');
 INSERT INTO `tb1_karyawan` VALUES ('7', '345375112', 'Farhad Rifaldi', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '24', '', '', '', '11111', '0', '', '', '1', '2019-05-28 21:09:14', '0');
-INSERT INTO `tb1_karyawan` VALUES ('13', '82419897', 'Ruslan Wahyudi', '0', '1', '', '2019-05-04', '08673617317', 'Pamekasan', 'Pamekasan', 'Jatim', '69032', 'ruslanwahyudi1@gmail.com', 'B', '1', '01', '2', 'S1', 'S.kom', '128941429148', '8983913839', '2', '124421125125', '1248921491', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('13', '82419897', 'Ruslan Wahyudi', '0', '1', '', '2019-05-04', '08673617317', 'Pamekasan', 'Pamekasan', 'Jatim', '69032', 'ruslanwahyudi1@gmail.commmmmmmmmm', 'B', '8', '', '23', 'S1', 'S.kom', '128941429148', '8983913839', '0', '124421125125', '1248921491', '', '0000-00-00 00:00:00', '0');
 INSERT INTO `tb1_karyawan` VALUES ('14', '8919414280', 'Asfiatul Hanifah', '0', '2', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '23', '', '', '', '7777777', '0', '', '', '', '0000-00-00 00:00:00', '0');
 INSERT INTO `tb1_karyawan` VALUES ('15', '134103224115', 'Yuwono', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '26', '', '', '', '5555555', '0', '', '', '', '0000-00-00 00:00:00', '0');
 INSERT INTO `tb1_karyawan` VALUES ('16', '6979114118', 'Wahyudi', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '23', '', '', '', '4444444', '0', '', '', '', '0000-00-00 00:00:00', '0');
@@ -316,6 +316,19 @@ INSERT INTO `tb1_karyawan` VALUES ('17', '8666223115', 'Japri sunandar', '0', '1
 INSERT INTO `tb1_karyawan` VALUES ('20', '212448', 'bejo sugiantro x', '20', '1', '', '2500-01-15', '08569999977', 'jl hiu ganas 9977', 'london77', 'hawai timur7', '9876', 'anu@anu.com7', '', '12', '15', '23', '', '', '', '123457', '41', '6543277', '', '1', '2020-01-11 04:20:27', '0');
 INSERT INTO `tb1_karyawan` VALUES ('21', '8666223115', 'bagus hadi', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '0', '', '23', '', '', '', '222222', '0', '', '', '', '0000-00-00 00:00:00', '0');
 INSERT INTO `tb1_karyawan` VALUES ('23', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('24', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('25', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('26', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('27', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('28', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('29', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('30', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('31', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('32', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('33', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('34', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('35', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
+INSERT INTO `tb1_karyawan` VALUES ('36', '8666223115', 'gede catur', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '', '9', '16', '24', '', '', '', '112233445566', '40', '', '', '', '0000-00-00 00:00:00', '0');
 
 -- ----------------------------
 -- Table structure for tb1_kategori_karyawan
@@ -427,7 +440,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -440,7 +453,7 @@ INSERT INTO `tb1_setting2` VALUES ('16', '1', '08', '00', '5', '30', '31', '60',
 INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('18', '2', '16', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '15', '19', '02', '24', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '03', '04', '26', '0000-00-00 00:00:00', '1');
-INSERT INTO `tb1_setting2` VALUES ('27', '1', '22', '22', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '', '24', '2020-01-21 10:46:51', '1');
+INSERT INTO `tb1_setting2` VALUES ('31', '1', '22', '22', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '', '24', '2020-01-22 07:34:32', '1');
 
 -- ----------------------------
 -- Table structure for tb1_status_pernikahan
@@ -487,57 +500,59 @@ CREATE TABLE `tb2_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `param` varchar(255) NOT NULL,
   `value` text NOT NULL,
+  `note` text DEFAULT NULL,
   `id_parent` int(11) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `isActive` int(11) DEFAULT 1,
+  `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
 -- ----------------------------
-INSERT INTO `tb2_setting` VALUES ('1', 'agama', 'Agama', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('8', '01', 'Islam', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('9', '02', 'Protestan', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('10', '03', 'Katholik', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('11', '04', 'Hindu', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('12', '05', 'Budha', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('13', '06', 'Konghuchu', '1', null, '1');
-INSERT INTO `tb2_setting` VALUES ('14', 'status_pernikahan', 'Status Nikah', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('15', '01', 'Lajang', '14', null, '1');
-INSERT INTO `tb2_setting` VALUES ('16', '02', 'Kawin', '14', null, '1');
-INSERT INTO `tb2_setting` VALUES ('17', '03', 'Janda/Duda', '14', null, '1');
-INSERT INTO `tb2_setting` VALUES ('18', 'jabatan', 'Jabatan', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('19', '01', 'Eselon III', '18', null, '1');
-INSERT INTO `tb2_setting` VALUES ('20', '02', 'Eselon IV', '18', null, '1');
-INSERT INTO `tb2_setting` VALUES ('21', '03', 'Eselon V', '18', null, '1');
-INSERT INTO `tb2_setting` VALUES ('22', 'divisi', 'Divisi', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('23', '01', 'Keuangan', '22', null, '1');
-INSERT INTO `tb2_setting` VALUES ('24', '02', 'Humas', '22', null, '1');
-INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', '22', null, '1');
-INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', '22', null, '1');
-INSERT INTO `tb2_setting` VALUES ('27', 'hari_libur', 'Hari Libur', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('28', '2019-01-22', 'Ultah Bos', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('39', 'kategori_karyawan', 'Kategori Karyawan', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('40', '01', 'karyawan tetap', '39', null, '1');
-INSERT INTO `tb2_setting` VALUES ('41', '02', 'karyawan tidak tetap', '39', null, '1');
-INSERT INTO `tb2_setting` VALUES ('46', 'tipe_presensi', 'Tipe Presensi', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('47', 'harian', 'Presensi Harian', '46', null, '1');
-INSERT INTO `tb2_setting` VALUES ('48', 'diklat', 'DIKLAT', '46', null, '1');
-INSERT INTO `tb2_setting` VALUES ('49', 'skj', 'SKJ', '46', null, '1');
-INSERT INTO `tb2_setting` VALUES ('50', 'dispensasi', 'Dispensasi', '46', null, '1');
-INSERT INTO `tb2_setting` VALUES ('71', '2020-01-25', 'imlek', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('72', '2020-03-22', 'isra mi\'raj', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('73', '2020-03-25', 'Nyepi', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', '27', null, '1');
-INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', null, null, '1');
-INSERT INTO `tb2_setting` VALUES ('76', '23', 'sabtu', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('77', '23', 'minggu', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('78', '25', 'sabtu', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', '75', null, '1');
-INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', '75', null, '1');
+INSERT INTO `tb2_setting` VALUES ('1', 'agama', 'Agama', 'Opsi agama', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('8', '01', 'Islam', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('9', '02', 'Protestan', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('10', '03', 'Katholik', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('11', '04', 'Hindu', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('12', '05', 'Budha', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('13', '06', 'Konghuchu', null, '1', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('14', 'status_pernikahan', 'Status Nikah', 'Parameter status nikah karyawan', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('15', '01', 'Lajang', null, '14', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('16', '02', 'Kawin', null, '14', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('17', '03', 'Janda/Duda', null, '14', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('18', 'jabatan', 'Jabatan', 'Parameter jabatan karyawan', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('19', '01', 'Eselon III', null, '18', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('20', '02', 'Eselon IV', null, '18', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('21', '03', 'Eselon V', null, '18', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('22', 'divisi', 'Divisi', 'Parameter divisi dari karyawan', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('23', '01', 'Keuangan', null, '22', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('24', '02', 'Humas', null, '22', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', null, '22', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', null, '22', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('27', 'hari_libur', 'Hari Libur', 'List Hari libur (tanggal merah/hari besar)', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('28', '2019-01-22', 'Ultah Bos', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('39', 'kategori_karyawan', 'Kategori Karyawan', 'Parameter kategori karyawan tetap/tidak tetap', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('40', '01', 'karyawan tetap', null, '39', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('41', '02', 'karyawan tidak tetap', null, '39', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('46', 'tipe_presensi', 'Tipe Presensi', 'Parameter untuk karyawan melakukan presensi harian atau lainnya', null, null, '1', '1');
+INSERT INTO `tb2_setting` VALUES ('47', 'harian', 'Presensi Harian', null, '46', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('48', 'diklat', 'DIKLAT', null, '46', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('49', 'skj', 'SKJ', null, '46', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('50', 'dispensasi', 'Dispensasi', null, '46', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('71', '2020-01-25', 'imlek', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('72', '2020-03-22', 'isra mi\'raj', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('73', '2020-03-25', 'Nyepi', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', 'Parameter hari libur akhir pekan karyawan berdasarkan divisinya', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('76', '23', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('77', '23', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('78', '25', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', null, '75', null, '1', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -563,7 +578,7 @@ CREATE TABLE `tb_absen` (
   `mode` enum('auto','manual') DEFAULT 'auto',
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
@@ -596,6 +611,7 @@ INSERT INTO `tb_absen` VALUES ('95', '0', '', '', '0', '0', '0', '0', '0000-00-0
 INSERT INTO `tb_absen` VALUES ('96', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
 INSERT INTO `tb_absen` VALUES ('97', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
 INSERT INTO `tb_absen` VALUES ('98', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
+INSERT INTO `tb_absen` VALUES ('99', '5', '08:15', '16:30', '15', '0', '1', '0', '2020-01-21', 'H', null, '', '15', '0.00', '0.25', '0.25', 'manual', '47');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -679,7 +695,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.id as id_agama,
 	s2.param as kode_agama,
 	s2.value as nama_agama,
-	s2.isActive
+	s2.isActive,
+	s2.isFixed
 FROM
 	tb2_setting s2
 WHERE
@@ -700,7 +717,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.id AS id_divisi,
 	s2.param AS kode_divisi,
 	s2.value 	AS nama_divisi,
-	s2.isActive
+	s2.isActive,
+s2.isFixed
 FROM
 	tb2_setting s2
 WHERE
@@ -717,12 +735,12 @@ WHERE
 -- View structure for vw_hari_libur
 -- ----------------------------
 DROP VIEW IF EXISTS `vw_hari_libur`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost`  VIEW `vw_hari_libur` AS SELECT
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `vw_hari_libur` AS SELECT
 	s2.id as id_hari_libur,
 	s2.param as kode_hari_libur,
 	s2.value as nama_hari_libur,
 	s2.isActive 
-FROM
+,s2.isFixed FROM
 	tb2_setting s2
 WHERE
 	s2.id_parent = (
@@ -743,7 +761,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.param as id_divisi,
 	s2.value as hari,
 	s2.isActive 
-FROM
+,s2.isFixed FROM
 	tb2_setting s2
 WHERE
 	s2.id_parent = (
@@ -764,6 +782,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.param as kode_jabatan,
 	s2.value as nama_jabatan,
 	s2.isActive 
+,s2.isFixed
 FROM
 	tb2_setting s2
 WHERE
@@ -785,7 +804,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.param as kode_katkaryawan,
 	s2.value as nama_katkaryawan,
 	s2.isActive
-FROM
+,s2.isFixed
+ FROM
 	tb2_setting s2
 WHERE
 	s2.id_parent = (
@@ -806,7 +826,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.param as kode_statuspernikahan,
 	s2.value as nama_statuspernikahan,
 	s2.isActive
-
+,s2.isFixed
 FROM
 	tb2_setting s2
 WHERE
@@ -828,6 +848,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 	s2.param as kode_tipepresensi,
 	s2.value as nama_tipepresensi,
 	s2.isActive
+,s2.isFixed
 FROM
 	tb2_setting s2
 WHERE

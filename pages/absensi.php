@@ -1,3 +1,4 @@
+<title>anu</title>
 <?php
 if (isset($_SESSION['page'])) {
 } else {
@@ -120,6 +121,7 @@ $sql = mysqli_query($dbconnect, $query);
 								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;">
 									<thead>
 										<tr>
+											<th>No.</th>
 											<th>Tipe</th>
 											<th>NIP </th>
 											<th>Nama Pegawai</th>
@@ -131,14 +133,16 @@ $sql = mysqli_query($dbconnect, $query);
 											<th>Capture</th>
 											<th>Keterangan</th>
 											<th>Potongan</th>
-											<th>Keterlambatan</th>
+											<th>Total Telat</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 
 									<tbody>
 										<?php
+										$no = 0;
 										while ($data = mysqli_fetch_assoc($sql)) {
+											$no++;
 											// pr($data);
 											$status = '';
 											$color = '';
@@ -171,9 +175,8 @@ $sql = mysqli_query($dbconnect, $query);
 											$capture =  'img/' . ($data['capture'] == '' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
 											// vd($capture);
 										?>
-
 											<tr class="table-<?php echo $color; ?>">
-												<!-- <tr> -->
+												<td><?php echo $no; ?></td>
 												<td><?php echo $data['nama_tipepresensi']; ?></td>
 												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
@@ -212,28 +215,6 @@ $sql = mysqli_query($dbconnect, $query);
 										<?php
 										}
 										?>
-
-										<?php
-										$flag = '1';
-										$sql1 = mysqli_query($dbconnect, "select * from tb_id where id not in(select id from tb_absen where date='$absent')");
-										while ($data1 = mysqli_fetch_assoc($sql1)) {
-										?>
-
-											<tr class="table-danger">
-												<td><?php echo $data1['id']; ?></td>
-												<td><?php echo $data1['nama']; ?></td>
-												<td>-</td>
-												<td>-</td>
-												<td><?php echo $absent; ?></td>
-												<td><a href="./index.php?page=edit_absen&id=<?php echo $data1['id']; ?>&nama=<?php echo $data1['nama']; ?>&tanggal=<?php echo $absent; ?>&status=A&flag=<?php echo $flag; ?>">
-														<center><b>A</b></center>
-													</a></td>
-												<td></td>
-											</tr>
-
-										<?php
-										}
-										?>
 									</tbody>
 								</table>
 							</div>
@@ -252,7 +233,7 @@ $sql = mysqli_query($dbconnect, $query);
 <script>
 	let title = '<h2>wkwkwk</h2>'
 	// $('#absensiTbl').append(title);
-	$('#absensiTbl').append('<caption style="caption-side: bottom">huhuhuhu</caption>');
+	// $('#absensiTbl').append('<caption style="caption-side: bottom">huhuhuhu</caption>');
 
 	function onDelete(id) {
 		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
@@ -281,19 +262,40 @@ $sql = mysqli_query($dbconnect, $query);
 			bInfo: false,
 			buttons: [{
 					// extend: 'pdf',
+					filename: 'hahah',
 					extend: 'pdfHtml5',
 					className: 'btn-danger',
 					orientation: 'landscape',
 					download: 'open',
-					messageTop: 'Januari 2020 || Divisi Keuangan ',
-					messageBottom: 'keterangan bawah',
 					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+						// modifier: {
+						// 	page: 'current'
+						// }
 					},
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					title: function() {
+						let title = 'Daftar Presensi Satpol PP Sidoarjo\n'
+						return title;
+					},
+
 				},
 				{
 					extend: 'excel',
-					className: 'btn-success'
+					className: 'btn-success',
+					filename: 'hahah',
+					orientation: 'landscape',
+					download: 'open',
+					exportOptions: {
+						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+					},
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					title: function() {
+						let title = 'Daftar Presensi Satpol PP Sidoarjo\n'
+						return title;
+					},
 				},
 				{
 					extend: 'print',

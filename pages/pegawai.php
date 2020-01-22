@@ -67,7 +67,7 @@ $sql = mysqli_query($dbconnect, $query);
 										<tr>
 											<th>no</th>
 											<th>NIP</th>
-											<th>Nama Pegawai</th>
+											<th>Nama</th>
 											<th>Divisi</th>
 											<th>HP</th>
 											<th>Email</th>
@@ -83,7 +83,7 @@ $sql = mysqli_query($dbconnect, $query);
 											$no++;
 										?>
 											<tr class="<?php echo $color; ?>">
-												<td><?php echo $no; ?></td>
+												<td><?php echo $no; ?>.</td>
 												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
 												<td><?php echo $data['nama_divisi']; ?></td>
@@ -138,11 +138,12 @@ $sql = mysqli_query($dbconnect, $query);
 			bInfo: false,
 			buttons: [{
 					// extend: 'pdf',
+					// orientation: 'landscape',
+					// messageTop: 'Januari 2020 || Divisi Keuangan ',
+					// footer:true,
 					extend: 'pdfHtml5',
 					className: 'btn-danger',
-					// orientation: 'landscape',
 					download: 'open',
-					// messageTop: 'Januari 2020 || Divisi Keuangan ',
 					messageTop: 'Total Data : <?php echo $no; ?>',
 					messageBottom: '\nTotal Data : <?php echo $no; ?>',
 					exportOptions: {
@@ -155,11 +156,31 @@ $sql = mysqli_query($dbconnect, $query);
 				},
 				{
 					extend: 'excel',
-					className: 'btn-success'
+					className: 'btn-success',
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					exportOptions: {
+						columns: [0, 1, 2, 3, 4, 5]
+					},
+					title: function() {
+						let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
+						return title;
+					},
+
 				},
 				{
 					extend: 'print',
-					className: 'btn-info'
+					className: 'btn-info',
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					exportOptions: {
+						columns: [0, 1, 2, 3, 4, 5]
+					},
+					title: function() {
+						let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
+						return title;
+					},
+
 				}
 			]
 		});

@@ -33,7 +33,7 @@ $num = mysqli_num_rows($sql);
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">EDIT PARAMETER</h1>
+				<h1 class="m-0 text-dark">Edit <?php echo $value; ?></h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
@@ -95,27 +95,25 @@ $num = mysqli_num_rows($sql);
 	<div class="content">
 		<div class="container-fluid">
 
-			<form action="./konfig/update_master.php" method="POST">
+			<!-- <form action="./konfig/update_master.php" method="POST">
 				<div class="form-group">
 					<label for="exampleInputEmail1">Parameter</label>
 					<input type="hidden" name="update_master">
 					<input type="hidden" name="id" value=<?php echo $id; ?>>
 					<input readonly class="form-control" type="text" name="param" id="param" placeholder="Masukan Parameter" value="<?php echo $parameter ?>">
-					<!-- <small id="emailHelp" class="form-text text-muted"><?php echo $keterangan; ?></small> -->
 				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Value</label>
 					<input required class="form-control" type="text" name="value" id="value" placeholder="Masukan Value" value="<?php echo $value ?>">
 				</div>
 				<button type="submit" class="btn btn-primary mt-3" value="simpan">Simpan Konfigurasi</button>
-				<!-- <button type="submit" class="btn btn-outline-primary mt-3" value="simpan">Simpan Konfigurasi</button> -->
-			</form>
+			</form> -->
 
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12 col-md-offset-2">
 
-						<h3 class="text-center">Sub Parameter</h3>
+						<!-- <h3 class="text-center">Sub Parameter</h3> -->
 						<div class="table table-hover">
 
 							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
