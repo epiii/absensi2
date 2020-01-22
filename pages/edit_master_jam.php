@@ -328,8 +328,8 @@ $divisi = GetDivisi2();
 									<tr class="bg-secondary text-center">
 										<th>ID</th>
 										<th>id_divisi</th>
-										<th>Divisi</th>
 										<th>No</th>
+										<th>Divisi</th>
 										<th>Jam <?php echo $mode; ?></th>
 										<th>Batas Absen</th>
 										<th>Telat 1</th>
@@ -706,6 +706,18 @@ $divisi = GetDivisi2();
 
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
+			columnDefs: [
+				// {
+				// 	targets: [0],
+				// 	visible: false,
+				// 	searchable: false
+				// },
+				// {
+				// 	targets: [1],
+				// 	visible: false,
+				// 	searchable: false
+				// }
+			],
 			pageLength: 10,
 			lengthMenu: [
 				[5, 10, 25, 50, -1],
@@ -718,8 +730,10 @@ $divisi = GetDivisi2();
 
 
 		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
-			var dt = table.row(this).data();
-			console.table(dt)
+			// var dt = table.row(this).data();
+			let tr  = $(this).parents('tr')
+			let dt = table.row(tr)
+			console.log(dt)
 
 			// id 
 			$('#id').val(dt[0])

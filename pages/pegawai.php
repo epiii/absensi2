@@ -15,7 +15,11 @@ $flag = '0';
 $flag = '0';
 $date = date('Y-m-d');
 $absent = $date;
-$query = "SELECT * FROM tb1_karyawan order by id desc";
+$query = "SELECT
+			d.*, k.*
+		FROM tb1_karyawan k
+			LEFT JOIN vw_divisi d ON d.id_divisi = k.id_divisi
+		ORDER BY k.nama ASC";
 $sql = mysqli_query($dbconnect, $query);
 // vd($sql);
 // }
@@ -61,8 +65,11 @@ $sql = mysqli_query($dbconnect, $query);
 								<table id="pegawaiTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 									<thead>
 										<tr>
+											<th>no</th>
 											<th>NIP</th>
 											<th>Nama Pegawai</th>
+											<th>Divisi</th>
+											<th>HP</th>
 											<th>Email</th>
 											<th>Action</th>
 										</tr>
@@ -70,12 +77,17 @@ $sql = mysqli_query($dbconnect, $query);
 
 									<tbody>
 										<?php
+										$no = 0;
 										while ($data = mysqli_fetch_assoc($sql)) {
 											// vd($data);
+											$no++;
 										?>
 											<tr class="<?php echo $color; ?>">
+												<td><?php echo $no; ?></td>
 												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
+												<td><?php echo $data['nama_divisi']; ?></td>
+												<td><?php echo $data['no_hp']; ?></td>
 												<td><?php echo $data['email']; ?></td>
 												<td>
 													<center>
@@ -119,6 +131,8 @@ $sql = mysqli_query($dbconnect, $query);
 			dom: 'Bfrtip',
 			paging: true,
 			pageLength: 5,
+			pageSize: 'A4',
+			alignment: 'center',
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
@@ -129,12 +143,13 @@ $sql = mysqli_query($dbconnect, $query);
 					// orientation: 'landscape',
 					download: 'open',
 					// messageTop: 'Januari 2020 || Divisi Keuangan ',
-					// messageBottom: 'keterangan bawah',
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
 					exportOptions: {
-						columns: [0, 1, 2]
+						columns: [0, 1, 2, 3, 4, 5]
 					},
 					title: function() {
-						let title = 'Daftar Pegawai\n'
+						let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
 						return title;
 					},
 				},
