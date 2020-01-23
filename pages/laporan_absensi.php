@@ -460,6 +460,13 @@ $divisi = GetDivisiRule();
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
+								<button class="btn btn-danger" id="btn-pdf">pdf</button>
+								<!-- <a href="#" id="">JSON</a> -->
+								<!-- <a href="#" onClick="$('#absensiTbl').tableExport({type:'json',escape:'false'});">JSON</a>
+								<a href="#" onClick="$('#absensiTbl').tableExport({type:'excel',escape:'false'});">XLS</a>
+								<a href="#" onClick="$('#absensiTbl').tableExport({type:'csv',escape:'false'});">CSV</a>
+								<a href="#" onClick="$('#absensiTbl').tableExport({type:'pdf',escape:'false'});">PDF</a> -->
+
 								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
 									<!-- <table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;"> -->
 									<thead>
@@ -470,8 +477,7 @@ $divisi = GetDivisiRule();
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">NIP</th>
 											<th class="text-center bg-warning" colspan="19">Tingkat Ketidakhadiran Berdasarkan Rumus Skor</th>
 											<th class="text-center bg-secondary" style="vertical-align:middle" rowspan="3">
-												Kehadiran
-												<br />100-(jml%)
+												Kehadiran %
 											</th>
 										</tr>
 
@@ -622,7 +628,29 @@ $divisi = GetDivisiRule();
 </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script>
+<script src="./vendor/js/tableHTMLExport/tableHTMLExport.js"></script>
+<script src="./vendor/js/tableHTMLExport/fileSaver.js"></script> -->
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script> -->
+<!--
+
+<script type="text/javascript" src="./vendor/js/table-export/tableExport.js"></script>
+<script type="text/javascript" src="./vendor/js/table-export/html2canvas.js"></script>
+<script type="text/javascript" src="./vendor/js/table-export/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="./vendor/js/table-export/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="./vendor/js/table-export/jspdf/libs/base64.js"></script> -->
+
+<!-- <script src="./vendor/js/tableHTMLExport/tableHTMLExport.js"></script> -->
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script> -->
+
 <script>
 	function onDelete(id) {
 		var choice = confirm('yakin mau menghapus data ' + id + ' ?');
@@ -647,7 +675,65 @@ $divisi = GetDivisiRule();
 		return ret;
 	}
 
+	// $("#absensiTbl").tableHTMLExport({
+	// 	type: 'pdf',
+	// 	filename: 'sample.pdf'
+	// });
+
+	$('#btn-pdf').on('click', function() {
+		// $("#absensiTbl").tableHTMLExport({
+		// 	type: 'pdf',
+		// 	filename: 'sample.pdf'
+		// });
+		// let x = $('#absensiTbl').find("thead>tr:first-child>th")
+		// console.log('num', x.length)
+		// console.log('el', x)
+
+		rr = []
+		$('#absensiTbl').find("thead>tr:first-child>th").each(
+			function(index, element) {
+				var colSpan = element.getAttribute("colSpan");
+				rr.push({
+					text: element.innerHTML,
+					style: "tableHeader",
+					colSpan: colSpan
+				});
+				for (var i = 0; i < colSpan - 1; i++) {
+					rr.push({});
+				}
+			}
+		);
+		$('#absensiTbl').find("thead>tr:nth-child(2)>th").each(
+			function(index, element) {
+				var colSpan = element.getAttribute("colSpan");
+				rr.push({
+					text: element.innerHTML,
+					style: "tableHeader",
+					colSpan: colSpan
+				});
+				for (var i = 0; i < colSpan - 1; i++) {
+					rr.push({});
+				}
+			}
+		);
+		console.log(rr)
+	})
+
 	$(document).ready(function() {
+		console.log('doc ready')
+		// $('#json').on('click', function() {
+		// 	$("#example").tableHTMLExport({
+		// 		type: 'json',
+		// 		filename: 'sample.json'
+		// 	});
+		// })
+		// $('#csv').on('click', function() {
+		// 	$("#example").tableHTMLExport({
+		// 		type: 'csv',
+		// 		filename: 'sample.csv'
+		// 	});
+		// })
+
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
@@ -665,50 +751,121 @@ $divisi = GetDivisiRule();
 					// 	doc.content[1].table.headerRows = 0;
 					// },
 					columns: [{
-							"tooltip": "Tooltip text",
-						},
-					],
+						"tooltip": "Tooltip text",
+					}, ],
 					// extend: 'pdf',
 					titleAttr: 'Export to PDF',
 					extend: 'pdfHtml5',
 					className: 'btn-danger',
 					orientation: 'landscape',
 					download: 'open',
-					title: function() {
-						let title = 'Daftar Perhitungan Skor Kehadiran Pegawai\n'
-						let subTitle = $('#id_divisi :selected').text()
-						st = subTitle.trim().split(' ')
-
-						return title + ($('#id_divisi :selected').val() == '' ? '' : 'Divisi ' + st[1])
-					},
-					messageTop: function() {
-						let tanggal_awal = $('#tanggal_awal').val()
-						let tgl_awal = tanggal_awal.split('-')
-						let ta = tgl_awal[2] + ' ' + getMonthName(tgl_awal[1]) + ' ' + tgl_awal[0]
-
-						let tanggal_akhir = $('#tanggal_akhir').val()
-						let tgl_akhir = tanggal_akhir.split('-')
-						let tr = tgl_akhir[2] + ' ' + getMonthName(tgl_akhir[1]) + ' ' + tgl_akhir[0]
-						return 'Tanggal :' + ta + ' s/d ' + tr
-					},
-					messageBottom: 'keterangan bawah',
+					title: titleFormat,
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
 					exportOptions: {
 						// columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 						filename: "nyamm",
 						orthogonal: 'export'
 					},
+					customize: function(pdfDocument) {
+						// console.log(pdfDocument.content[2].table.headerRows=2)
+						// return false
+
+						pdfDocument.content[2].table.headerRows = 2;
+						var firstHeaderRow = [];
+						$('#absensiTbl').find("thead>tr:first-child>th").each(
+							function(index, element) {
+								var colSpan = element.getAttribute("colSpan");
+								firstHeaderRow.push({
+									text: element.innerHTML,
+									style: "tableHeader",
+									colSpan: colSpan
+								});
+								for (var i = 0; i < colSpan - 1; i++) {
+									firstHeaderRow.push({});
+								}
+							}
+						);
+
+						// var secondHeaderRow = [];
+						// $('#absensiTbl').find("thead>tr:nth-child(2)>th").each(
+						// 	function(index, element) {
+						// 		var colSpan = element.getAttribute("colSpan");
+						// 		secondHeaderRow.push({
+						// 			text: element.innerHTML,
+						// 			style: "tableHeader",
+						// 			colSpan: colSpan
+						// 		});
+						// 		for (var i = 0; i < colSpan - 1; i++) {
+						// 			secondHeaderRow.push({});
+						// 		}
+						// 	}
+						// );
+						console.log('first',firstHeaderRow)
+						// console.log('second',secondHeaderRow)
+						pdfDocument.content[2].table.body.unshift(firstHeaderRow);
+						// pdfDocument.content[2].table.body.unshift(secondHeaderRow);
+					}
 				},
 				{
 					extend: 'excel',
-					className: 'btn-success'
+					className: 'btn-success',
+
+					title: titleFormat,
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
 				},
 				{
 					extend: 'print',
-					className: 'btn-info'
+					className: 'btn-info',
+					title: titleFormat,
+					messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?>',
 				},
 				'colvis',
 			]
 		});
+
+		// $('#btn-pdf').on('click', function() {
+		// 	// alert(999)
+		// 	$('#absensiTbl').tableExport({
+		// 		type: 'pdf',
+		// 		escape: 'false'
+		// 	})
+		// });
+
+		// $('#absensiTbl').tableExport({
+		// 	type: 'pdf',
+		// 	jspdf: {
+		// 		orientation: 'p',
+		// 		margins: {
+		// 			left: 20,
+		// 			top: 10
+		// 		},
+		// 		autotable: false
+		// 	}
+		// });
+
+		// onClick ="$('#tableID').tableExport({type:'pdf',escape:'false'});"
+
+		function titleFormat() {
+			let title = 'Daftar Perhitungan Skor Kehadiran Pegawai'
+			let subTitle = $('#id_divisi :selected').text()
+			st = subTitle.trim().split(' ')
+			let div = '\n' + ($('#id_divisi :selected').val() == '' ? '' : 'Divisi ' + st[1]);
+
+			let tanggal_awal = $('#tanggal_awal').val()
+			let tgl_awal = tanggal_awal.split('-')
+			let ta = tgl_awal[2] + ' ' + getMonthName(tgl_awal[1]) + ' ' + tgl_awal[0]
+
+			let tanggal_akhir = $('#tanggal_akhir').val()
+			let tgl_akhir = tanggal_akhir.split('-')
+			let tr = tgl_akhir[2] + ' ' + getMonthName(tgl_akhir[1]) + ' ' + tgl_akhir[0]
+			let tgl = '\nPeriode ' + ta + ' s/d ' + tr
+
+			return title + tgl + div
+		}
+
 
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');

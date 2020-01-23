@@ -251,6 +251,10 @@ $_SESSION['page'] = 'index';
             include "pages/laporan_absensi.php";
             break;
 
+          case 'laporan_absensi_pdf':
+            include "pages/laporan_absensi_pdf.php";
+            break;
+
           case 'pegawai':
             include "pages/pegawai.php";
             break;
@@ -548,6 +552,11 @@ $_SESSION['page'] = 'index';
   <!-- input mask -->
   <!-- <script src="vendor/js/jquery/jquery.min.js"></script>
   <script src="vendor/js/inputmask/jquery.inputmask.js"></script> -->
+
+
+  <!-- <script src="vendor/js/tableHTMLExport/tableHTMLExport.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script> -->
 
   <!-- <script src="vendor/js/jquery/jquery.min.js"></script>
   <script src="vendor/js/inputmask/jquery.inputmask.js"></script> -->
