@@ -460,7 +460,7 @@ $divisi = GetDivisiRule();
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<button class="btn btn-danger" id="btn-pdf">pdf</button>
+								<!-- <button class="btn btn-danger" id="btn-pdf">pdf</button> -->
 								<!-- <a href="#" id="">JSON</a> -->
 								<!-- <a href="#" onClick="$('#absensiTbl').tableExport({type:'json',escape:'false'});">JSON</a>
 								<a href="#" onClick="$('#absensiTbl').tableExport({type:'excel',escape:'false'});">XLS</a>
