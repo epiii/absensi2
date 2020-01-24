@@ -460,15 +460,7 @@ $divisi = GetDivisiRule();
 						<div class="col-md-12 col-md-offset-2">
 							<div class="table table-hover">
 
-								<!-- <button class="btn btn-danger" id="btn-pdf">pdf</button> -->
-								<!-- <a href="#" id="">JSON</a> -->
-								<!-- <a href="#" onClick="$('#absensiTbl').tableExport({type:'json',escape:'false'});">JSON</a>
-								<a href="#" onClick="$('#absensiTbl').tableExport({type:'excel',escape:'false'});">XLS</a>
-								<a href="#" onClick="$('#absensiTbl').tableExport({type:'csv',escape:'false'});">CSV</a>
-								<a href="#" onClick="$('#absensiTbl').tableExport({type:'pdf',escape:'false'});">PDF</a> -->
-
 								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
-									<!-- <table class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;"> -->
 									<thead>
 
 										<tr>
@@ -675,52 +667,8 @@ $divisi = GetDivisiRule();
 		return ret;
 	}
 
-	// $("#absensiTbl").tableHTMLExport({
-	// 	type: 'pdf',
-	// 	filename: 'sample.pdf'
-	// });
-
-	$('#btn-pdf').on('click', function() {
-		// $("#absensiTbl").tableHTMLExport({
-		// 	type: 'pdf',
-		// 	filename: 'sample.pdf'
-		// });
-		// let x = $('#absensiTbl').find("thead>tr:first-child>th")
-		// console.log('num', x.length)
-		// console.log('el', x)
-
-		rr = []
-		$('#absensiTbl').find("thead>tr:first-child>th").each(
-			function(index, element) {
-				var colSpan = element.getAttribute("colSpan");
-				rr.push({
-					text: element.innerHTML,
-					style: "tableHeader",
-					colSpan: colSpan
-				});
-				for (var i = 0; i < colSpan - 1; i++) {
-					rr.push({});
-				}
-			}
-		);
-		$('#absensiTbl').find("thead>tr:nth-child(2)>th").each(
-			function(index, element) {
-				var colSpan = element.getAttribute("colSpan");
-				rr.push({
-					text: element.innerHTML,
-					style: "tableHeader",
-					colSpan: colSpan
-				});
-				for (var i = 0; i < colSpan - 1; i++) {
-					rr.push({});
-				}
-			}
-		);
-		console.log(rr)
-	})
-
 	$(document).ready(function() {
-		console.log('doc ready')
+		// console.log('doc ready')
 		// $('#json').on('click', function() {
 		// 	$("#example").tableHTMLExport({
 		// 		type: 'json',
@@ -771,40 +719,415 @@ $divisi = GetDivisiRule();
 						// console.log(pdfDocument.content[2].table.headerRows=2)
 						// return false
 
-						pdfDocument.content[2].table.headerRows = 2;
+						// pdfDocument.content[2].table.headerRows = 2;
+						console.log('pdfDocument', pdfDocument.content[2].table)
 						var firstHeaderRow = [];
 						$('#absensiTbl').find("thead>tr:first-child>th").each(
 							function(index, element) {
 								var colSpan = element.getAttribute("colSpan");
+								var rowSpan = element.getAttribute("rowSpan");
+								// console.log('rows', index, rowSpan)
 								firstHeaderRow.push({
 									text: element.innerHTML,
 									style: "tableHeader",
-									colSpan: colSpan
+									colSpan: colSpan,
+									rowSpan: rowSpan,
+									vAlign: 'middle',
+									// style: {
+									// 	verticalAlign: 'middle'
+									// }
+									// alignment: 'right'
 								});
+								// console.log('rows', index, rowSpan)
 								for (var i = 0; i < colSpan - 1; i++) {
 									firstHeaderRow.push({});
 								}
+								// for (var i = 0; i < rowSpan - 1; i++) {
+								// 	firstHeaderRow.push({});
+								// }
 							}
 						);
+						// console.log('isRow', firstHeaderRow[0].rowSpan)
+						let secondHeaderRow = []
+						let thirdHeaderRow = []
+						let row1 = $('#absensiTbl').find("thead>tr:nth-child(1)>th")
+						let row2 = $('#absensiTbl').find("thead>tr:nth-child(2)>th")
+						let row3 = $('#absensiTbl').find("thead>tr:nth-child(3)>th")
+						console.log('row 1', row1)
+						console.log('row 2', row2)
+						console.log('row 3', row3)
+						console.log('n row1', firstHeaderRow.length)
+						console.log('n row2', secondHeaderRow.length)
 
-						// var secondHeaderRow = [];
-						// $('#absensiTbl').find("thead>tr:nth-child(2)>th").each(
-						// 	function(index, element) {
-						// 		var colSpan = element.getAttribute("colSpan");
-						// 		secondHeaderRow.push({
-						// 			text: element.innerHTML,
-						// 			style: "tableHeader",
-						// 			colSpan: colSpan
-						// 		});
-						// 		for (var i = 0; i < colSpan - 1; i++) {
-						// 			secondHeaderRow.push({});
-						// 		}
-						// 	}
-						// );
-						console.log('first',firstHeaderRow)
-						// console.log('second',secondHeaderRow)
-						pdfDocument.content[2].table.body.unshift(firstHeaderRow);
-						// pdfDocument.content[2].table.body.unshift(secondHeaderRow);
+						let xx = 0
+						const nCol = firstHeaderRow.length
+						for (let j = 0; j < nCol; j++) {
+							if (firstHeaderRow[j].rowSpan > 1) {
+								secondHeaderRow.push({});
+							} else {
+								var colSpan = row2[xx] ? row2[xx].colSpan : 1;
+								var rowSpan = row2[xx] ? row2[xx].rowSpan : 1;
+
+								if (row2[xx]) {
+									secondHeaderRow.push({
+										text: row2[xx] ? row2[xx].innerHTML : '',
+										style: "tableHeader",
+										rowSpan: rowSpan,
+										colSpan: colSpan
+									});
+									if (colSpan > 1) {
+										for (var i = 0; i < colSpan - 1; i++) {
+											secondHeaderRow.push({});
+										}
+									}
+									xx++
+								}
+							}
+						}
+
+						let yy = 0
+						// const nCol = firstHeaderRow.length
+						for (let y = 0; y < nCol; y++) {
+							if (firstHeaderRow[y].rowSpan > 1) {
+								thirdHeaderRow.push({});
+							} else {
+								var colSpan = row3[yy] ? row3[yy].colSpan : 1;
+								var rowSpan = row3[yy] ? row3[yy].rowSpan : 1;
+
+								if (row3[yy]) {
+									thirdHeaderRow.push({
+										text: row3[yy] ? row3[yy].innerHTML : '',
+										style: "tableHeader",
+										rowSpan: rowSpan,
+										colSpan: colSpan
+									});
+									if (colSpan > 1) {
+										for (var i = 0; i < colSpan - 1; i++) {
+											thirdHeaderRow.push({});
+										}
+									}
+									yy++
+								}
+							}
+						}
+
+						console.log(' first', firstHeaderRow)
+						console.log(' second', secondHeaderRow)
+						console.log(' third', thirdHeaderRow)
+						let _1headerRow = [{
+								text: '\n\nno',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 3,
+							},
+							{
+								text: '\n\nNama',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 3,
+							},
+							{
+								text: '\n\nNIP',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 3,
+							},
+							{
+								text: 'Tingkat Ketidakhadiran Berdasarkan Rumus Skor',
+								style: "tableHeader",
+								colSpan: 19,
+								rowSpan: 1,
+							},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{
+								text: '\nKehadiran %',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 3
+							},
+						];
+
+						let _3headerRow = [{},
+							{},
+							{},
+							{
+								text: '',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'right',
+								margin: 0,
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'right',
+								margin: 0,
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: 'jml',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+							},
+							{
+								text: '%',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+								alignment: 'center',
+								margin: [0, 0, 0, 0],
+								padding: [0, 0, 0, 0],
+								border: [true, true, true, true],
+								// fillColor: '#fff',
+								color:'#ffffff'
+							},
+							// {},
+						];
+
+						let _2headerRow = [{},
+							{},
+							{},
+							{
+								text: '05-30 menit',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: '31-60 menit',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: '61-120 menit',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: '>120 menit',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'TMK 1 hari',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'Diklat',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'Tidak SKJ',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'Tidak Finger',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'Dispensasi',
+								style: "tableHeader",
+								colSpan: 2,
+								rowSpan: 1,
+							},
+							{},
+							{
+								text: 'JML Telat %',
+								style: "tableHeader",
+								colSpan: 1,
+								rowSpan: 1,
+							},
+							{},
+						];
+						// pdfDocument.content[2].table.body.unshift(firstHeaderRow, secondHeaderRow, thirdHeaderRow);
+						// pdfDocument.content[2].table.body.splice(0, 1, firstHeaderRow, secondHeaderRow, thirdHeaderRow);
+						pdfDocument.content[2].table.body.splice(0, 1, _1headerRow, _2headerRow, _3headerRow);
 					}
 				},
 				{
