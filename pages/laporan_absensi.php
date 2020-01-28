@@ -681,6 +681,373 @@ $divisi = GetDivisiRule();
 		// 		filename: 'sample.csv'
 		// 	});
 		// })
+		let _1headerRow = [{
+				text: '\n\nno',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 3,
+			},
+			{
+				text: '\n\nNama',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 3,
+			},
+			{
+				text: '\n\nNIP',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 3,
+			},
+			{
+				text: 'Tingkat Ketidakhadiran Berdasarkan Rumus Skor',
+				style: "tableHeader",
+				colSpan: 19,
+				rowSpan: 1,
+			},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{
+				text: '\nKehadiran %',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 3
+			},
+		];
+
+		let _3headerRow = [{},
+			{},
+			{},
+			{
+				text: '',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'right',
+				margin: 0,
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'right',
+				margin: 0,
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: 'jml',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+			},
+			{
+				text: '%',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+				alignment: 'center',
+				margin: [0, 0, 0, 0],
+				padding: [0, 0, 0, 0],
+				border: [true, true, true, true],
+				// fillColor: '#fff',
+				color: '#ffffff'
+			},
+			// {},
+		];
+
+		let _2headerRow = [{},
+			{},
+			{},
+			{
+				text: '05-30 menit',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: '31-60 menit',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: '61-120 menit',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: '>120 menit',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'TMK 1 hari',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'Diklat',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'Tidak SKJ',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'Tidak Finger',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'Dispensasi',
+				style: "tableHeader",
+				colSpan: 2,
+				rowSpan: 1,
+			},
+			{},
+			{
+				text: 'JML Telat %',
+				style: "tableHeader",
+				colSpan: 1,
+				rowSpan: 1,
+			},
+			{},
+		];
+
+		var _fnGetHeaders = function(dt) {
+			alert('masuk excel')
+			var thRows = $(dt.header()[0]).children();
+			var numRows = thRows.length;
+			var matrix = [];
+
+			// Iterate over each row of the header and add information to matrix.
+			for (var rowIdx = 0; rowIdx < numRows; rowIdx++) {
+				var $row = $(thRows[rowIdx]);
+
+				// Iterate over actual columns specified in this row.
+				var $ths = $row.children("th");
+				for (var colIdx = 0; colIdx < $ths.length; colIdx++) {
+					var $th = $($ths.get(colIdx));
+					var colspan = $th.attr("colspan") || 1;
+					var rowspan = $th.attr("rowspan") || 1;
+					var colCount = 0;
+
+					// ----- add this cell's title to the matrix
+					if (matrix[rowIdx] === undefined) {
+						matrix[rowIdx] = []; // create array for this row
+					}
+					// find 1st empty cell
+					for (var j = 0; j < (matrix[rowIdx]).length; j++, colCount++) {
+						if (matrix[rowIdx][j] === "PLACEHOLDER") {
+							break;
+						}
+					}
+					var myColCount = colCount;
+					matrix[rowIdx][colCount++] = $th.text();
+
+					// ----- If title cell has colspan, add empty titles for extra cell width.
+					for (var j = 1; j < colspan; j++) {
+						matrix[rowIdx][colCount++] = "";
+					}
+
+					// ----- If title cell has rowspan, add empty titles for extra cell height.
+					for (var i = 1; i < rowspan; i++) {
+						var thisRow = rowIdx + i;
+						if (matrix[thisRow] === undefined) {
+							matrix[thisRow] = [];
+						}
+						// First add placeholder text for any previous columns.                 
+						for (var j = (matrix[thisRow]).length; j < myColCount; j++) {
+							matrix[thisRow][j] = "PLACEHOLDER";
+						}
+						for (var j = 0; j < colspan; j++) { // and empty for my columns
+							matrix[thisRow][myColCount + j] = "";
+						}
+					}
+				}
+			}
+
+			return matrix;
+		};
 
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
@@ -716,11 +1083,8 @@ $divisi = GetDivisiRule();
 						orthogonal: 'export'
 					},
 					customize: function(pdfDocument) {
-						// console.log(pdfDocument.content[2].table.headerRows=2)
-						// return false
-
 						// pdfDocument.content[2].table.headerRows = 2;
-						console.log('pdfDocument', pdfDocument.content[2].table)
+						/* console.log('pdfDocument', pdfDocument.content[2].table)
 						var firstHeaderRow = [];
 						$('#absensiTbl').find("thead>tr:first-child>th").each(
 							function(index, element) {
@@ -742,24 +1106,20 @@ $divisi = GetDivisiRule();
 								for (var i = 0; i < colSpan - 1; i++) {
 									firstHeaderRow.push({});
 								}
-								// for (var i = 0; i < rowSpan - 1; i++) {
-								// 	firstHeaderRow.push({});
-								// }
 							}
-						);
-						// console.log('isRow', firstHeaderRow[0].rowSpan)
-						let secondHeaderRow = []
-						let thirdHeaderRow = []
-						let row1 = $('#absensiTbl').find("thead>tr:nth-child(1)>th")
-						let row2 = $('#absensiTbl').find("thead>tr:nth-child(2)>th")
-						let row3 = $('#absensiTbl').find("thead>tr:nth-child(3)>th")
-						console.log('row 1', row1)
-						console.log('row 2', row2)
-						console.log('row 3', row3)
-						console.log('n row1', firstHeaderRow.length)
-						console.log('n row2', secondHeaderRow.length)
+						); */
+						// let secondHeaderRow = []
+						// let thirdHeaderRow = []
+						// let row1 = $('#absensiTbl').find("thead>tr:nth-child(1)>th")
+						// let row2 = $('#absensiTbl').find("thead>tr:nth-child(2)>th")
+						// let row3 = $('#absensiTbl').find("thead>tr:nth-child(3)>th")
+						// console.log('row 1', row1)
+						// console.log('row 2', row2)
+						// console.log('row 3', row3)
+						// console.log('n row1', firstHeaderRow.length)
+						// console.log('n row2', secondHeaderRow.length)
 
-						let xx = 0
+						/* let xx = 0
 						const nCol = firstHeaderRow.length
 						for (let j = 0; j < nCol; j++) {
 							if (firstHeaderRow[j].rowSpan > 1) {
@@ -783,10 +1143,9 @@ $divisi = GetDivisiRule();
 									xx++
 								}
 							}
-						}
+						} */
 
-						let yy = 0
-						// const nCol = firstHeaderRow.length
+						/* let yy = 0
 						for (let y = 0; y < nCol; y++) {
 							if (firstHeaderRow[y].rowSpan > 1) {
 								thirdHeaderRow.push({});
@@ -809,323 +1168,12 @@ $divisi = GetDivisiRule();
 									yy++
 								}
 							}
-						}
+						} */
 
-						console.log(' first', firstHeaderRow)
-						console.log(' second', secondHeaderRow)
-						console.log(' third', thirdHeaderRow)
-						let _1headerRow = [{
-								text: '\n\nno',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 3,
-							},
-							{
-								text: '\n\nNama',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 3,
-							},
-							{
-								text: '\n\nNIP',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 3,
-							},
-							{
-								text: 'Tingkat Ketidakhadiran Berdasarkan Rumus Skor',
-								style: "tableHeader",
-								colSpan: 19,
-								rowSpan: 1,
-							},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{},
-							{
-								text: '\nKehadiran %',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 3
-							},
-						];
+						// console.log(' first', firstHeaderRow)
+						// console.log(' second', secondHeaderRow)
+						// console.log(' third', thirdHeaderRow)
 
-						let _3headerRow = [{},
-							{},
-							{},
-							{
-								text: '',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'right',
-								margin: 0,
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'right',
-								margin: 0,
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: 'jml',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-							},
-							{
-								text: '%',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-								alignment: 'center',
-								margin: [0, 0, 0, 0],
-								padding: [0, 0, 0, 0],
-								border: [true, true, true, true],
-								// fillColor: '#fff',
-								color:'#ffffff'
-							},
-							// {},
-						];
-
-						let _2headerRow = [{},
-							{},
-							{},
-							{
-								text: '05-30 menit',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: '31-60 menit',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: '61-120 menit',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: '>120 menit',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'TMK 1 hari',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'Diklat',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'Tidak SKJ',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'Tidak Finger',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'Dispensasi',
-								style: "tableHeader",
-								colSpan: 2,
-								rowSpan: 1,
-							},
-							{},
-							{
-								text: 'JML Telat %',
-								style: "tableHeader",
-								colSpan: 1,
-								rowSpan: 1,
-							},
-							{},
-						];
-						// pdfDocument.content[2].table.body.unshift(firstHeaderRow, secondHeaderRow, thirdHeaderRow);
 						// pdfDocument.content[2].table.body.splice(0, 1, firstHeaderRow, secondHeaderRow, thirdHeaderRow);
 						pdfDocument.content[2].table.body.splice(0, 1, _1headerRow, _2headerRow, _3headerRow);
 					}
@@ -1137,6 +1185,101 @@ $divisi = GetDivisiRule();
 					title: titleFormat,
 					messageTop: 'Total Data : <?php echo $no; ?>',
 					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					customize: function(xlsx) {
+						// 	//Apply styles, Center alignment of text and making it bold.
+						// 	var sSh = xlsx.xl['styles.xml'];
+						// 	var lastXfIndex = $('cellXfs xf', sSh).length - 1;
+						// 	var n1 = '<numFmt formatCode="##0.0000%" numFmtId="300"/>';
+						// 	var s2 = '<xf numFmtId="0" fontId="2" fillId="0" borderId="0" applyFont="1" applyFill="0" applyBorder="0" xfId="0" applyAlignment="1">' +
+						// 		'<alignment horizontal="center"/></xf>';
+						// 	'<alignment horizontal="center"/></xf>';
+						// 	sSh.childNodes[0].childNodes[0].innerHTML += n1;
+						// 	sSh.childNodes[0].childNodes[5].innerHTML += s2;
+						// 	var greyBoldCentered = lastXfIndex + 1;
+
+						// 	//Merge cells as per the table's colspan
+						// 	var sheet = xlsx.xl.worksheets['sheet1.xml'];
+						// 	var dt = $('#absensiTbl').DataTable();
+						// 	var frColSpan = $(dt.table().header()).find('th:nth-child(1)').prop('colspan');
+						// 	var srColSpan = $(dt.table().header()).find('th:nth-child(2)').prop('colspan');
+						// 	var columnToStart = 2;
+						// 	var mergeCells = $('mergeCells', sheet);
+
+						// 	mergeCells[0].appendChild(_createNode(sheet, 'mergeCell', {
+						// 		attr: {
+						// 			ref: 'A1:' + toColumnName(frColSpan) + '1'
+						// 		}
+						// 	}));
+
+						// 	mergeCells.attr('count', mergeCells.attr('count') + 1);
+
+						// 	var columnToStart = 2;
+						// 	while (columnToStart <= frColSpan) {
+						// 		mergeCells[0].appendChild(_createNode(sheet, 'mergeCell', {
+						// 			attr: {
+						// 				ref: toColumnName(columnToStart) + '2:' + toColumnName((columnToStart - 1) + srColSpan) + '2'
+						// 			}
+						// 		}));
+						// 		columnToStart = columnToStart + srColSpan;
+						// 		mergeCells.attr('count', mergeCells.attr('count') + 1);
+						// 	}
+
+						// 	//Text alignment to center and apply bold
+						// 	$('row:nth-child(1) c:nth-child(1)', sheet).attr('s', greyBoldCentered);
+						// 	for (i = 0; i < frColSpan; i++) {
+						// 		$('row:nth-child(2) c:nth-child(' + i + ')', sheet).attr('s', greyBoldCentered);
+						// 	}
+
+						// 	function _createNode(doc, nodeName, opts) {
+						// 		var tempNode = doc.createElement(nodeName);
+						// 		if (opts) {
+						// 			if (opts.attr) {
+						// 				$(tempNode).attr(opts.attr);
+						// 			}
+						// 			if (opts.children) {
+						// 				$.each(opts.children, function(key, value) {
+						// 					tempNode.appendChild(value);
+						// 				});
+						// 			}
+						// 			if (opts.text !== null && opts.text !== undefined) {
+						// 				tempNode.appendChild(doc.createTextNode(opts.text));
+						// 			}
+						// 		}
+						// 		return tempNode;
+						// 	}
+
+						// 	//Function to fetch the cell name
+						// 	function toColumnName(num) {
+						// 		for (var ret = '', a = 1, b = 26;
+						// 			(num -= a) >= 0; a = b, b *= 26) {
+						// 			ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
+						// 		}
+						// 		return ret;
+						// 	}
+						// },
+
+						// _fnGetHeaders: function() {
+						// 	var dt = this.s.dt;
+						// 	akert(dt)
+						// 	return false
+						// 	var thRows = dt.nTHead.rows;
+						// 	var numRows = thRows.length;
+						// 	var matrix = [];
+						// }
+
+
+						// if (config.header) {
+						// 	/* ----- BEGIN changed Code ----- */
+						// 	var headerMatrix = _fnGetHeaders(dt);
+						// 	for (var rowIdx = 0; rowIdx < headerMatrix.length; rowIdx++) {
+						// 		addRow(headerMatrix[rowIdx], rowPos);
+						// 	}
+						// 	/* ----- OLD Code that is replaced: ----- */
+						// 	//addRow( data.header, rowPos );
+						// 	/* ----- END changed Code ----- */
+						// 	$('row c', rels).attr('s', '2'); // bold
+						// }
+					}
 				},
 				{
 					extend: 'print',
@@ -1144,6 +1287,9 @@ $divisi = GetDivisiRule();
 					title: titleFormat,
 					messageTop: 'Total Data : <?php echo $no; ?>',
 					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					customize: function(pdfDocument) {
+						pdfDocument.content[2].table.body.splice(0, 1, _1headerRow, _2headerRow, _3headerRow);
+					}
 				},
 				'colvis',
 			]

@@ -48,16 +48,18 @@ function GetAll()
 
 function GetOne($id)
 {
-	// vd($id);
 	global $dbconnect;
-	$query = "SELECT * FROM  `tb1_karyawan` WHERE  `id` =  '$id'";
+	$query = "SELECT * FROM  `tb_id` WHERE  `id` =  '$id'";
+	// $query = "SELECT * FROM  `tb1_karyawan` WHERE  `id` =  '$id'";
+	// vd($query);
 	$exe = mysqli_query($dbconnect, $query);
 	$data = mysqli_fetch_assoc($exe);
 	// $tgl = $data['tanggal_lahir'];
 	// $tglx = explode('-', $tgl);
 	$res = array(
 		'id' => $data['id'],
-		'tag' => $data['tag'],
+		'uid' => $data['uid'],
+		// 'tag' => $data['tag'],
 		'nama' => $data['nama'],
 		'id_jabatan' => $data['id_jabatan'],
 		'jenis_kelamin' => $data['jenis_kelamin'],

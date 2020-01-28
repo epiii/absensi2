@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-24 09:06:06
+Date: 2020-01-29 04:52:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -618,16 +618,41 @@ INSERT INTO `tb_absen` VALUES ('99', '5', '08:15', '16:30', '15', '0', '1', '0',
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_id`;
 CREATE TABLE `tb_id` (
-  `id` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` varchar(50) DEFAULT NULL,
   `nama` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `notifikasi` int(11) NOT NULL,
+  `id_jabatan` int(11) NOT NULL,
+  `jenis_kelamin` int(11) NOT NULL,
+  `no_induk` varchar(222) NOT NULL,
+  `tanggal_lahir` date NOT NULL,
+  `no_hp` varchar(22) NOT NULL,
+  `alamat` text NOT NULL,
+  `kota` varchar(222) NOT NULL,
+  `provinsi` varchar(111) NOT NULL,
+  `kode_pos` varchar(11) NOT NULL,
+  `goldar` varchar(2) NOT NULL,
+  `id_agama` int(11) NOT NULL,
+  `id_status_kawin` varchar(11) NOT NULL,
+  `id_divisi` int(11) NOT NULL,
+  `pendidikan` text NOT NULL,
+  `gelar` varchar(22) NOT NULL,
+  `no_sk` text NOT NULL,
+  `nip` text NOT NULL,
+  `id_kategori_karyawan` int(11) NOT NULL,
+  `npwp` text NOT NULL,
+  `norek` text NOT NULL,
+  `status` varchar(11) NOT NULL DEFAULT '1',
+  `created_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
+INSERT INTO `tb_id` VALUES ('3', 'w', 'jos ua', 'jshdfj@fjdskhf.c', '0', '0', '2', '', '0000-00-00', '', '', '', '', '', '', '9', '16', '25', '', '', '', '123213', '0', '', '', '1', '0', '2020-01-29 04:50:13');
 
 -- ----------------------------
 -- Table structure for tb_pengguna

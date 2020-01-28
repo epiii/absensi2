@@ -3,25 +3,19 @@ if (isset($_SESSION['page'])) {
 } else {
 	header("location: ../index.php?page=dashboard&error=true");
 }
-$absent = '';
-$flag = '0';
 
-// if (isset($_POST['tanggal'])) {
-// 	$flag = '0';
-// 	$date = $_POST['tanggal'];
-// 	$absent = $date;
-// 	$sql = mysqli_query($dbconnect, "SELECT tb_absen.id, tb_id.nama, tb_absen.masuk, tb_absen.keluar, tb_absen.date, tb_absen.status, tb_absen.keterangan FROM tb_absen INNER JOIN tb_id ON tb_absen.id=tb_id.id WHERE date='$date'");
-// } else {
-$flag = '0';
-$date = date('Y-m-d');
-$absent = $date;
 $query = "SELECT
-			d.*, k.*
-		FROM tb1_karyawan k
-			LEFT JOIN vw_divisi d ON d.id_divisi = k.id_divisi
-		ORDER BY k.nama ASC";
+			d.*, i.*
+		FROM tb_id i
+			LEFT JOIN vw_divisi d ON d.id_divisi = i.id_divisi
+		ORDER BY i.nama ASC";
+// $query = "SELECT
+// 			d.*, k.*
+// 		FROM tb1_karyawan k
+// 			LEFT JOIN vw_divisi d ON d.id_divisi = k.id_divisi
+// 		ORDER BY k.nama ASC";
 $sql = mysqli_query($dbconnect, $query);
-// vd($sql);
+// vd($query);
 // }
 
 ?>
@@ -65,7 +59,8 @@ $sql = mysqli_query($dbconnect, $query);
 								<table id="pegawaiTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
 									<thead>
 										<tr>
-											<th>no</th>
+											<!-- <th>no</th> -->
+											<th>UID</th>
 											<th>NIP</th>
 											<th>Nama</th>
 											<th>Divisi</th>
@@ -83,7 +78,8 @@ $sql = mysqli_query($dbconnect, $query);
 											$no++;
 										?>
 											<tr class="<?php echo $color; ?>">
-												<td><?php echo $no; ?>.</td>
+												<!-- <td><?php echo $no; ?>.</td> -->
+												<td><?php echo $data['uid']; ?></td>
 												<td><?php echo $data['nip']; ?></td>
 												<td><?php echo $data['nama']; ?></td>
 												<td><?php echo $data['nama_divisi']; ?></td>

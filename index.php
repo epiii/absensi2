@@ -513,8 +513,6 @@ $_SESSION['page'] = 'index';
       loop();
     }
 
-
-
     var i = 1;
 
     function loop() {

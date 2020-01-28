@@ -8,6 +8,7 @@ if (isset($_POST['add_pegawai'])) {
 	// $password = mysql_real_escape_string(trim($_POST['password']));
 
 	$id = $_POST['id'];
+	$uid = $_POST['uid'];
 	$nama = $_POST['nama'];
 	$jabatan = $_POST['jabatan'];
 	$jenis_kelamin = $_POST['jenis_kelamin'];
@@ -24,7 +25,9 @@ if (isset($_POST['add_pegawai'])) {
 	$kategori_karyawan = $_POST['kategori_karyawan'];
 	$npwp = $_POST['npwp'];
 
-	$query = "INSERT INTO `tb1_karyawan` (
+	// -- $query = "INSERT INTO `tb1_karyawan` (
+	$query = "INSERT INTO `tb_id` (
+		`uid`,
 		`nama`,
 		`id_jabatan`,
 		`jenis_kelamin`,
@@ -42,6 +45,7 @@ if (isset($_POST['add_pegawai'])) {
 		`npwp`
 	)
 	VALUES (
+		'$uid',
 		'$nama',
 		'$jabatan',
 		'$jenis_kelamin',

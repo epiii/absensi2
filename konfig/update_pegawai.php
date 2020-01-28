@@ -34,7 +34,8 @@ if (isset($_POST['update_pegawai'])) {
 	// $created_by = $_POST['created_by'];
 
 		// `tag`='$tag',
-	$query = "UPDATE `tb1_karyawan` SET
+	// $query = "UPDATE `tb1_karyawan` SET
+	$query = "UPDATE `tb_id` SET
 		`nama`='$nama',
 		`id_jabatan`='$jabatan',
 		`jenis_kelamin`='$jenis_kelamin',
