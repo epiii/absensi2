@@ -8,7 +8,13 @@ require_once './konfig/connection.php';
 function GetAll()
 {
 	global $dbconnect;
-	$query = "SELECT a.*, b.nama_jabatan as nama_jabatan, c.nama_divisi as nama_divisi FROM karyawan a left join jabatan b on a.jabatan = b.kode_jabatan left join divisi c on a.divisi = c.kode_divisi";
+	$query = "SELECT 
+				a.*, b.nama_jabatan as nama_jabatan, c.nama_divisi as nama_divisi 
+			FROM 
+				karyawan a 
+			LEFT JOIN jabatan b on a.jabatan = b.kode_jabatan 
+			LEFT JOIN divisi c on a.divisi = c.kode_divisi";
+	// $query = "SELECT a.*, b.nama_jabatan as nama_jabatan, c.nama_divisi as nama_divisi FROM karyawan a left join jabatan b on a.jabatan = b.kode_jabatan left join divisi c on a.divisi = c.kode_divisi";
 	$exe = mysqli_query($dbconnect, $query);
 	// $exe = mysqli_query(Connect(), $query);
 	while ($data = mysqli_fetch_assoc($exe)) {

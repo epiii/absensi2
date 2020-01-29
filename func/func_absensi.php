@@ -18,20 +18,36 @@ if (isset($_REQUEST['ajax'])) {
 		// $tanggal = $_GET['tanggal'];
 
 		$ss = 'SELECT 
-				k.id,
-				k.nama,
-				k.nip,
+				i.id,
+				i.nama,
+				i.nip,
 				j.*,
 				d.*,
 				kk.*
-			FROM tb1_karyawan k
-				LEFT JOIN vw_jabatan j on j.id_jabatan= k.id_jabatan
-				LEFT JOIN vw_divisi d on d.id_divisi = k.id_divisi
-				LEFT JOIN vw_katkaryawan kk on kk.id_katkaryawan= k.id_kategori_karyawan
+			FROM tb_id i
+				LEFT JOIN vw_jabatan j on j.id_jabatan= i.id_jabatan
+				LEFT JOIN vw_divisi d on d.id_divisi = i.id_divisi
+				LEFT JOIN vw_katkaryawan kk on kk.id_katkaryawan= i.id_kategori_karyawan
 			WHERE 
-				k.nama LIKE "%' . $searchTerm . '%"  
-				OR k.nip LIKE "%' . $searchTerm . '%"  
+				i.nama LIKE "%' . $searchTerm . '%"  
+				OR i.nip LIKE "%' . $searchTerm . '%"  
 			';
+		// pr($ss);
+		// $ss = 'SELECT 
+		// 		k.id,
+		// 		k.nama,
+		// 		k.nip,
+		// 		j.*,
+		// 		d.*,
+		// 		kk.*
+		// 	FROM tb1_karyawan k
+		// 		LEFT JOIN vw_jabatan j on j.id_jabatan= k.id_jabatan
+		// 		LEFT JOIN vw_divisi d on d.id_divisi = k.id_divisi
+		// 		LEFT JOIN vw_katkaryawan kk on kk.id_katkaryawan= k.id_kategori_karyawan
+		// 	WHERE 
+		// 		k.nama LIKE "%' . $searchTerm . '%"  
+		// 		OR k.nip LIKE "%' . $searchTerm . '%"  
+		// 	';
 		// $ss = 'SELECT 
 		// 			k.id,
 		// 			k.nip,
@@ -43,6 +59,86 @@ if (isset($_REQUEST['ajax'])) {
 		// 				SELECT id_karyawan FROM tb_absen where date ="' . $tanggal . '"
 		// 			)
 		// 			';
+		// pr($ss);
+		$result = mysqli_query($dbconnect, $ss);
+		$row    = mysqli_fetch_array($result);
+		$count  = mysqli_num_rows($result);
+
+		if ($count > 0) {
+			$total_pages = ceil($count / $limit);
+		} else {
+			$total_pages = 0;
+		}
+		if ($page > $total_pages) $page = $total_pages;
+		$start 	= $limit * $page - $limit; // do not put $limit*($page - 1)
+		if ($total_pages != 0) {
+			$ss .= 'ORDER BY ' . $sidx . ' ' . $sord . ' LIMIT ' . $start . ',' . $limit;
+		} else {
+			$ss .= 'ORDER BY ' . $sidx . ' ' . $sord;
+		}
+		$result = mysqli_query($dbconnect, $ss); //or die("Couldn t execute query." . mysqli_error());
+		$rows 	= array();
+		while ($row = mysqli_fetch_assoc($result)) {
+			$s = 'SELECT *
+			FROM tb1_setting2 
+			WHERE id_divisi = "' . $row['id_divisi'] . '" AND isActive="1"';
+			$e = mysqli_query($dbconnect, $s);
+			$detRows = [];
+			while ($r = mysqli_fetch_assoc($e)) {
+				$detRows[] = $r;
+			}
+
+			$rows[] = array(
+				'id' => $row['id'],
+				'nip' => $row['nip'] ? $row['nip'] : '-',
+				'nama' => $row['nama'],
+				'jabatan' => $row['nama_jabatan'] ? $row['nama_jabatan'] : '-',
+				'id_jabatan' => $row['id_jabatan'] ? $row['id_jabatan'] : '-',
+				'divisi' => $row['nama_divisi'] ? $row['nama_divisi'] : '-',
+				'id_divisi' => $row['id_divisi'] ? $row['id_divisi'] : '-',
+
+				//detail
+				'rule_masuk' => $row['id_divisi'] != null ? $detRows[0] : '',
+				'rule_keluar' => $row['id_divisi'] != null ? $detRows[1] : '',
+			);
+		}
+
+		$response = array(
+			'page'    => $page,
+			'total'   => $total_pages,
+			'records' => $count,
+			'rows'    => $rows,
+		);
+		$out = json_encode($response);
+		echo $out;
+	} elseif (isset($_GET['karyawan_pengguna'])) {
+		global $dbconnect;
+		$page       = $_GET['page']; // get the requested page
+		$limit      = $_GET['rows']; // get how many rows we want to have into the grid
+		$sidx       = 'nama'; // get index row - i.e. user click to sort
+		// $sidx       = $_GET['sidx']; // get index row - i.e. user click to sort
+		$sord       = $_GET['sord']; // get the direction
+		$searchTerm = $_GET['searchTerm'];
+
+		$ss = 'SELECT
+					i.*, d.*, j.*
+				FROM
+					tb_id i
+				LEFT JOIN vw_divisi d ON d.id_divisi = i.id_divisi
+				LEFT JOIN vw_jabatan j ON j.id_jabatan = i.id_jabatan
+				WHERE
+					i.id NOT IN (
+						SELECT
+							id_karyawan
+						FROM
+							tb_pengguna
+						WHERE
+							LEVEL = 1
+							' . (isset($_GET['id_karyawan']) && $_GET['id_karyawan'] != '' ? ' AND id_karyawan != ' . $_GET['id_karyawan'] : '') . '
+					) 
+					AND i.nama LIKE "%' . $searchTerm . '%"  
+					OR i.nip LIKE "%' . $searchTerm . '%"  
+			';
 		// pr($ss);
 		$result = mysqli_query($dbconnect, $ss);
 		$row    = mysqli_fetch_array($result);

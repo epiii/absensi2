@@ -96,7 +96,7 @@ if (!isset($_SESSION['page'])) {
 							<div class="form-group">
 								<label for="exampleInputEmail1">UID</label>
 								<input type="hidden" name="id">
-								<input type="text" placeholder="RFID misal : 5x73Ef7" class="form-control" " name=" uid">
+								<input type="text" placeholder="RFID misal : 5x73Ef7" class="form-control" " name="uid">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">nama</label>
@@ -179,7 +179,7 @@ if (!isset($_SESSION['page'])) {
 						</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">email</label>
-								<input required class="form-control" type="email" name=" email" placeholder="Masukan email">
+								<input required class="form-control" type="text" " name=" email" placeholder="Masukan email">
 							</div>
 							<!-- <div class="form-group">
 							<label for="exampleInputEmail1">pendidikan</label>
@@ -204,7 +204,7 @@ if (!isset($_SESSION['page'])) {
 						</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">nip</label>
-								<input class="form-control" type="text" " name=" nip" placeholder="Masukan nip">
+								<input required class="form-control" type="text" " name=" nip" placeholder="Masukan nip">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">jabatan</label>

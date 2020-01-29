@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-29 04:52:59
+Date: 2020-01-30 01:21:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -647,12 +647,14 @@ CREATE TABLE `tb_id` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
-INSERT INTO `tb_id` VALUES ('3', 'w', 'jos ua', 'jshdfj@fjdskhf.c', '0', '0', '2', '', '0000-00-00', '', '', '', '', '', '', '9', '16', '25', '', '', '', '123213', '0', '', '', '1', '0', '2020-01-29 04:50:13');
+INSERT INTO `tb_id` VALUES ('3', 'h53i9d', 'jackie chan', 'jshdfj@fjdskhf.c', '0', '19', '2', '', '0000-00-00', '', '', '', '', '', '', '9', '16', '25', '', '', '', '123213', '0', '', '', '1', '0', '2020-01-29 08:35:11');
+INSERT INTO `tb_id` VALUES ('4', '6g8df87fq', 'udin sedunia', 'fsdf@fsdfs.fsd', '0', '0', '1', '', '1998-10-28', '', '', '', '', '', '', '13', '15', '23', '', '', '', '1', '0', '', '', '1', '0', '2020-01-30 00:50:00');
+INSERT INTO `tb_id` VALUES ('5', '123', 'mbah surip', 'fsd@dsf.csdf', '0', '0', '1', '', '2020-01-24', '', '', '', '', '', '', '0', '', '26', '', '', '', '', '0', '', '', '1', '0', '2020-01-30 00:51:26');
 
 -- ----------------------------
 -- Table structure for tb_pengguna
@@ -663,16 +665,19 @@ CREATE TABLE `tb_pengguna` (
   `username` varchar(22) NOT NULL,
   `password` varchar(22) NOT NULL,
   `level` int(1) NOT NULL,
+  `id_karyawan` int(11) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
 -- ----------------------------
-INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0');
-INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0');
-INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0');
-INSERT INTO `tb_pengguna` VALUES ('9', 'adminz', 'adminz', '0');
+INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0', null);
+INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0', null);
+INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0', null);
+INSERT INTO `tb_pengguna` VALUES ('13', 'adminz', 'adminz', '0', null);
+INSERT INTO `tb_pengguna` VALUES ('17', 'fsdf', 'fsdf', '1', '3');
+INSERT INTO `tb_pengguna` VALUES ('19', 'udin', 'udin', '1', '4');
 
 -- ----------------------------
 -- Table structure for tb_rfid
