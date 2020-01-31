@@ -1,9 +1,15 @@
 <title>anu</title>
 <?php
-if (isset($_SESSION['page'])) {
-} else {
-	header("location: ../index.php?page=dashboard&error=true");
+// print_r($_SESSION);
+// if (isset($_SESSION['page'])) {
+// } else {
+// 	header("location: ../index.php?page=dashboard&error=true");
+// }
+
+if (!isset($_SESSION['page'])) {
+	echo '<script>alert("Anda tidak mempunyai hak akses");window.location.replace("index.php?page=dashboard")</script>';
 }
+
 $absent = '';
 $flag = '0';
 // if (isset($_POST['tanggal_awal'])) {
@@ -16,6 +22,9 @@ $flag = '0';
 $flag = '0';
 $date = date('Y-m-d');
 $absent = $date;
+// pr($_SESSION);
+
+$link_tambah = isset($_SESSION['id_karyawan']) ? 'tambah_absensi_user' : 'tambah_absensi';
 
 $tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date('Y-m-d');
 $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-d');
@@ -35,13 +44,14 @@ $query = ' 	SELECT
 					k.nama,
 					tp.nama_tipepresensi
 				FROM tb_absen a
-				JOIN tb1_karyawan k ON k.id = a.id_karyawan
-				JOIN vw_tipepresensi tp ON tp.id_tipepresensi = a.id_tipe_presensi
+					JOIN tb_id k ON k.id = a.id_karyawan
+					JOIN vw_tipepresensi tp ON tp.id_tipepresensi = a.id_tipe_presensi
 				WHERE
 					a.date >= "' . $tanggal_awal . '"
-				AND a.date <=  "' . $tanggal_akhir . '"';
-$sql = mysqli_query($dbconnect, $query);
+					AND a.date <=  "' . $tanggal_akhir . '" ' . (isset($_SESSION['id_karyawan']) ? '
+					and a.id_karyawan = ' . $_SESSION['id_karyawan'] : '');
 // pr($query);
+$sql = mysqli_query($dbconnect, $query);
 // }
 
 ?>
@@ -94,7 +104,7 @@ $sql = mysqli_query($dbconnect, $query);
 				<div class="card-header bg-secondary" style="height: 82px;">
 					<div class="row">
 						<div class="col-md-6 pt-3">
-							<a href="./index.php?page=tambah_absensi">
+							<a href="./index.php?page=<?php echo $link_tambah; ?>">
 								<button type="button" class="btn btn-light btn-sm float-left"><i class="fas fa-plus-square"></i> Absen Manual</button>
 							</a>
 						</div>

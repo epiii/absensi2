@@ -234,7 +234,7 @@ $query = 'SELECT
                     a.date>="' . $tanggal_awal . '" and 
                     a.date<="' . $tanggal_akhir . '" and
                     a.status="A" 
-			)jml_tel_mas_5
+			)jml_tel_tmk
 			,(
 				SELECT
 					count(*)
@@ -328,31 +328,47 @@ $query = 'SELECT
 					a.id_karyawan=k.id and 
                     a.date>="' . $tanggal_awal . '" and 
                     a.date<="' . $tanggal_akhir . '" and
-                    a.status="A" AND
+					(
+						a.status="H" AND (a.masuk="" OR a.keluar="")
+					) AND
 					a.id_tipe_presensi = (
 						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="harian"
 					)
-			)jml_tel_alpha
+			)jml_tel_tfinger
+
+			,DATEDIFF("' . $tanggal_akhir . '","' . $tanggal_awal . '")jml_hari
+			,(SELECT count(*) from tb_absen where id_karyawan = k.id)jml_presensi
 			,(
-				SELECT
-					count(*) * a.potongan
-				FROM
-					tb_absen a
-				WHERE
-					a.id_karyawan=k.id and 
-                    a.date>="' . $tanggal_awal . '" and 
-                    a.date<="' . $tanggal_akhir . '" and
-                    a.status="A" AND
-					a.id_tipe_presensi = (
-						SELECT id_tipepresensi from vw_tipepresensi where kode_tipepresensi ="harian"
-					)
-			)jml_pot_alpha
+				SELECT count(*) 
+				from tb_absen aa join vw_tipepresensi tp on tp.id_tipepresensi = aa.id_tipe_presensi
+				where 
+					id_karyawan = k.id 
+					and `status`="H" 
+					and kode_tipepresensi="harian"
+			)jml_presensi_harian_hadir
+			,(
+				SELECT count(*) 
+				from vw_hari_libur_2 
+				WHERE 
+					id_divisi=k.id_divisi 
+					and isActive=1
+			)jml_libur_weekend
+			,(
+				SELECT count(*) 
+				FROM vw_hari_libur 
+				WHERE 
+					kode_hari_libur >="' . $tanggal_awal . '" 
+					AND kode_hari_libur<="' . $tanggal_akhir . '" 
+					AND isActive=1
+			)jml_libur_tglmerah
+				
 		FROM
-			tb1_karyawan k';
+			tb_id k';
+// tb1_karyawan k';
 $query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
-// pr($query);
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
+// pr($query);
 
 ?>
 <!-- <span class="label label-default">Default</span> -->
@@ -532,21 +548,19 @@ $divisi = GetDivisiRule();
 										<?php
 										$no = 0;
 										while ($r = mysqli_fetch_assoc($sql)) {
-											// harian 
+											// harian	
+											// > 5 m  
 											$jml_tel_1 = $r['jml_tel_mas_1'] + $r['jml_tel_kel_1'];
 											$jml_pot_1 = floatval($r['jml_pot_mas_1'] + $r['jml_pot_kel_1']);
-
+											// >30 m 
 											$jml_tel_2 = $r['jml_tel_mas_2'] + $r['jml_tel_kel_2'];
 											$jml_pot_2 = floatval($r['jml_pot_mas_2'] + $r['jml_pot_kel_2']);
-
+											// > 61 m 
 											$jml_tel_3 = $r['jml_tel_mas_3'] + $r['jml_tel_kel_3'];
 											$jml_pot_3 = floatval($r['jml_pot_mas_3'] + $r['jml_pot_kel_3']);
-
+											// > 120 m 
 											$jml_tel_4 = $r['jml_tel_mas_4'] + $r['jml_tel_kel_4'];
 											$jml_pot_4 = floatval($r['jml_pot_mas_4'] + $r['jml_pot_kel_4']);
-
-											$jml_tel_5 = $r['jml_tel_mas_5'];
-											$jml_pot_5 = $jml_tel_5 * 4;
 
 											// diklat
 											$jml_tel_diklat = $r['jml_tel_diklat'];
@@ -556,16 +570,31 @@ $divisi = GetDivisiRule();
 											$jml_tel_skj = $r['jml_tel_skj'];
 											$jml_pot_skj = floatval($r['jml_pot_skj']);
 
-											//skj
-											$jml_tel_alpha = $r['jml_tel_alpha'];
-											$jml_pot_alpha =  floatval($r['jml_pot_alpha']);
+											//tidak finger 
+											$jml_tel_tfinger = $r['jml_tel_tfinger'];
+											$jml_pot_tfinger =  2 * $jml_tel_tfinger;
 
 											//dispensasi
 											$jml_tel_dispensasi = $r['jml_tel_dispensasi'];
 											$jml_pot_dispensasi = floatval($r['jml_pot_dispensasi']);
 
-											// total 
-											$jml_tot_absent = $jml_pot_1 + $jml_pot_2 + $jml_pot_3 + $jml_pot_4 + $jml_pot_5 + $jml_pot_diklat + $jml_pot_skj + $jml_pot_alpha + $jml_pot_dispensasi;
+											// tmk 1 hari & alpha																	
+											$jml_tel_tmk = $r['jml_tel_tmk'];
+											
+											// total hari 
+											$jml_hari = $r['jml_hari'];
+											$jml_presensi = $r['jml_presensi'];
+											$jml_presensi_harian_hadir = $r['jml_presensi_harian_hadir'];
+											$jml_libur_tglmerah = $r['jml_libur_tglmerah'];
+											$jml_hari_aktif = $jml_hari - $jml_libur_tglmerah;
+											
+											$jml_tidak_absen = $jml_hari_aktif - $jml_presensi_harian_hadir;
+											$jml_tel_tmk = $jml_tel_tmk + $jml_tidak_absen;
+											$jml_pot_tmk = $jml_tel_tmk * 4;
+											// pr($jml_tel_tmk);
+
+											// total potongan 
+											$jml_tot_absent = $jml_pot_1 + $jml_pot_2 + $jml_pot_3 + $jml_pot_4 + $jml_pot_tmk + $jml_pot_diklat + $jml_pot_skj + $jml_pot_tfinger + $jml_pot_dispensasi;
 											$jml_tot_present = 100 - $jml_tot_absent;
 
 											$no++;
@@ -582,8 +611,8 @@ $divisi = GetDivisiRule();
 													<td class="text-right">' . ($jml_pot_3 == 0 ? '-' : $jml_pot_3 . '%') . '</td>
 													<td class="text-right">' . ($jml_tel_4 == 0 ? '-' : $jml_tel_4) . '</td>
 													<td class="text-right">' . ($jml_pot_4 == 0 ? '-' : $jml_pot_4 . '%') . '</td>
-													<td class="text-right">' . ($jml_tel_5 == 0 ? '-' : $jml_tel_5) . '</td>
-													<td class="text-right">' . ($jml_pot_5 == 0 ? '-' : $jml_pot_5 . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_tmk == 0 ? '-' : $jml_tel_tmk) . '</td>
+													<td class="text-right">' . ($jml_pot_tmk == 0 ? '-' : $jml_pot_tmk . '%') . '</td>
 
 													<td class="text-right">' . ($jml_tel_diklat == 0 ? '-' : $jml_tel_diklat) . '</td>
 													<td class="text-right">' . ($jml_pot_diklat == 0 ? '-' : $jml_pot_diklat . '%') . '</td>
@@ -591,8 +620,8 @@ $divisi = GetDivisiRule();
 													<td class="text-right">' . ($jml_tel_skj == 0 ? '-' : $jml_tel_skj) . '</td>
 													<td class="text-right">' . ($jml_pot_skj == 0 ? '-' : $jml_pot_skj . '%') . '</td>
 
-													<td class="text-right">' . ($jml_tel_alpha == 0 ? '-' : $jml_tel_alpha) . '</td>
-													<td class="text-right">' . ($jml_pot_alpha == 0 ? '-' : $jml_pot_alpha . '%') . '</td>
+													<td class="text-right">' . ($jml_tel_tfinger == 0 ? '-' : $jml_tel_tfinger) . '</td>
+													<td class="text-right">' . ($jml_pot_tfinger == 0 ? '-' : $jml_pot_tfinger . '%') . '</td>
 													
 													<td class="text-right">' . ($jml_tel_dispensasi == 0 ? '-' : $jml_tel_dispensasi) . '</td>
 													<td class="text-right">' . ($jml_pot_dispensasi == 0 ? '-' : $jml_pot_dispensasi . '%') . '</td>
@@ -601,6 +630,8 @@ $divisi = GetDivisiRule();
 													<td class="text-right">' . $jml_tot_present . '%</td>
 												</tr>
 												';
+											// <td class="text-right">' . ($jml_tel_5 == 0 ? '-' : $jml_tel_5) . '</td>
+											// <td class="text-right">' . ($jml_pot_5 == 0 ? '-' : $jml_pot_5 . '%') . '</td>
 											// <td>' . $r['jml_tel_kel_5'] . '%</td>
 											echo $tr;
 										}

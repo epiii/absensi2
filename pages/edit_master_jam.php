@@ -707,16 +707,16 @@ $divisi = GetDivisi2();
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
 			columnDefs: [
-				// {
-				// 	targets: [0],
-				// 	visible: false,
-				// 	searchable: false
-				// },
-				// {
-				// 	targets: [1],
-				// 	visible: false,
-				// 	searchable: false
-				// }
+				{
+					targets: [0],
+					visible: false,
+					searchable: false
+				},
+				{
+					targets: [1],
+					visible: false,
+					searchable: false
+				}
 			],
 			pageLength: 10,
 			lengthMenu: [
@@ -733,7 +733,7 @@ $divisi = GetDivisi2();
 			// var dt = table.row(this).data();
 			let tr  = $(this).parents('tr')
 			let dt = table.row(tr)
-			console.log(dt)
+			console.log(tr)
 
 			// id 
 			$('#id').val(dt[0])

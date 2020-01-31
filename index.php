@@ -3,7 +3,7 @@ require 'konfig/dev.php';
 require 'konfig/function.php';
 
 session_start();
-
+// pr($_SESSION);
 // if (isset($_SESSION['status'])) {
 if ($_SESSION['status'] != '0' && $_SESSION['username'] == '') {
   header("location: konfig/logout.php");
@@ -117,110 +117,70 @@ $_SESSION['page'] = 'index';
                 </p>
               </a>
             </li>
+            <?php if ($_SESSION['level'] == '0') { ?>
+              <li class="nav-item">
+                <a href="index.php?page=absensi" class="nav-link">
+                  <i class="nav-icon far fa-calendar-alt"></i>
+                  <p>
+                    Data Presensi
+                  </p>
+                </a>
+              </li>
 
-            <li class="nav-item">
-              <a href="index.php?page=absensi" class="nav-link">
-                <i class="nav-icon far fa-calendar-alt"></i>
-                <p>
-                  Data Presensi
-                </p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="index.php?page=laporan_absensi" class="nav-link">
+                  <i class="nav-icon far fa-calendar-alt"></i>
+                  <p>
+                    Laporan Presensi
+                  </p>
+                </a>
+              </li>
 
-            <li class="nav-item">
-              <a href="index.php?page=laporan_absensi" class="nav-link">
-                <i class="nav-icon far fa-calendar-alt"></i>
-                <p>
-                  Laporan Presensi
-                </p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="index.php?page=pegawai" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Daftar Pegawai
+                  </p>
+                </a>
+              </li>
 
-            <li class="nav-item">
-              <a href="index.php?page=pegawai" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  Daftar Pegawai
-                </p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="index.php?page=pengguna" class="nav-link">
+                  <i class="nav-icon fas fa-user-lock"></i>
+                  <p>
+                    Daftar Pengguna
+                  </p>
+                </a>
+              </li>
 
-            <li class="nav-item">
-              <a href="index.php?page=pengguna" class="nav-link">
-                <i class="nav-icon fas fa-user-lock"></i>
-                <p>
-                  Daftar Pengguna
-                </p>
-              </a>
-            </li>
+              <li class="nav-item">
+                <a href="index.php?page=master" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                    Master
+                  </p>
+                </a>
+              </li>
 
-            <li class="nav-item">
-              <a href="index.php?page=master" class="nav-link">
-                <i class="nav-icon fas fa-cogs"></i>
-                <p>
-                  Master
-                </p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="index.php?page=konfigurasi" class="nav-link">
-                <i class="nav-icon fas fa-cogs"></i>
-                <p>
-                  Konfigurasi
-                </p>
-              </a>
-            </li>
-
-            <!-- 
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cogs"></i>
-                <p>
-                  Konfigurasi
-                </p>
-              </a>
-              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li>iii</li>
-                <li>iii</li>
-                <li>iii</li>
-              </ul>
-
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>Multilevel</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                <li class="treeview">
-                  <a href="#"><i class="fa fa-circle-o"></i> Level One
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                    <li class="treeview">
-                      <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                      </a>
-                      <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-              </ul>
-            </li> -->
-
+              <li class="nav-item">
+                <a href="index.php?page=konfigurasi" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                    Konfigurasi
+                  </p>
+                </a>
+              </li>
+            <?php } else { ?>
+              <li class="nav-item">
+                <a href="index.php?page=absensi" class="nav-link">
+                  <i class="nav-icon far fa-calendar-alt"></i>
+                  <p>
+                    Data Presensi
+                  </p>
+                </a>
+              </li>
+            <?php } ?>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -311,6 +271,10 @@ $_SESSION['page'] = 'index';
             include "pages/tambah_absensi.php";
             break;
 
+          case 'tambah_absensi_user':
+            include "pages/tambah_absensi_user.php";
+            break;
+
           case 'login':
             include "pages/login.php";
             break;
@@ -320,7 +284,8 @@ $_SESSION['page'] = 'index';
             break;
         }
       } else {
-        echo '<h3><center> Permintaan ditolak :( </center></h3>';
+        include 'pages/dashboard.php';
+        // echo '<h3><center> Permintaan ditolak :( </center></h3>';
       }
       ?>
 

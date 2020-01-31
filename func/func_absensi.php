@@ -193,6 +193,7 @@ if (isset($_REQUEST['ajax'])) {
 		echo $out;
 	}
 
+
 	function IsNotDuplicate($par)
 	{
 		global $dbconnect;
@@ -224,7 +225,7 @@ if (isset($_REQUEST['ajax'])) {
 			FROM tb1_setting2
 			WHERE id_divisi =' . $par['id_divisi'] . ' AND isActive ="1"';
 		$exe = mysqli_query($dbconnect, $sql);
-
+		// pr($par);
 		$r = [];
 		while ($row = mysqli_fetch_assoc($exe)) {
 			if ($row['no'] == '1') {
@@ -324,19 +325,20 @@ if (isset($_REQUEST['ajax'])) {
 			}
 		}
 
-		$terlambat_masuk = $mas_selisih < 0 ? 0 : $mas_selisih;
-		$terlambat_keluar = $kel_selisih < 0 ? 0 : $kel_selisih;
+		$terlambat_masuk = $mas_selisih < 0 || $par['masuk'] == '' ? 0 : $mas_selisih;
+		$terlambat_keluar = $kel_selisih < 0 || $par['keluar'] == '' ? 0 : $kel_selisih;
 
 		$ret = [
-			'kat_terlambat_masuk' => $mas_kat,
-			'kat_terlambat_keluar' => $kel_kat,
+			'kat_terlambat_masuk' => $par['masuk'] == '' ? '0' : $mas_kat,
+			'kat_terlambat_keluar' => $par['keluar'] == '' ? '0' : $kel_kat,
+			// 'kat_terlambat_keluar' => $kel_kat,
 
 			'potongan_masuk' =>  $mas_pot_per,
 			'potongan_keluar' =>  $kel_pot_per,
 			'potongan_total' =>  $mas_pot_per + $kel_pot_per,
 
-			'terlambat_masuk' => $terlambat_masuk,
-			'terlambat_keluar' => $terlambat_keluar,
+			'terlambat_masuk' =>  $terlambat_masuk,
+			'terlambat_keluar' =>  $terlambat_keluar,
 			'terlambat_total' => $terlambat_masuk + $terlambat_keluar,
 		];
 		// vd($ret);
@@ -351,6 +353,46 @@ if (isset($_REQUEST['ajax'])) {
 	// var_dump($dbconnect);
 	// exit();
 
+	// libur : tanggal merah 
+	function IsHoliday($date)
+	{
+		global $dbconnect;
+		$ss = 'SELECT * FROM vw_hari_libur WHERE isActive ="1" AND kode_hari_libur = "' . $date . '"';
+		$ee = mysqli_query($dbconnect, $ss);
+		$nn = mysqli_num_rows($ee);
+		return $nn; // > 0 ? true : false;
+	}
+
+	function GetDayName($date)
+	{
+		$dayName = [
+			'mon' => 'senin',
+			'tue' => 'selasa',
+			'wed' => 'rabu',
+			'thu' => 'kamis',
+			'fri' => 'jumat',
+			'sat' => 'sabtu',
+			'sun' => 'minggu',
+		];
+		return $dayName[strtolower(date('D', strtotime($date)))];
+	}
+
+	// libur : weekend rutin per divisi 
+	function IsHoliday2($date, $id_divisi)
+	{
+		global $dbconnect;
+		$hari = GetDayName($date);
+		$ss = '	SELECT * 
+				FROM vw_hari_libur_2 
+				WHERE 
+					isActive ="1" AND
+					id_divisi=' . $id_divisi . '
+					AND	LOWER(hari) = "' . $hari . '"';
+		$ee = mysqli_query($dbconnect, $ss);
+		$nn = mysqli_num_rows($ee);
+		// vd($nn);
+		return $nn; // > 0 ? 'true' : false;
+	}
 
 
 	function GetDivisiRule()
@@ -464,6 +506,111 @@ if (isset($_REQUEST['ajax'])) {
 		}
 		return $datas;
 	}
+
+
+	function GetJadwalByDivisi($id_divisi)
+	{
+		global $dbconnect;
+		$sql = 'SELECT *
+			FROM tb1_setting2
+			WHERE id_divisi =' . $id_divisi . ' AND isActive ="1"';
+		$exe = mysqli_query($dbconnect, $sql);
+		$r = [];
+		while ($row = mysqli_fetch_assoc($exe)) {
+			if ($row['no'] == '1') {
+				// masuk 
+				$mas_jam = $row['jam'];
+				$mas_menit = $row['menit'];
+
+				// batas absen 
+				$mas_bts_1 = $row['batas1'];
+				$mas_bts_2 = $row['batas2'];
+
+				// telat 
+				$mas_tel_1a = $row['telat1a'];
+				$mas_tel_1b = $row['telat1b'];
+				$mas_tel_2a = $row['telat2a'];
+				$mas_tel_2b = $row['telat2b'];
+				$mas_tel_3a = $row['telat3a'];
+				$mas_tel_3b = $row['telat3b'];
+
+				// potongan %
+				$mas_per_1 = $row['persen1'];
+				$mas_per_2 = $row['persen2'];
+				$mas_per_3 = $row['persen3'];
+				$mas_per_4 = $row['persen4'];
+			} else {
+				// keluar 
+				$kel_jam = $row['jam'];
+				$kel_menit = $row['menit'];
+
+				// batas absen 
+				$kel_bts_1 = $row['batas1'];
+				$kel_bts_2 = $row['batas2'];
+
+				// telat 
+				$kel_tel_1a = $row['telat1a'];
+				$kel_tel_1b = $row['telat1b'];
+				$kel_tel_2a = $row['telat2a'];
+				$kel_tel_2b = $row['telat2b'];
+				$kel_tel_3a = $row['telat3a'];
+				$kel_tel_3b = $row['telat3b'];
+
+				// potongan %
+				$kel_per_1 = $row['persen1'];
+				$kel_per_2 = $row['persen2'];
+				$kel_per_3 = $row['persen3'];
+				$kel_per_4 = $row['persen4'];
+			}
+			// $r[] = $row;
+		}
+
+		$out = array(
+			// masuk 
+			'mas_jam' => $mas_jam,
+			'mas_menit' => $mas_menit,
+
+			// batas 
+			'mas_bts_1' => $mas_bts_1,
+			'mas_bts_2' => $mas_bts_2,
+			'kel_bts_1' => $kel_bts_1,
+			'kel_bts_2' => $kel_bts_2,
+
+			// telat 
+			'mas_tel_1a' => $mas_tel_1a,
+			'mas_tel_1b' => $mas_tel_1b,
+			'mas_tel_2a' => $mas_tel_2a,
+			'mas_tel_2b' => $mas_tel_2b,
+			'mas_tel_3a' => $mas_tel_3a,
+			'mas_tel_3b' => $mas_tel_3b,
+
+			// potongan %
+			'mas_per_1' => $mas_per_1,
+			'mas_per_2' => $mas_per_2,
+			'mas_per_3' => $mas_per_3,
+			'mas_per_4' => $mas_per_4,
+
+			// keluar
+			'kel_jam' => $kel_jam,
+			'kel_menit' => $kel_menit,
+
+			// telat 
+			'kel_tel_1a' => $kel_tel_1a,
+			'kel_tel_1b' => $kel_tel_1b,
+			'kel_tel_2a' => $kel_tel_2a,
+			'kel_tel_2b' => $kel_tel_2b,
+			'kel_tel_3a' => $kel_tel_3a,
+			'kel_tel_3b' => $kel_tel_3b,
+
+			// potongan %
+			'kel_per_1' => $kel_per_1,
+			'kel_per_2' => $kel_per_2,
+			'kel_per_3' => $kel_per_3,
+			'kel_per_4' => $kel_per_4,
+		);
+		return $out;
+	}
+
 
 	if (isset($_POST['insert'])) {
 		Insert();
