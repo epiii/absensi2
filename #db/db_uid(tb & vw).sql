@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-30 01:21:25
+Date: 2020-01-31 21:48:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -453,7 +453,6 @@ INSERT INTO `tb1_setting2` VALUES ('16', '1', '08', '00', '5', '30', '31', '60',
 INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('18', '2', '16', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '15', '19', '02', '24', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '03', '04', '26', '0000-00-00 00:00:00', '1');
-INSERT INTO `tb1_setting2` VALUES ('31', '1', '22', '22', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '', '24', '2020-01-22 07:34:32', '1');
 
 -- ----------------------------
 -- Table structure for tb1_status_pernikahan
@@ -506,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -553,6 +552,7 @@ INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', null, '75', null, '1', '0
 INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('88', '2020-01-30', 'ultah adiknya bos', null, '27', null, '0', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -578,7 +578,7 @@ CREATE TABLE `tb_absen` (
   `mode` enum('auto','manual') DEFAULT 'auto',
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
@@ -612,6 +612,13 @@ INSERT INTO `tb_absen` VALUES ('96', '0', '', '', '0', '0', '0', '0', '0000-00-0
 INSERT INTO `tb_absen` VALUES ('97', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
 INSERT INTO `tb_absen` VALUES ('98', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
 INSERT INTO `tb_absen` VALUES ('99', '5', '08:15', '16:30', '15', '0', '1', '0', '2020-01-21', 'H', null, '', '15', '0.00', '0.25', '0.25', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('102', '3', '10:32', '', '152', '0', '4', '0', '2020-01-31', 'H', null, '', '152', '0.00', '2.50', '2.50', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('103', '3', '', '', '0', '0', '4', '4', '2020-01-30', 'A', null, 'bolos', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('104', '3', '13:11', '', '0', '0', '0', '0', '2020-01-27', 'I', null, 'jenguk Jet li sakit', '0', '0.00', '0.00', '2.00', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('105', '3', '07:45', '17:20', '0', '0', '0', '0', '2020-01-28', 'H', null, 'bolos', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('106', '3', '13:57', '', '0', '0', '0', '0', '2020-01-09', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
+INSERT INTO `tb_absen` VALUES ('107', '3', '', '', '0', '0', '0', '0', '2020-01-31', 'H', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
+INSERT INTO `tb_absen` VALUES ('108', '3', '', '', '0', '0', '0', '0', '2020-01-31', 'I', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -667,7 +674,7 @@ CREATE TABLE `tb_pengguna` (
   `level` int(1) NOT NULL,
   `id_karyawan` int(11) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
@@ -676,8 +683,8 @@ INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('13', 'adminz', 'adminz', '0', null);
-INSERT INTO `tb_pengguna` VALUES ('17', 'fsdf', 'fsdf', '1', '3');
 INSERT INTO `tb_pengguna` VALUES ('19', 'udin', 'udin', '1', '4');
+INSERT INTO `tb_pengguna` VALUES ('20', 'bejo', 'bejo', '1', '3');
 
 -- ----------------------------
 -- Table structure for tb_rfid
