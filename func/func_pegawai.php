@@ -1,6 +1,6 @@
 <?php
 
-require_once './konfig/connection.php';
+// include './konfig/connection.php';
 // include './konfig/function.php';
 // var_dump($dbconnect);
 // exit();

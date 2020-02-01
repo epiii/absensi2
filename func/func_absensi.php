@@ -345,6 +345,7 @@ if (isset($_REQUEST['ajax'])) {
 		return $ret;
 	}
 } else {
+	// print_r($_REQUEST);
 	require_once './konfig/connection.php';
 	// require_once '../konfig/dev.php';
 
@@ -360,7 +361,7 @@ if (isset($_REQUEST['ajax'])) {
 		$ss = 'SELECT * FROM vw_hari_libur WHERE isActive ="1" AND kode_hari_libur = "' . $date . '"';
 		$ee = mysqli_query($dbconnect, $ss);
 		$nn = mysqli_num_rows($ee);
-		return $nn; // > 0 ? true : false;
+		return $nn; // 1=libur, 0=tdk libur 
 	}
 
 	function GetDayName($date)
@@ -391,7 +392,8 @@ if (isset($_REQUEST['ajax'])) {
 		$ee = mysqli_query($dbconnect, $ss);
 		$nn = mysqli_num_rows($ee);
 		// vd($nn);
-		return $nn; // > 0 ? 'true' : false;
+		return $nn; // 1=libur, 0 = tidak libur
+		 // > 0 ? 'true' : false;
 	}
 
 

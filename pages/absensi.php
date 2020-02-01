@@ -99,6 +99,10 @@ $sql = mysqli_query($dbconnect, $query);
 				</div>
 			</div>
 
+			<!-- <form action="./konfig/absen.php" method="post">
+				<input value="3" type="text" name="id">
+				<button type="submit">absen auto</button>
+			</form> -->
 
 			<div class="card">
 				<div class="card-header bg-secondary" style="height: 82px;">

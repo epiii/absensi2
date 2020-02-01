@@ -1,22 +1,38 @@
 <?php
+// session_start();
+include 'function.php';
+// require_once '../func/func_absensi.php';
+// include '../func/func_pegawai.php';
+include '../konfig/dev.php';
+
 if (isset($_POST['id'])) {
-	include 'function.php';
-	$uid = mysql_real_escape_string(trim($_POST['id']));
+
+	$uid = trim($_POST['id']);
 	$hari_ini = date('Y-m-d');
 	$day = getday($hari_ini);
+	$cek = uid($uid);
 
-	if ($day == $libur1 || $day == $libur2) {
-		echo "Hari Libur";
-	} else {
-		$cek_uid = uid($uid);
-		if ($cek_uid == "0") {
-			$time = date('H:i:s');
-			$cek_absen = cektime($time, $masuk_mulai, $masuk_akhir, $keluar_mulai, $keluar_akhir);
-			$simpan_absen = postdata($uid, $hari_ini, $time, $cek_absen);
-			echo $simpan_absen;
+	if ($cek == '0') { // id terdaftar
+		$karyawan = getPegawaiById($uid);
+		$liburHariBesar = IsHoliday_(date('Y-m-d'));
+		$liburWeekend = IsHoliday2_(date('Y-m-d'), $karyawan['id_divisi']);
+
+		if ($liburWeekend == '1' || $liburHariBesar == '1') {
+			echo "Hari Libur";
 		} else {
-			echo "ID Tidak Ada";
+			$time = date('H:i:s');
+			// mode absen : masuk / pulang 
+			$mode = getModeAbsen($karyawan['id_divisi']);
+
+			if ($mode == 'off') {
+				echo "Absen tidak aktif, Di luar jam kerja";
+			} else { // masuk / keluar
+				$submit  = postdata($uid, $karyawan['id_divisi'], $mode);
+				echo $submit;
+			}
 		}
+	} else {
+		echo "ID Tidak Ada";
 	}
 } else {
 	echo "Coba Lagi";

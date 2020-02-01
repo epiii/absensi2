@@ -123,27 +123,6 @@ if (isset($_REQUEST['ajax'])) {
 		require_once '../konfig/dev.php';
 		require_once '../func/func_absensi.php';
 
-
-		// Array
-		// (
-		// 	[add_absensi_user] => 
-		// 	[ajax] => 
-		// 	[id_tipe_presensi] => 47-harian
-		// 	[id_karyawan] => 3
-		// 	[nip] => 123213
-		// 	[id_jabatan] => 
-		// 	[jabatan] => Eselon III
-		// 	[id_divisi] => 
-		// 	[divisi] => Kebersihan
-		// 	[status] => H
-		// 	[keterangan] => 
-		// 	[date] => 2020-01-31
-		// 	[rule_jam_masuk] => 02:00
-		// 	[keluar] => 17:00
-		// 	[jam_now] => 05:34
-		// 	[mode_absen] => Absen masuk
-		// )
-
 		$id_tipe_presensi = $_POST['id_tipe_presensi'];
 		$id_tipe_presensi = explode('-', $id_tipe_presensi);
 
@@ -302,7 +281,7 @@ if (isset($_REQUEST['ajax'])) {
 			,'$keterangan'
 		)";
 
-		pr($query);
+		// pr($query);
 		$sql = mysqli_query($dbconnect, $query);
 		// vd($sql);
 		if ($sql) {
