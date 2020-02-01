@@ -28,6 +28,7 @@ $link_tambah = isset($_SESSION['id_karyawan']) ? 'tambah_absensi_user' : 'tambah
 
 $tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date('Y-m-d');
 $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-d');
+// pr($tanggal_awal);
 $query = ' 	SELECT 
 					DATE_FORMAT(a.date, "%d %M %Y") as tanggal,
 					a.id,
@@ -105,7 +106,35 @@ $sql = mysqli_query($dbconnect, $query);
 			</form> -->
 
 			<div class="card">
+
+				<div class="card-header " style="height: 82px;">
+
+					<form action="" method="POST">
+						<div class="row">
+							<div class="col-sm-3">
+								<br>
+								<a href="./index.php?page=<?php echo $link_tambah; ?>">
+									<button type="button" class="btn btn-primary btn-md float-left"><i class="fas fa-plus-square"></i> Absen Manual</button>
+								</a>
+							</div>
+							<div class="col-sm-3">
+								<label>Tanggal Awal</label>
+								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
+							</div>
+							<div class="col-sm-3">
+								<label>Tanggal Akhir</label>
+								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
+							</div>
+							<div class="col-sm-3">
+								<label>.</label>
+								<button type="submit" class=" form-control btn btn-md btn-secondary"><i class="fas fa-search"></i> Tampilkan</button>
+							</div>
+						</div>
+					</form>
+				</div>
+<!-- 
 				<div class="card-header bg-secondary" style="height: 82px;">
+
 					<div class="row">
 						<div class="col-md-6 pt-3">
 							<a href="./index.php?page=<?php echo $link_tambah; ?>">
@@ -120,12 +149,9 @@ $sql = mysqli_query($dbconnect, $query);
 								<button type="submit" class="btn btn-light btn-sm mb-1 ml-1"><i class="fas fa-search"></i> Tampilkan</button>
 							</form>
 						</div>
-
-						<!-- <div class="col-md-3 pt-3 pull-right" style="font-size:18px; text-align: right;">
-							<?php echo "Menampilkan tanggal, " . $date; ?>
-						</div> -->
 					</div>
-				</div>
+
+				</div> -->
 
 				<div class="card-body">
 					<div class="row mt-2">

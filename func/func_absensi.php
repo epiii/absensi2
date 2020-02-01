@@ -13,7 +13,7 @@ if (isset($_REQUEST['ajax'])) {
 		$sidx       = 'nama'; // get index row - i.e. user click to sort
 		// $sidx       = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord       = $_GET['sord']; // get the direction
-		$searchTerm = $_GET['searchTerm'];
+		$searchTerm = trim($_GET['searchTerm']);
 		// $tanggal = '2020-01-17';
 		// $tanggal = $_GET['tanggal'];
 
