@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-01-31 21:48:35
+Date: 2020-02-02 03:49:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -505,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -547,7 +547,7 @@ INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', null, '27', 
 INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', 'Parameter hari libur akhir pekan karyawan berdasarkan divisinya', null, null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('76', '23', 'sabtu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('77', '23', 'minggu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('78', '25', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('78', '25', 'senin', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', null, '75', null, '1', '0');
@@ -575,50 +575,15 @@ CREATE TABLE `tb_absen` (
   `potongan_keluar` float(11,2) NOT NULL,
   `potongan_masuk` float(11,2) NOT NULL,
   `potongan` float(11,2) NOT NULL,
-  `mode` enum('auto','manual') DEFAULT 'auto',
+  `mode` enum('otomatis','manual') DEFAULT NULL,
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
 -- ----------------------------
-INSERT INTO `tb_absen` VALUES ('71', '20', '08:35', '15:00', '35', '90', '2', '3', '2020-01-16', 'H', null, '', '125', '2.50', '1.00', '3.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('72', '20', '08:35', '18:00', '35', '0', '2', '0', '2020-01-17', 'H', null, '', '35', '0.00', '1.00', '1.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('73', '20', '07:07', '18:00', '0', '0', '0', '0', '2020-01-15', 'H', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('74', '20', '08:06', '16:07', '6', '23', '1', '1', '2020-01-13', 'H', null, '', '29', '0.25', '0.25', '0.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('75', '20', '10:00', '15:30', '120', '60', '3', '2', '2020-01-10', 'H', null, '', '180', '1.00', '2.50', '3.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('76', '20', '11:11', '14:00', '191', '150', '4', '4', '2020-01-09', 'H', null, '', '341', '2.50', '2.50', '5.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('77', '20', '11:11', '16:10', '191', '20', '4', '1', '2020-01-08', 'H', null, '', '211', '0.25', '2.50', '2.75', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('78', '20', '10:58', '16:30', '178', '0', '4', '0', '2020-01-07', 'H', null, '', '178', '0.00', '2.50', '2.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('79', '5', '10:58', '16:30', '178', '0', '4', '0', '2020-01-07', 'H', null, '', '178', '0.00', '2.50', '2.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('80', '5', '08:20', '16:30', '20', '0', '1', '0', '2020-01-16', 'H', null, '', '20', '0.00', '0.25', '0.25', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('81', '5', '08:20', '15:55', '20', '35', '1', '2', '2020-01-14', 'H', null, '', '55', '1.00', '0.25', '1.25', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('82', '5', '08:20', '15:55', '0', '0', '0', '0', '2020-01-15', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('83', '17', '08:25', '16:55', '25', '5', '1', '1', '2020-01-16', 'H', null, '', '30', '0.25', '0.25', '0.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('84', '20', '', '', '0', '0', '0', '0', '2020-01-03', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('85', '20', '', '', '0', '0', '0', '0', '2020-01-16', 'I', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('86', '20', '', '', '0', '0', '0', '0', '2020-01-24', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('87', '20', '', '', '0', '0', '0', '0', '2020-01-24', 'H', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('88', '20', '', '', '0', '0', '0', '0', '2020-01-10', 'A', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('89', '20', '', '', '0', '0', '0', '0', '2020-01-17', 'D', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
-INSERT INTO `tb_absen` VALUES ('90', '20', '', '', '0', '0', '0', '0', '2020-01-20', 'D', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
-INSERT INTO `tb_absen` VALUES ('91', '20', '', '', '0', '0', '0', '0', '2020-01-20', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
-INSERT INTO `tb_absen` VALUES ('92', '20', '', '', '0', '0', '0', '0', '2020-01-21', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
-INSERT INTO `tb_absen` VALUES ('93', '20', '', '', '0', '0', '0', '0', '2020-01-22', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
-INSERT INTO `tb_absen` VALUES ('94', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('95', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('96', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('97', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('98', '0', '', '', '0', '0', '0', '0', '0000-00-00', '', null, '', '0', '0.00', '0.00', '0.00', 'manual', '0');
-INSERT INTO `tb_absen` VALUES ('99', '5', '08:15', '16:30', '15', '0', '1', '0', '2020-01-21', 'H', null, '', '15', '0.00', '0.25', '0.25', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('102', '3', '10:32', '', '152', '0', '4', '0', '2020-01-31', 'H', null, '', '152', '0.00', '2.50', '2.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('103', '3', '', '', '0', '0', '4', '4', '2020-01-30', 'A', null, 'bolos', '0', '0.00', '0.00', '0.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('104', '3', '13:11', '', '0', '0', '0', '0', '2020-01-27', 'I', null, 'jenguk Jet li sakit', '0', '0.00', '0.00', '2.00', 'manual', '49');
-INSERT INTO `tb_absen` VALUES ('105', '3', '07:45', '17:20', '0', '0', '0', '0', '2020-01-28', 'H', null, 'bolos', '0', '0.00', '0.00', '0.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('106', '3', '13:57', '', '0', '0', '0', '0', '2020-01-09', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
-INSERT INTO `tb_absen` VALUES ('107', '3', '', '', '0', '0', '0', '0', '2020-01-31', 'H', null, '', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('108', '3', '', '', '0', '0', '0', '0', '2020-01-31', 'I', null, '', '0', '0.00', '0.00', '2.00', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('114', '6', '08:00', '15:00', '0', '90', '0', '3', '2020-02-02', 'H', null, '', '90', '2.50', '0.00', '2.50', 'manual', '47');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -654,14 +619,12 @@ CREATE TABLE `tb_id` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
-INSERT INTO `tb_id` VALUES ('3', 'h53i9d', 'jackie chan', 'jshdfj@fjdskhf.c', '0', '19', '2', '', '0000-00-00', '', '', '', '', '', '', '9', '16', '25', '', '', '', '123213', '0', '', '', '1', '0', '2020-01-29 08:35:11');
-INSERT INTO `tb_id` VALUES ('4', '6g8df87fq', 'udin sedunia', 'fsdf@fsdfs.fsd', '0', '0', '1', '', '1998-10-28', '', '', '', '', '', '', '13', '15', '23', '', '', '', '1', '0', '', '', '1', '0', '2020-01-30 00:50:00');
-INSERT INTO `tb_id` VALUES ('5', '123', 'mbah surip', 'fsd@dsf.csdf', '0', '0', '1', '', '2020-01-24', '', '', '', '', '', '', '0', '', '26', '', '', '', '', '0', '', '', '1', '0', '2020-01-30 00:51:26');
+INSERT INTO `tb_id` VALUES ('6', 'abc123', 'supri', 'aa@aa.com', '0', '0', '1', '', '2020-02-03', '', '', '', '', '', '', '9', '15', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-02 03:28:21');
 
 -- ----------------------------
 -- Table structure for tb_pengguna
