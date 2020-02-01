@@ -43,7 +43,7 @@ if (isset($_SESSION['page'])) {
 					<!-- <tbody> -->
 					<tbody class="bg-white">
 						<?php
-						$query = "SELECT * from tb2_setting where id_parent is null";
+						$query = "SELECT * from tb2_setting where id_parent is null ORDER BY param ASC";
 						$sql = mysqli_query($dbconnect, $query);
 						$no = '1';
 						// vd($query);						

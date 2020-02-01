@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-02-02 03:49:56
+Date: 2020-02-02 06:13:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -440,7 +440,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -505,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -552,7 +552,7 @@ INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', null, '75', null, '1', '0
 INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('88', '2020-01-30', 'ultah adiknya bos', null, '27', null, '0', '0');
+INSERT INTO `tb2_setting` VALUES ('88', '2020-01-31', 'ultah adiknya bos x', null, '27', null, '0', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -624,7 +624,7 @@ CREATE TABLE `tb_id` (
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
-INSERT INTO `tb_id` VALUES ('6', 'abc123', 'supri', 'aa@aa.com', '0', '0', '1', '', '2020-02-03', '', '', '', '', '', '', '9', '15', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-02 03:28:21');
+INSERT INTO `tb_id` VALUES ('6', 'abc123', 'bejo', 'aa@aa.com', '0', '0', '1', '', '2020-02-03', '', '', '', '', '', '', '9', '15', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-02 04:25:06');
 
 -- ----------------------------
 -- Table structure for tb_pengguna
@@ -637,7 +637,7 @@ CREATE TABLE `tb_pengguna` (
   `level` int(1) NOT NULL,
   `id_karyawan` int(11) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
@@ -647,7 +647,7 @@ INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('13', 'adminz', 'adminz', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('19', 'udin', 'udin', '1', '4');
-INSERT INTO `tb_pengguna` VALUES ('20', 'bejo', 'bejo', '1', '3');
+INSERT INTO `tb_pengguna` VALUES ('21', 'bejo', 'bejo', '1', '6');
 
 -- ----------------------------
 -- Table structure for tb_rfid

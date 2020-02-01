@@ -29,8 +29,6 @@ $divisi = GetDivisi2();
 			<div class="col-sm-6">
 				<h1 class="m-0 text-dark">EDIT KONFIGURASI </h1>
 				<h4 class="m-0 text-muted">Jam <?php echo $mode; ?></h4>
-				<!-- <small id="emailHelp" class="form-text text-muted"><?php echo $keterangan; ?></small> -->
-
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
@@ -346,8 +344,10 @@ $divisi = GetDivisi2();
 									$no = 1;
 									while ($data = mysqli_fetch_assoc($sql)) {
 										$status = $data['isActive'];
+
+										$ico = $status == '1' ? 'check' : 'minus';
 										$txt = $status == '1' ? 'Active' : 'Inactive';
-										$clr = $status == '1' ? 'success' : 'secondary';
+										$clr = $status == '1' ? 'success' : 'default';
 									?>
 										<tr class="text-center table-<?php echo $color; ?>">
 											<td><?php echo $data['id']; ?></td>
@@ -360,9 +360,16 @@ $divisi = GetDivisi2();
 											<td class="text-left"><?php echo $data['telat2a'] . ' s/d ' . $data['telat2b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen2'] . ' %'; ?></b><?php echo ''; ?></td>
 											<td class="text-left"><?php echo $data['telat3a'] . ' s/d ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen3'] . ' %'; ?></b><?php echo ''; ?></td>
 											<td class="text-left"><?php echo '> ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen4'] . ' %'; ?></b><?php echo ''; ?></td>
-											<td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td>
+											<!-- <td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td> -->
 											<td class="text-center">
-												<button class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+												<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
+													<i class="fas fa-<?php echo $ico; ?>"></i>
+													<?php echo ' ' . $txt; ?>
+												</button>
+											</td>
+											<td class="text-center">
+												<!-- <button  class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button> -->
+												<button onclick="onEdit(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
 												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 											</td>
 
@@ -411,6 +418,54 @@ $divisi = GetDivisi2();
 		$('#myModal').modal('show');
 	}
 
+	function changeStatus(par) {
+		swal({
+			title: 'Yakin mengganti status?',
+			text: '',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((res) => {
+			if (res.value) {
+				$.ajax({
+					// url: './konfig/update_master.php',
+					url: './func/ajax_master_jam.php',
+					data: 'id=' + par + '&update_status&ajax',
+					// url: './konfig/update_konfigurasi.php',
+					// data: 'id=' + par + '&update_konfigurasi_status&ajax',
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil mengganti status'
+							typex = 'success'
+							colorx = 'btn btn-success'
+						} else {
+							titlex = 'Failed'
+							textx = 'Gagal mengganti status, ' + dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						}).then(function() {
+							location.reload()
+						})
+					}
+				})
+			}
+		})
+	}
+
 	function onDelete(par) {
 		swal({
 			title: 'Yakin menghapus data?',
@@ -425,12 +480,14 @@ $divisi = GetDivisi2();
 
 			if (res.value) {
 				console.log(par)
-				// return false
 
 				$.ajax({
-					url: './konfig/delete_master.php',
-					// url: './konfig/delete_konfigurasi.php',
-					data: 'master_jam&id=' + par,
+					url: './func/ajax_master_jam.php',
+					data: 'delete&ajax&id=' + par,
+
+					// url: './konfig/delete_master.php',
+					// data: 'master_jam&id=' + par,
+
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {
@@ -458,6 +515,55 @@ $divisi = GetDivisi2();
 						})
 					}
 				})
+			}
+		})
+	}
+
+	function onEdit(par) {
+		console.log(par)
+		$.ajax({
+			url: './func/ajax_master_jam.php',
+			data: 'get_master_jam&id=' + par,
+			dataType: 'json',
+			method: 'post',
+			success: function(dt) {
+				if (dt.sts == false) {
+					titlex = 'Failed'
+					textx = 'Gagal, ' + dt.msg
+					typex = 'error'
+					colorx = 'btn btn-danger'
+
+					swal({
+						title: titlex,
+						text: textx,
+						type: typex,
+						confirmButtonColor: colorx,
+						confirmButtonText: 'ok',
+					})
+				} else {
+					$('#id').val(dt.msg.id)
+
+					$('#id_divisi').val(dt.msg.id_divisi)
+					$('#jam').val(dt.msg.jam + ':00')
+
+					$('#persen1').val(dt.msg.persen1)
+					$('#persen2').val(dt.msg.persen2)
+					$('#persen3').val(dt.msg.persen3)
+					$('#persen4').val(dt.msg.persen4)
+
+					$('#telat1a').val(dt.msg.telat1a)
+					$('#telat1b').val(dt.msg.telat1b)
+
+					$('#telat2a').val(dt.msg.telat2a)
+					$('#telat2b').val(dt.msg.telat2b)
+
+					$('#telat3a').val(dt.msg.telat3a)
+					$('#telat3b').val(dt.msg.telat3b)
+
+					$('#batas1').val(dt.msg.batas1)
+					$('#batas2').val(dt.msg.batas2)
+					openModal()
+				}
 			}
 		})
 	}
@@ -629,8 +735,9 @@ $divisi = GetDivisi2();
 					console.log($(el).serialize())
 
 					$.ajax({
-						url: './konfig/update_master.php',
-						data: 'update_master_jam&ajax&' + $(el).serialize(),
+						// url: './konfig/update_master_jam.php',
+						url: './func/ajax_master_jam.php',
+						data: 'update&ajax&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -706,8 +813,7 @@ $divisi = GetDivisi2();
 
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
-			columnDefs: [
-				{
+			columnDefs: [{
 					targets: [0],
 					visible: false,
 					searchable: false
@@ -729,9 +835,9 @@ $divisi = GetDivisi2();
 		});
 
 
-		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
+		/* $('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
 			// var dt = table.row(this).data();
-			let tr  = $(this).parents('tr')
+			let tr = $(this).parents('tr')
 			let dt = table.row(tr)
 			console.log(tr)
 
@@ -782,9 +888,6 @@ $divisi = GetDivisi2();
 			$('#batas2').val(bts2)
 
 			openModal()
-		});
-		// table.buttons().container()
-		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
-
+		}); */
 	})
 </script>
