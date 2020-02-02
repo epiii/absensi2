@@ -63,6 +63,7 @@ $tipe_presensi = GetTipePresensi2();
 
 				<div class="form-group">
 					<label for="exampleInputEmail1">Tipe Presensi</label>
+					<input type="hidden" name="add_absensi">
 					<select id="id_tipe_presensi" name="id_tipe_presensi" required onchange="tipePresensiFunc(this.value)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
 						<option value="">-Pilih Tipe Presensi-</option>
 						<?php
@@ -379,7 +380,7 @@ $tipe_presensi = GetTipePresensi2();
 			if (res.value) {
 				$.ajax({
 					url: './konfig/add_absensi.php',
-					data: 'add_absensi&ajax&' + $(el).serialize(),
+					data: 'ajax&' + $(el).serialize(),
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {

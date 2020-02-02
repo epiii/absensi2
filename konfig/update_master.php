@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once './dev.php';
-pr($_POST);
+// pr($_POST);
 
 if (isset($_REQUEST['update_master_status']) && isset($_SESSION['page'])) {
 	if (isset($_POST['ajax'])) {

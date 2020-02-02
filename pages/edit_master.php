@@ -106,6 +106,7 @@ $num = mysqli_num_rows($sql);
 					<form id="formParam" method="POST">
 						<div class="form-group text-left">
 							<label for="param_sub">Parameter</label>
+							<input type="hidden" name="update_master">
 							<input type="hidden" name="id_sub" id="id_sub">
 							<input required class="form-control " type="<?php echo $inputType == 'date' ? 'date' : 'text'; ?>" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
 							<small id="param_sub_msg" style="display:none" class="text-danger">
@@ -373,7 +374,7 @@ $num = mysqli_num_rows($sql);
 				if (res.value) {
 					$.ajax({
 						url: './konfig/update_master.php',
-						data: 'update_master&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						data: 'ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						// url: './konfig/update_konfigurasi.php',
 						// data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						dataType: 'json',
