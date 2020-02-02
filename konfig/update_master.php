@@ -2,6 +2,7 @@
 session_start();
 require_once './dev.php';
 // pr($_POST);
+var_dump($_SESSION);
 
 if (isset($_REQUEST['update_master_status']) && isset($_SESSION['page'])) {
 	if (isset($_POST['ajax'])) {
@@ -86,7 +87,7 @@ if (isset($_REQUEST['update_master_status']) && isset($_SESSION['page'])) {
 							batas1="' . $batas1 . '", 
 							batas2="' . $batas2 . '",
 							id_divisi="' . $id_divisi . '"
-					WHERE id='.$_POST['id'].' 	
+					WHERE id=' . $_POST['id'] . ' 	
 							';
 		} else { // add 
 			$query = 'INSERT INTO tb1_setting2 SET 
@@ -115,6 +116,7 @@ if (isset($_REQUEST['update_master_status']) && isset($_SESSION['page'])) {
 	} else {
 	}
 } else if (isset($_REQUEST['update_master']) && isset($_SESSION['page'])) {
+	
 	if (isset($_POST['ajax'])) {
 		require_once '../konfig/connection.php';
 		require_once '../konfig/dev.php';

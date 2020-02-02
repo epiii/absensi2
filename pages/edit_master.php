@@ -106,7 +106,7 @@ $num = mysqli_num_rows($sql);
 					<form id="formParam" method="POST">
 						<div class="form-group text-left">
 							<label for="param_sub">Parameter</label>
-							<input type="hidden" name="update_master">
+							<input type="hidden" name="update">
 							<input type="hidden" name="id_sub" id="id_sub">
 							<input required class="form-control " type="<?php echo $inputType == 'date' ? 'date' : 'text'; ?>" name="param_sub" id="param_sub" placeholder="Masukan Parameter">
 							<small id="param_sub_msg" style="display:none" class="text-danger">
@@ -205,7 +205,8 @@ $num = mysqli_num_rows($sql);
 												</td>
 
 												<td class="text-center">
-													<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+													<!-- <button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button> -->
+													<button href="#" onclick="onEdit(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
 													<a <?php echo $isHidden; ?> href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
 												</td>
 											<?php } ?>
@@ -258,9 +259,8 @@ $num = mysqli_num_rows($sql);
 
 			if (res.value) {
 				$.ajax({
-					url: './konfig/delete_master.php',
-					// url: './konfig/delete_konfigurasi.php',
-					data: 'id=' + par,
+					url: './func/ajax_master.php',
+					data: 'delete&id=' + par,
 					dataType: 'json',
 					method: 'post',
 					success: function(dt) {
@@ -306,8 +306,9 @@ $num = mysqli_num_rows($sql);
 
 			if (res.value) {
 				$.ajax({
-					url: './konfig/update_master.php',
-					data: 'id=' + par + '&update_master_status&ajax',
+					url: './func/ajax_master.php',
+					// url: './konfig/update_master.php',
+					data: 'id=' + par + '&update_status&ajax',
 					// url: './konfig/update_konfigurasi.php',
 					// data: 'id=' + par + '&update_konfigurasi_status&ajax',
 					dataType: 'json',
@@ -373,10 +374,8 @@ $num = mysqli_num_rows($sql);
 				console.log(res)
 				if (res.value) {
 					$.ajax({
-						url: './konfig/update_master.php',
+						url: './func/ajax_master.php',
 						data: 'ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
-						// url: './konfig/update_konfigurasi.php',
-						// data: 'update_konfigurasi&ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -436,18 +435,49 @@ $num = mysqli_num_rows($sql);
 
 		});
 
-		$('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
-			var data = table.row($(this).parents('tr')).data();
-			console.log(table)
-			console.log(data)
-			$('#id_sub').val(data[0])
-			$('#param_sub').val(data[1])
-			$('#value_sub').val(data[2])
-			openModal()
-		});
+		// $('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
+		// 	var data = table.row($(this).parents('tr')).data();
+		// 	console.log(table)
+		// 	console.log(data)
+		// 	$('#id_sub').val(data[0])
+		// 	$('#param_sub').val(data[1])
+		// 	$('#value_sub').val(data[2])
+		// 	openModal()
+		// });
 
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
-
 	})
+
+	function onEdit(par) {
+		console.log(par)
+		$.ajax({
+			url: './func/ajax_master.php',
+			data: 'get_master&id=' + par,
+			dataType: 'json',
+			method: 'post',
+			success: function(dt) {
+				if (dt.sts == false) {
+					titlex = 'Failed'
+					textx = 'Gagal, ' + dt.msg
+					typex = 'error'
+					colorx = 'btn btn-danger'
+
+					swal({
+						title: titlex,
+						text: textx,
+						type: typex,
+						confirmButtonColor: colorx,
+						confirmButtonText: 'ok',
+					})
+				} else {
+					// $('#id').val(dt.msg.id)
+					$('#id_sub').val(dt.msg.id)
+					$('#param_sub').val(dt.msg.param)
+					$('#value_sub').val(dt.msg.value)
+					openModal()
+				}
+			}
+		})
+	}
 </script>
