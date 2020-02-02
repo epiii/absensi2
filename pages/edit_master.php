@@ -262,7 +262,7 @@ $num = mysqli_num_rows($sql);
 					url: './func/ajax_master.php',
 					data: 'delete&id=' + par,
 					dataType: 'json',
-					method: 'post',
+					method: 'get',
 					success: function(dt) {
 						let titlex, textx, typex, colorx;
 						if (dt.status) {
@@ -307,12 +307,11 @@ $num = mysqli_num_rows($sql);
 			if (res.value) {
 				$.ajax({
 					url: './func/ajax_master.php',
-					// url: './konfig/update_master.php',
-					data: 'id=' + par + '&update_status&ajax',
+					data: 'id=' + par + '&update_status',
 					// url: './konfig/update_konfigurasi.php',
 					// data: 'id=' + par + '&update_konfigurasi_status&ajax',
 					dataType: 'json',
-					method: 'post',
+					method: 'get',
 					success: function(dt) {
 						let titlex, textx, typex, colorx;
 						if (dt.status) {
@@ -375,7 +374,7 @@ $num = mysqli_num_rows($sql);
 				if (res.value) {
 					$.ajax({
 						url: './func/ajax_master.php',
-						data: 'ajax&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						data: 'id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -455,7 +454,7 @@ $num = mysqli_num_rows($sql);
 			url: './func/ajax_master.php',
 			data: 'get_master&id=' + par,
 			dataType: 'json',
-			method: 'post',
+			method: 'get',
 			success: function(dt) {
 				if (dt.sts == false) {
 					titlex = 'Failed'

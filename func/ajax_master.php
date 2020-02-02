@@ -6,9 +6,9 @@ require_once '../konfig/dev.php';
 function Update()
 {
 	global $dbconnect;
-	require_once '../konfig/connection.php';
-	require_once '../konfig/dev.php';
-	require_once '../func/func_absensi.php';
+	// require_once '../konfig/connection.php';
+	// require_once '../konfig/dev.php';
+	// require_once '../func/func_absensi.php';
 
 	$id_sub = $_POST['id_sub'];
 	$param_sub = $_POST['param_sub'];
@@ -72,33 +72,12 @@ function GetMaster($id)
 		$row = mysqli_fetch_assoc($exe);
 		$ret = ['sts' => true, 'msg' => $row];
 	}
-	return json_encode($ret);
-}
-
-function GetMasterJam($id)
-{
-	global $dbconnect;
-	$ss = '	SELECT * 
-			FROM tb1_setting2 
-			WHERE  id="' . $id . '"';
-	$exe = mysqli_query($dbconnect, $ss);
-	$num = mysqli_num_rows($exe);
-
-	if ($num <= 0) {
-		$ret = ['sts' => false, 'msg' => 'data kosong'];
-	} else {
-		$row = mysqli_fetch_assoc($exe);
-		$ret = ['sts' => true, 'msg' => $row];
-	}
-	return json_encode($ret);
+	echo json_encode($ret);
 }
 
 function UpdateStatus($id_sub)
 {
-	// pr($id_sub);
 	global $dbconnect;
-	// $id_sub = $_POST['id'];
-	// $id_sub = $_POST['id'];
 
 	$s = 'SELECT isActive FROM tb2_setting WHERE id=' . $id_sub;
 	$e = mysqli_query($dbconnect, $s);
@@ -114,37 +93,16 @@ function UpdateStatus($id_sub)
 	$ret = json_encode(['msg' => $msg, 'status' => $exe ? true : false]);
 	echo $ret;
 }
-// function UpdateStatus($id)
-// {
 
-// 	global $dbconnect;
-// 	$id_sub = $_POST['id'];
-
-// 	$s = 'select isActive from tb1_setting2 where id=' . $id;
-
-// 	$e = mysqli_query($dbconnect, $s);
-// 	$r = mysqli_fetch_assoc($e);
-
-// 	$query = 'UPDATE tb1_setting2 SET 
-// 				isActive ="' . ($r['isActive'] == '1' ? '0' : '1') . '"
-// 				WHERE id=' . $id;
-// 	// pr($query);
-// 	$exe = mysqli_query($dbconnect, $query);
-// 	$msg = $exe ? 'success' : 'failed,' . mysqli_error($dbconnect);
-// 	$ret = ['msg' => $msg, 'status' => $exe ? true : false];
-// 	return json_encode($ret);
-// }
-
+// pr($_GET);
 if (isset($_POST['insert'])) {
 	Insert();
 } else if (isset($_POST['update'])) {
 	Update();
-} else if (isset($_POST['delete'])) {
-	Delete($_POST['id']);
-} else if (isset($_POST['get_master_jam'])) {
-	echo GetMasterJam($_POST['id']);
-} else if (isset($_POST['update_status'])) {
-	echo UpdateStatus($_POST['id']);
-} else if (isset($_POST['get_master'])) {
-	echo GetMaster($_POST['id']);
+} else if (isset($_GET['delete'])) {
+	Delete($_GET['id']);
+} else if (isset($_GET['update_status'])) {
+	UpdateStatus($_GET['id']);
+} else if (isset($_GET['get_master'])) {
+	GetMaster($_GET['id']);
 }
