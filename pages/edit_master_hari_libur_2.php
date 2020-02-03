@@ -20,9 +20,8 @@ $query = '	SELECT
 				d.nama_divisi,
 				GROUP_CONCAT(l.hari) hari
 			FROM vw_divisi d 
-			LEFT JOIN 
-				vw_hari_libur_2 l ON d.id_divisi = l.id_divisi
-			GROUP BY l.id_divisi
+				LEFT JOIN  vw_hari_libur_2 l ON d.id_divisi = l.id_divisi
+			GROUP BY d.id_divisi
 			ORDER BY d.nama_divisi';
 // vd($query);
 $sql = mysqli_query($dbconnect, $query);
@@ -57,7 +56,9 @@ $num = mysqli_num_rows($sql);
 					<form id="formParam" method="POST">
 						<div class="form-group text-left">
 							<label for="param_sub">Divisi</label>
-							<input type="hidden" name="id_sub" id="id_sub">
+							<input type="hidden" name="update">
+							<input type="hidden" name="id_param" id="id_param">
+							<!-- <input type="hidden" name="id_parent" id="id_parent"> -->
 							<input disabled class="form-control " type="text" id="param_sub">
 							<small id="param_sub_msg" style="display:none" class="text-danger">
 								required
@@ -75,6 +76,9 @@ $num = mysqli_num_rows($sql);
 								<option value="sabtu">Sabtu</option>
 								<option value="minggu">Minggu</option>
 							</select>
+							<small id="value_sub_msg" style="display:none" class="text-danger">
+								required
+							</small>
 						</div>
 
 					</form>
@@ -136,7 +140,8 @@ $num = mysqli_num_rows($sql);
 											<td><?php echo $data['nama_divisi']; ?></td>
 											<td><?php echo $data['hari']; ?> </td>
 											<td class="text-center">
-												<button href="#" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+												<!-- <button onclick="onEdit(<?php echo $data['id']; ?>)">o</button> -->
+												<button href="#" onclick="onEdit(<?php echo $data['id_divisi']; ?>)" class="btn btn-primary btn-sm text-center"><i class="fas fa-pencil-alt"></i></button>
 											</td>
 										</tr>
 									<?php
@@ -165,20 +170,23 @@ $num = mysqli_num_rows($sql);
 		$('#value_sub').val('');
 		$('#value_sub_msg').attr('style', 'display:none')
 		$('#value_sub').removeClass('is-invalid')
-		$('#value_sub').multiselect('deselectAll', true);
+		$('#value_sub').multiselect('destroy');
+		// $('#value_sub').multiselect('deselectAll', true);
 	}
 
 	function onsubmitForm(el) {
-		let val = $('#param_sub').val()
 		let par = $('#param_sub').val()
+		let val = $('#value_sub').val()
 
-		if (par == '' || val == '') {
+		if (par == '' || val == null) {
 			if (par == '') {
 				$('#param_sub').addClass('is-invalid')
 				$('#param_sub_msg').removeAttr('style')
+				console.log('masuk par')
 			}
 
-			if (val == '') {
+			if (val == null) {
+				console.log('masuk val')
 				$('#value_sub').addClass('is-invalid')
 				$('#value_sub_msg').removeAttr('style')
 			}
@@ -200,8 +208,9 @@ $num = mysqli_num_rows($sql);
 				console.log(res)
 				if (res.value) {
 					$.ajax({
-						url: './konfig/update_konfigurasi.php',
-						data: 'update_konfigurasi&ajax=multi&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
+						// url: './konfig/update_konfigurasi.php',
+						url: './func/ajax_master_hari_libur_2.php',
+						data: 'ajax=multi&id_parent=<?php echo $id; ?>&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -238,14 +247,53 @@ $num = mysqli_num_rows($sql);
 		}
 	}
 
+	function onEdit(par) {
+		$.ajax({
+			url: './func/ajax_master_hari_libur_2.php',
+			data: 'get_master&id=' + par,
+			dataType: 'json',
+			method: 'get',
+			success: function(dt) {
+				console.log(dt)
+
+				if (dt.sts == false) {
+					titlex = 'Failed'
+					textx = 'Gagal, ' + dt.msg
+					typex = 'error'
+					colorx = 'btn btn-danger'
+					swal({
+						title: titlex,
+						text: textx,
+						type: typex,
+						confirmButtonColor: colorx,
+						confirmButtonText: 'ok',
+					})
+				} else {
+					let hari = dt.msg.hari ? dt.msg.hari.split(',') : ''
+					console.log(hari)
+					$('#value_sub').multiselect('select', hari)
+					$('#value_sub').multiselect({
+						includeSelectAllOption: true
+					})
+					// $('#id_parent').val(dt.msg.id_parent)
+					$('#id_param').val(dt.msg.id_divisi)
+					$('#param_sub').val(dt.msg.nama_divisi)
+					openModal()
+				}
+			}
+		})
+	}
+
 	$(document).ready(function() {
 
-		// $('#value_sub').multiselect();
+		$('#value_sub').multiselect({
+			includeSelectAllOption: true,
+		});
 
 		$('#myModal').on('hidden.bs.modal', function() {
 			console.log('modal closed')
 			resetFormSub()
-			$('#id_sub').val('')
+			$('#id_param').val('')
 		})
 
 		var table = $('#detKonfigTbl').DataTable({
@@ -269,9 +317,23 @@ $num = mysqli_num_rows($sql);
 			var data = table.row($(this).parents('tr')).data();
 			let hari = data[2].split(',');
 			console.log(hari)
-			$('#id_sub').val(data[0])
+			$('#id_param').val(data[0])
 			$('#param_sub').val(data[1])
 			$('#value_sub').val(data[2])
+
+			// $('#value_sub').multiselect({
+			// 	// includeSelectAllOption: true,
+			// 	// onChange: function(option, checked) {
+			// 	// 	alert(option.length + ' options ' + (checked ? 'selected' : 'deselected'));
+			// 	// }
+
+			// 	// enableClickableOptGroups: true,
+			// 	// enableCollapsibleOptGroups: true,
+			// 	// enableFiltering: true,
+			// 	// buttonContainer: '<div class="btn-group" id="example-selectedClass-container"></div>',
+			// 	// selectedClass: 'multiselect-selected',
+			// 	includeSelectAllOption: true
+			// });
 			$('#value_sub').multiselect('select', hari);
 
 			openModal()
@@ -281,6 +343,8 @@ $num = mysqli_num_rows($sql);
 			var data = table.row($(par).parents('tr')).data();
 			console.log(data)
 		}
+
+
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
 

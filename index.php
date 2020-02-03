@@ -243,8 +243,8 @@ $_SESSION['page'] = 'index';
             include "pages/edit_konfigurasi.php";
             break;
 
-          case 'edit_konfigurasi_hari_libur_2':
-            include "pages/edit_konfigurasi_hari_libur_2.php";
+          case 'edit_master_hari_libur_2':
+            include "pages/edit_master_hari_libur_2.php";
             break;
 
           case 'edit_master_jam':
