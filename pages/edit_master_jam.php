@@ -380,10 +380,10 @@ $divisi = GetDivisi2();
 										<th>Divisi</th>
 										<th>Jam <?php echo $mode; ?></th>
 										<th>Batas Absen</th>
-										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 1</th>
-										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 2</th>
-										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 3</th>
-										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 4</th>
+										<th><?php echo $mode == 'Keluar' ? 'Lebih Cepat' : 'Telat' ?> 1</th>
+										<th><?php echo $mode == 'Keluar' ? 'Lebih Cepat' : 'Telat' ?> 2</th>
+										<th><?php echo $mode == 'Keluar' ? 'Lebih Cepat' : 'Telat' ?> 3</th>
+										<th><?php echo $mode == 'Keluar' ? 'Lebih Cepat' : 'Telat' ?> 4</th>
 										<!-- <th>Status</th> -->
 										<th>Action</th>
 									</tr>
@@ -612,7 +612,8 @@ $divisi = GetDivisi2();
 					// $('#mode').val(dt.msg.id)
 
 					$('#id_divisi').val(dt.msg.id_div)
-					$('#jam').val(dt.msg.jam ? dt.msg.jam + ':00' : '')
+					$('#jam').val(dt.msg.jam + ':' + dt.msg.menit)
+					// $('#jam').val(dt.msg.jam ? dt.msg.jam + ':00' : '')
 
 					$('#persen1').val(dt.msg.persen1)
 					$('#persen2').val(dt.msg.persen2)

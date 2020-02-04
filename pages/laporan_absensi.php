@@ -350,7 +350,7 @@ $query = 'SELECT
 				from tb_absen aa join vw_tipepresensi tp on tp.id_tipepresensi = aa.id_tipe_presensi
 				where 
 					id_karyawan = k.id 
-					and `status`="H" 
+					and (`status`="H" OR `status`="D" )
 					and kode_tipepresensi="harian"
 			)jml_presensi_harian_hadir
 			,(
@@ -597,7 +597,8 @@ $divisi = GetDivisiRule();
 											$tot_lbr_wkend = GetNumWeekendByRange($tanggal_awal, $tanggal_akhir, $wkend_daynames); // 7
 
 											// tmk 1 hari & alpha																	
-											$jml_tel_tmk = $r['jml_tel_tmk'];
+											// $jml_tel_tmk = $r['jml_tel_tmk'];
+											
 											// pr($jml_tel_tmk);
 											// total hari 
 											$jml_hari = $r['jml_hari'] + 1; // 24
@@ -608,7 +609,8 @@ $divisi = GetDivisiRule();
 											// pr($jml_hari_aktif);
 
 											$jml_tidak_absen = $jml_hari_aktif - $jml_presensi_harian_hadir;
-											$jml_tel_tmk = $jml_tel_tmk + $jml_tidak_absen;
+											// $jml_tel_tmk = $jml_tel_tmk + $jml_tidak_absen;
+											$jml_tel_tmk = $jml_tidak_absen;
 											$jml_pot_tmk = $jml_tel_tmk * 4;
 											// pr($jml_tel_tmk);
 

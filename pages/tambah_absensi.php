@@ -168,7 +168,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('masuk')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam" required />
+								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam"  />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('masuk')" type="button">x</button>
 								</div>
@@ -194,7 +194,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('keluar')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam" required />
+								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam"  />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('keluar')" type="button">x</button>
 								</div>
@@ -426,11 +426,11 @@ $tipe_presensi = GetTipePresensi2();
 		if (tp == 'harian') { // presensi harian
 			if (sel == 'H') {
 				$('.jam').removeAttr('style')
-				$('.input-jam').attr('required', true)
+				// $('.input-jam').attr('required', true)
 				$('.keterangan').attr('style', 'display:none;')
 			} else {
 				$('.keterangan').removeAttr('style')
-				$('.input-jam').removeAttr('required')
+				// $('.input-jam').removeAttr('required')
 				$('.jam-rule').attr('style', 'display:none;')
 				$('.jam').attr('style', 'display:none')
 			}
@@ -441,7 +441,7 @@ $tipe_presensi = GetTipePresensi2();
 				$('.keterangan').removeAttr('style')
 			}
 			$('.jam').attr('style', 'display:none;')
-			$('.input-jam').removeAttr('required')
+			// $('.input-jam').removeAttr('required')
 			$('.jam-rule').attr('style', 'display:none;')
 		}
 	}

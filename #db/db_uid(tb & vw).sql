@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-02-24 15:52:44
+Date: 2020-02-04 10:54:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -450,9 +450,9 @@ INSERT INTO `tb1_setting2` VALUES ('2', '2', '16', '30', '5', '30', '31', '60', 
 INSERT INTO `tb1_setting2` VALUES ('3', '1', '08', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '06', '16', '03', '25', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('15', '2', '17', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2', '0', '15', '19', '03', '25', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('16', '1', '08', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '15', '02', '24', '0000-00-00 00:00:00', '1');
-INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '09', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
+INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('18', '2', '16', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '15', '19', '02', '24', '0000-00-00 00:00:00', '1');
-INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '03', '04', '26', '0000-00-00 00:00:00', '1');
+INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '0003', '04', '26', '0000-00-00 00:00:00', '1');
 
 -- ----------------------------
 -- Table structure for tb1_status_pernikahan
@@ -505,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -545,16 +545,16 @@ INSERT INTO `tb2_setting` VALUES ('72', '2020-03-25', 'isra mi\'raj', null, '27'
 INSERT INTO `tb2_setting` VALUES ('73', '2020-03-22', 'Nyepi', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', 'Parameter hari libur akhir pekan karyawan berdasarkan divisinya', null, null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('78', '25', 'senin', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('88', '2020-02-05', 'ultah adiknya bos x', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('94', '1', '1', null, '1', null, '0', '0');
-INSERT INTO `tb2_setting` VALUES ('115', '26', 'senin', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('116', '26', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('134', '2020-02-06', 'Nyepi', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('143', '24', 'minggu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('152', '23', 'sabtu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('153', '23', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('154', '2020-02-15', 'fogging kantor', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('155', '25', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('159', '26', 'jumat', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('160', '26', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('161', '26', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('162', '23', 'minggu', null, '75', null, '1', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -580,20 +580,14 @@ CREATE TABLE `tb_absen` (
   `mode` enum('otomatis','manual') DEFAULT NULL,
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
 -- ----------------------------
-INSERT INTO `tb_absen` VALUES ('171', '3', '08:15', '16:00', '15', '30', '1', '1', '2020-02-18', 'H', null, '', '45', '0.25', '0.25', '0.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('172', '3', '11:28', '16:45', '208', '0', '4', '0', '2020-02-17', 'H', null, '', '208', '0.00', '2.50', '2.50', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('173', '3', '', '16:45', '0', '0', '0', '0', '2020-02-21', 'H', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
-INSERT INTO `tb_absen` VALUES ('174', '3', '', '', '0', '0', '0', '0', '2020-02-10', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
-INSERT INTO `tb_absen` VALUES ('175', '3', '', '', '0', '0', '0', '0', '2020-02-24', 'A', null, 'ktiduran', '0', '0.00', '0.00', '2.00', 'manual', '49');
-INSERT INTO `tb_absen` VALUES ('176', '3', '', '', '0', '0', '0', '0', '2020-02-07', 'H', null, 'ktiduran', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('177', '3', '', '', '0', '0', '0', '0', '2020-02-12', 'A', null, 'males', '0', '0.00', '0.00', '2.00', 'manual', '48');
-INSERT INTO `tb_absen` VALUES ('178', '3', '08:45', '', '45', '0', '2', '0', '2020-02-03', 'H', null, '', '45', '0.00', '1.00', '1.00', 'otomatis', '47');
-INSERT INTO `tb_absen` VALUES ('179', '3', '09:30', '', '90', '0', '3', '0', '2020-02-04', 'H', null, '', '90', '0.00', '2.50', '2.50', 'otomatis', '47');
+INSERT INTO `tb_absen` VALUES ('188', '3', '08:00', '16:00', '0', '30', '0', '1', '2020-02-03', 'H', null, '', '30', '0.25', '0.00', '0.25', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('189', '3', '', '', '0', '0', '0', '0', '2020-02-04', 'D', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('190', '3', '', '', '0', '0', '0', '0', '2020-02-01', 'D', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
 
 -- ----------------------------
 -- Table structure for tb_id
