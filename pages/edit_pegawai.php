@@ -94,10 +94,10 @@ if (!isset($_SESSION['page'])) {
 
 					<div class="tab-content">
 						<div class="tab-pane active" id="tab_1">
-							<!-- <div class="form-group">
-								<label for="exampleInputEmail1">tag</label>
-								<input required class="form-control" type="text" value="<?php echo $data['tag']; ?>" name="tag" placeholder="Masukan tag">
-							</div> -->
+							<div class="form-group">
+								<label for="exampleInputEmail1">UID</label>
+								<input required class="form-control" type="text" value="<?php echo $data['uid']; ?>" name="uid" placeholder="Masukan uid">
+							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">nama</label>
 								<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">

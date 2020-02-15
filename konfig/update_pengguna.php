@@ -4,12 +4,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     require 'dev.php';
     include 'connection.php';
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-    $id_karyawan = $_POST['id_karyawan'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    $level = trim($_POST['role']);
+    $id_karyawan = trim($_POST['id_karyawan']);
+    $no = trim($_POST['id']);
+    // pr('ok');
 
-    if ($role == '1') { // user
+    if ($level == '1') { // user
         $ss = ' SELECT *
                 FROM tb_pengguna
                 WHERE
@@ -17,15 +19,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     and id_karyawan = "' . $id_karyawan . '"';
         $ee = mysqli_query($dbconnect, $ss);
         $nn = mysqli_num_rows($ee);
-
+        
+        // pr($nn);
         if ($nn > 0) {
             $out = ['msg' => 'pegawai sudah mempunyai user login', 'status' => false];
         } else {
-            $query = "UPDATE tb_pengguna SET 
-                        username=" . $username . ", 
-                        password=" . $password . ",
-                        level=" . $level . " 
-                    WHERE no=" . $id;
+            $query = 'UPDATE tb_pengguna SET 
+                        username="' . $username . '", 
+                        password="' . $password . '",
+                        id_karyawan="' . $id_karyawan . '",
+                        level="' . $level . '" 
+                    WHERE no=' . $no;
 
             // pr($query);
             $sql = mysqli_query($dbconnect, $query);

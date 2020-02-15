@@ -2,6 +2,7 @@
 
 require_once '../konfig/dev.php';
 require_once '../konfig/connection.php';
+require_once '../konfig/function.php';
 // require_once '../func/func_absensi.php';
 function IsNotDuplicate($par)
 {
@@ -170,60 +171,81 @@ if (isset($_POST['add_absensi'])) {
 	// $capture = $_POST['capture'];
 	// $potongan = $_POST['potongan'];
 
-	$valid = IsNotDuplicate([
-		'id_karyawan' => $id_karyawan,
-		'id_tipe_presensi' => $id_tipe_presensi[0],
-		'tanggal' => $date,
-	]);
-	// vd($valid);
+	$liburHariBesar = IsHoliday_($date);
+	$getNamaLibur = GetHoliday_($date);
+	$liburWeekend = IsHoliday2_($date, $id_divisi);
 
-	$terlambat_keluar = 0;
-	$terlambat_masuk = 0;
-	$terlambat_total = 0;
-	$potongan_total = 0;
-	$potongan_masuk = 0;
-	$potongan_keluar = 0;
+	// pr($liburHariBesar);
+	if ($liburWeekend == '1' || $liburHariBesar == '1') {
+		$ret = json_encode([
+			'msg' => $liburWeekend == '1' ? GetDayName_($date).' hari libur weekend' : date('d F Y', strtotime($date)).' hari libur ' . $getNamaLibur,
+			'status' => false
+		]);
+		echo $ret;
+	} else {
+		$valid = IsNotDuplicate([
+			'id_karyawan' => $id_karyawan,
+			'id_tipe_presensi' => $id_tipe_presensi[0],
+			'tanggal' => $date,
+		]);
+		// vd($valid);
 
-	$kat_terlambat_masuk = 0;
-	$kat_terlambat_keluar = 0;
+		$terlambat_keluar = 0;
+		$terlambat_masuk = 0;
+		$terlambat_total = 0;
+		$potongan_total = 0;
+		$potongan_masuk = 0;
+		$potongan_keluar = 0;
 
-	$itp = $id_tipe_presensi[1];
-	if ($itp == 'skj' || $itp == 'diklat') {
-		$potongan_total = '2'; // 2 %
-	} else if ($itp == 'dispensasi') {
-		$potongan_total = '3'; // 3 %
-	} else { // harian
-		if ($status == 'H') {
-			$kalku = GetKeterlambatan([
-				'id_divisi' => $id_divisi,
-				'masuk' => $masuk,
-				'keluar' => $keluar,
-			]);
-			// vd($kalku);
+		$kat_terlambat_masuk = 0;
+		$kat_terlambat_keluar = 0;
 
-			// kategori telat 
-			$kat_terlambat_masuk = $kalku['kat_terlambat_masuk'];
-			$kat_terlambat_keluar = $kalku['kat_terlambat_keluar'];
+		$itp = $id_tipe_presensi[1];
+		if ($itp == 'skj' || $itp == 'diklat') {
+			$potongan_total = '2'; // 2 %
+		} else if ($itp == 'dispensasi') {
+			$potongan_total = '3'; // 3 %
+		} else { // harian
+			// $liburHariBesar = IsHoliday_($date);
+			// $liburWeekend = IsHoliday2_($date, $id_divisi);
 
-			// terlambat (menit)
-			$terlambat_masuk = $kalku['terlambat_masuk'];
-			$terlambat_keluar = $kalku['terlambat_keluar'];
-			$terlambat_total = $kalku['terlambat_total'];
+			// // pr($liburHariBesar);
+			// if ($liburWeekend == '1' || $liburHariBesar == '1') {
+			// 	echo "Hari Libur";
+			// } else {
 
-			// potongan (persen %)
-			$potongan_masuk = $kalku['potongan_masuk'];
-			$potongan_keluar = $kalku['potongan_keluar'];
-			$potongan_total = $kalku['potongan_total'];
-		} else if ($status == 'A') {
-			$kat_terlambat_masuk = 4;
-			$kat_terlambat_keluar = 4;
-			$masuk = '';
-			$keluar = '';
+			if ($status == 'H') {
+				$kalku = GetKeterlambatan([
+					'id_divisi' => $id_divisi,
+					'masuk' => $masuk,
+					'keluar' => $keluar,
+				]);
+				// vd($kalku);
+
+				// kategori telat 
+				$kat_terlambat_masuk = $kalku['kat_terlambat_masuk'];
+				$kat_terlambat_keluar = $kalku['kat_terlambat_keluar'];
+
+				// terlambat (menit)
+				$terlambat_masuk = $kalku['terlambat_masuk'];
+				$terlambat_keluar = $kalku['terlambat_keluar'];
+				$terlambat_total = $kalku['terlambat_total'];
+
+				// potongan (persen %)
+				$potongan_masuk = $kalku['potongan_masuk'];
+				$potongan_keluar = $kalku['potongan_keluar'];
+				$potongan_total = $kalku['potongan_total'];
+			} else if ($status == 'A') {
+				$kat_terlambat_masuk = 4;
+				$kat_terlambat_keluar = 4;
+				$masuk = '';
+				$keluar = '';
+			}
+			// }
 		}
-	}
 
-	if ($valid) {
-		$query = "INSERT INTO `tb_absen` (
+		if ($valid) {
+			$query = "INSERT INTO `tb_absen` (
 				`id_karyawan`
 				,`id_tipe_presensi`
 				,`masuk`
@@ -259,14 +281,18 @@ if (isset($_POST['add_absensi'])) {
 				,'$kat_terlambat_masuk'
 				,'$kat_terlambat_keluar'
 			)";
-		// vd($query);
-		$exe = mysqli_query($dbconnect, $query);
-		$msg = $exe ? 'success' : 'failed,' . mysqli_error($dbconnect);
-		$ret = json_encode(['msg' => $msg, 'status' => $exe ? true : false]);
-		echo $ret;
-	} else {
-		$ret = json_encode(['msg' => 'data duplikat, (karyawan sudah melakukan presensi, tanggal dan tipe presensi sama) ', 'status' => false]);
-		echo $ret;
+			// vd($query);
+			$exe = mysqli_query($dbconnect, $query);
+			$msg = $exe ? 'success' : 'failed,' . mysqli_error($dbconnect);
+			$ret = json_encode(['msg' => $msg, 'status' => $exe ? true : false]);
+			echo $ret;
+		} else {
+			$ret = json_encode([
+				'msg' => 'data duplikat, (karyawan sudah melakukan presensi, tanggal dan tipe presensi sama) ',
+				'status' => false
+			]);
+			echo $ret;
+		}
 	}
 } else if (isset($_POST['add_absensi_user'])) {
 	require_once '../konfig/connection.php';

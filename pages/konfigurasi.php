@@ -44,7 +44,7 @@ if (isset($_SESSION['page'])) {
 					while ($data = mysqli_fetch_assoc($sql)) {
 					?>
 						<tbody class="bg-white">
-							<tr class="odd gradeX">
+							<!-- <tr class="odd gradeX">
 								<td><?php echo $no; ?></td>
 								<td>Mulai jam masuk</td>
 								<td><?php echo $data['masuk_mulai']; ?></td>
@@ -52,7 +52,7 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['masuk_mulai']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
+								<?php // $no += '1'; ?>
 							</tr>
 
 							<tr class="odd gradeX">
@@ -63,7 +63,7 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['masuk_akhir']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
+								<?php //$no += '1'; ?>
 							</tr>
 
 							</tr>
@@ -75,8 +75,8 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['keluar_mulai']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
-							</tr>
+								<?php //$no += '1'; ?>
+							</tr> 
 
 							</tr>
 							<tr class="odd gradeX">
@@ -87,7 +87,7 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['keluar_akhir']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
+								<?php //$no += '1'; ?>
 							</tr>
 
 							</tr>
@@ -99,7 +99,7 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['libur1']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
+								<?php //$no += '1'; ?>
 							</tr>
 
 							</tr>
@@ -111,8 +111,9 @@ if (isset($_SESSION['page'])) {
 								<td>
 									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['libur2']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
-								<?php $no += '1'; ?>
+								<?php //$no += '1'; ?>
 							</tr>
+							-->
 
 							</tr>
 							<tr class="odd gradeX">

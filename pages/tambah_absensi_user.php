@@ -1,10 +1,16 @@
 <?php
-if (isset($_SESSION['page'])) {
+require_once './func/func_pegawai.php';
+require_once './func/func_absensi.php';
+
+if (isset($_SESSION['page']) && isset($_SESSION['karyawan'])) {
+
 } else {
 	header("location: ../index.php?page=dashboard&error=true");
 }
-require_once './func/func_pegawai.php';
-require_once './func/func_absensi.php';
+// if (isset($_SESSION['page'])) {
+// } else {
+// 	header("location: ../index.php?page=dashboard&error=true");
+// }
 // pr($_SESSION);
 $karyawan = GetKaryawan2();
 $tipe_presensi = GetTipePresensi2();
@@ -15,22 +21,32 @@ $liburHariBesar = IsHoliday(date('Y-m-d'));
 $liburWeekend = IsHoliday2(date('Y-m-d'), $_SESSION['karyawan']['id_divisi']);
 
 if ($liburHariBesar == '1' || $liburWeekend == '1') {
-	echo '<script>alert("Sekarang hari libur");window.location.replace("index.php?page=absensi")</script>';
+	$getNamaLibur = GetHoliday_($date);
+	$msg = $liburWeekend == '1' ? GetDayName_(date('Y-m-d')) . ' hari libur weekend' : date('d F Y', strtotime($date)) . ' hari libur ' . $getNamaLibur;
+	echo '<script>alert("' . $msg . '");window.location.replace("index.php?page=absensi")</script>';
 } else {
 	$jadwal = GetJadwalByDivisi($_SESSION['karyawan']['id_divisi']);
-	// pr($jadwal);
-	$rule_jam_masuk = $jadwal['mas_jam'] . ':' . $jadwal['mas_menit'];
-	$rule_jam_keluar = $jadwal['kel_jam'] . ':' . $jadwal['kel_menit'];
+	// vd(!$jadwal['status']);
+	if (!$jadwal['status']) {
+		$link = !isset($jadwal['mas_jam']) ? ' <a target="_blank" href="?page=edit_master_jam&id=1">jadwal Jam Masuk</a>' :  ' <a target="_blank" href="?page=edit_master_jam&id=2">jadwal Jam Keluar</a>';
+		echo $jadwal['msg'] . (isset($_SESSION['karyawan']) ? 'silakan menghubungi admin' : $link);
+		exit();
+	} elseif ($jadwal['kel_jam'] == '') {
+		echo 'jam pulang kosong';
+		exit();
+	} else {
+		$rule_jam_masuk = $jadwal['mas_jam'] . ':' . $jadwal['mas_menit'];
+		$rule_jam_keluar = $jadwal['kel_jam'] . ':' . $jadwal['kel_menit'];
 
-	// batas absen
-	// 'mas_bts_1' => $mas_bts_1,
-	// 'mas_bts_2' => $mas_bts_2,
-	// 'kel_bts_1' => $kel_bts_1,
-	// 'kel_bts_2' => $kel_bts_2,
+		// batas absen
+		// 'mas_bts_1' => $mas_bts_1,
+		// 'mas_bts_2' => $mas_bts_2,
+		// 'kel_bts_1' => $kel_bts_1,
+		// 'kel_bts_2' => $kel_bts_2,
 
-	$rule_batas_masuk = $jadwal['mas_bts_1'] . ':00 - ' . $jadwal['mas_bts_2'] . ':00';
-	$rule_batas_keluar = $jadwal['kel_bts_1'] . ':00 - ' . $jadwal['kel_bts_2'] . ':00';
-
+		$rule_batas_masuk = $jadwal['mas_bts_1'] . ':00 - ' . $jadwal['mas_bts_2'] . ':00';
+		$rule_batas_keluar = $jadwal['kel_bts_1'] . ':00 - ' . $jadwal['kel_bts_2'] . ':00';
+	}
 	// $valid = IsNotDuplicate([
 	// 	'id_karyawan' => $_SESSION['id_karyawan'],
 	// 	'id_tipe_presensi' => $id_tipe_presensi[0],

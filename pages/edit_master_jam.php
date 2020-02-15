@@ -348,6 +348,7 @@ $divisi = GetDivisi2();
 										$ico = $status == '1' ? 'check' : 'minus';
 										$txt = $status == '1' ? 'Active' : 'Inactive';
 										$clr = $status == '1' ? 'success' : 'default';
+										$color = $status == '1' ? 'success' : 'default';
 									?>
 										<tr class="text-center table-<?php echo $color; ?>">
 											<td><?php echo $data['id']; ?></td>

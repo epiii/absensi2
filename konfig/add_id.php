@@ -1,6 +1,8 @@
 <?php
 include 'function.php';
+include 'dev.php';
 
+// pr($_POST);
 if (isset($_POST['status']) && isset($_POST['id'])) {
 
 	$status = trim($_POST['status']);
@@ -20,7 +22,7 @@ if (isset($_POST['status']) && isset($_POST['id'])) {
 			// $sql = mysqli_query($dbconnect, "INSERT INTO tb_id VALUES ('$tag','','','1')");
 			echo $sql ? 'ID ditambahkan' : 'gagal,' . mysqli_error($dbconnect);
 		} else {
-			echo 'UID Tersedia';
+			echo 'UID sudah terdaftar';
 		}
 	} else {
 		echo '1';

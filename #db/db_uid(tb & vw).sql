@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-02-02 06:13:01
+Date: 2020-02-15 15:56:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -440,7 +440,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -505,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -541,18 +541,19 @@ INSERT INTO `tb2_setting` VALUES ('48', 'diklat', 'DIKLAT', null, '46', null, '1
 INSERT INTO `tb2_setting` VALUES ('49', 'skj', 'SKJ', null, '46', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('50', 'dispensasi', 'Dispensasi', null, '46', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('71', '2020-01-25', 'imlek', null, '27', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('72', '2020-03-22', 'isra mi\'raj', null, '27', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('73', '2020-03-25', 'Nyepi', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('72', '2020-03-25', 'isra mi\'raj', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('73', '2020-03-22', 'Nyepi', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('74', '2020-05-01', 'Hari Buruh', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('75', 'hari_libur_2', 'Libur Weekend', 'Parameter hari libur akhir pekan karyawan berdasarkan divisinya', null, null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('76', '23', 'sabtu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('77', '23', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('78', '25', 'senin', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('79', '26', 'kamis', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('80', '26', 'sabtu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('81', '26', 'minggu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('82', '26', 'senin', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('88', '2020-01-31', 'ultah adiknya bos x', null, '27', null, '0', '0');
+INSERT INTO `tb2_setting` VALUES ('88', '2020-02-05', 'ultah adiknya bos x', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('94', '1', '1', null, '1', null, '0', '0');
+INSERT INTO `tb2_setting` VALUES ('115', '26', 'senin', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('116', '26', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('134', '2020-02-06', 'Nyepi', null, '27', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('143', '24', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('144', '23', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('145', '23', 'minggu', null, '75', null, '1', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -578,12 +579,12 @@ CREATE TABLE `tb_absen` (
   `mode` enum('otomatis','manual') DEFAULT NULL,
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
 -- ----------------------------
-INSERT INTO `tb_absen` VALUES ('114', '6', '08:00', '15:00', '0', '90', '0', '3', '2020-02-02', 'H', null, '', '90', '2.50', '0.00', '2.50', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('165', '3', '', '17:11', '0', '0', '0', '0', '2020-02-14', 'H', null, '', '0', '0.00', '0.00', '0.00', 'otomatis', '47');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -619,12 +620,16 @@ CREATE TABLE `tb_id` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
-INSERT INTO `tb_id` VALUES ('6', 'abc123', 'bejo', 'aa@aa.com', '0', '0', '1', '', '2020-02-03', '', '', '', '', '', '', '9', '15', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-02 04:25:06');
+INSERT INTO `tb_id` VALUES ('3', '8667E073', 'Yuwono', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '23', '', '', '', '', '0', '', '', '1', '0', '2020-02-13 12:53:06');
+INSERT INTO `tb_id` VALUES ('5', '454F7276', 'Wahyudi', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:29');
+INSERT INTO `tb_id` VALUES ('6', '964EDF73', 'Asfiatul ', '', '0', '0', '2', '', '0000-00-00', '', '', '', '', '', '', '0', '', '26', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:36');
+INSERT INTO `tb_id` VALUES ('7', '5642DF73', 'Alit Catur', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '25', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:23');
+INSERT INTO `tb_id` VALUES ('10', '465E1F73', 'paiman', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '25', '', '', '', '', '0', '', '', '1', '0', '2020-02-15 00:50:53');
 
 -- ----------------------------
 -- Table structure for tb_pengguna
@@ -637,17 +642,17 @@ CREATE TABLE `tb_pengguna` (
   `level` int(1) NOT NULL,
   `id_karyawan` int(11) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_pengguna
 -- ----------------------------
 INSERT INTO `tb_pengguna` VALUES ('2', 'dio', '123', '0', null);
 INSERT INTO `tb_pengguna` VALUES ('6', 'admin', 'admin', '0', null);
-INSERT INTO `tb_pengguna` VALUES ('8', 'operator', 'operator', '0', null);
-INSERT INTO `tb_pengguna` VALUES ('13', 'adminz', 'adminz', '0', null);
-INSERT INTO `tb_pengguna` VALUES ('19', 'udin', 'udin', '1', '4');
-INSERT INTO `tb_pengguna` VALUES ('21', 'bejo', 'bejo', '1', '6');
+INSERT INTO `tb_pengguna` VALUES ('21', 'alit', 'alit', '1', '7');
+INSERT INTO `tb_pengguna` VALUES ('22', 'asfiatul', 'asfiatul', '1', '6');
+INSERT INTO `tb_pengguna` VALUES ('23', 'wahyudi', 'wahyudi', '1', '5');
+INSERT INTO `tb_pengguna` VALUES ('24', 'yuwono', 'yuwono', '1', '3');
 
 -- ----------------------------
 -- Table structure for tb_rfid
@@ -685,7 +690,7 @@ CREATE TABLE `tb_settings` (
 -- ----------------------------
 -- Records of tb_settings
 -- ----------------------------
-INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'emailpresensi@gmail.com', 'dtproduction', '1749B411');
+INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'taufikhosting@gmail.com', '9kali9=81', '59C28E50');
 
 -- ----------------------------
 -- View structure for vw_agama

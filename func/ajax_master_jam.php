@@ -28,8 +28,8 @@ function Update()
 	$telat3b = $_POST['telat3b'];
 	$persen3 = $_POST['persen3'];
 	$persen4 = $_POST['persen4'];
-	$batas1 = $_POST['batas1'];
-	$batas2 = $_POST['batas2'];
+	$batas1 = $_POST['batas1'] < 10 ? '0' . $_POST['batas1'] : $_POST['batas1'];
+	$batas2 = $_POST['batas2'] < 10 ? '0' . $_POST['batas2'] : $_POST['batas2'];
 
 	if (isset($_POST['id']) && $_POST['id'] != '') { // edit 
 		$query = 'UPDATE tb1_setting2 SET 

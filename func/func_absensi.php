@@ -59,7 +59,6 @@ if (isset($_REQUEST['ajax'])) {
 		// 				SELECT id_karyawan FROM tb_absen where date ="' . $tanggal . '"
 		// 			)
 		// 			';
-		// pr($ss);
 		$result = mysqli_query($dbconnect, $ss);
 		$row    = mysqli_fetch_array($result);
 		$count  = mysqli_num_rows($result);
@@ -76,18 +75,21 @@ if (isset($_REQUEST['ajax'])) {
 		} else {
 			$ss .= 'ORDER BY ' . $sidx . ' ' . $sord;
 		}
-		$result = mysqli_query($dbconnect, $ss); //or die("Couldn t execute query." . mysqli_error());
+		$result2 = mysqli_query($dbconnect, $ss); //or die("Couldn t execute query." . mysqli_error());
+		// vd($result2);
 		$rows 	= array();
-		while ($row = mysqli_fetch_assoc($result)) {
-			$s = 'SELECT *
-			FROM tb1_setting2 
-			WHERE id_divisi = "' . $row['id_divisi'] . '" AND isActive="1"';
+		while ($row = mysqli_fetch_assoc($result2)) {
+			$s = '	SELECT *
+					FROM tb1_setting2 
+					WHERE id_divisi = "' . $row['id_divisi'] . '" AND isActive="1"';
 			$e = mysqli_query($dbconnect, $s);
+			// vd($e);
 			$detRows = [];
 			while ($r = mysqli_fetch_assoc($e)) {
 				$detRows[] = $r;
 			}
 
+			// pr($detRows[1]==null);
 			$rows[] = array(
 				'id' => $row['id'],
 				'nip' => $row['nip'] ? $row['nip'] : '-',
@@ -98,8 +100,10 @@ if (isset($_REQUEST['ajax'])) {
 				'id_divisi' => $row['id_divisi'] ? $row['id_divisi'] : '-',
 
 				//detail
-				'rule_masuk' => $row['id_divisi'] != null ? $detRows[0] : '',
-				'rule_keluar' => $row['id_divisi'] != null ? $detRows[1] : '',
+				'rule_masuk' => isset($row['id_divisi'])  ? $detRows[0] : '',
+				'rule_keluar' => isset($row['id_divisi'])  ? $detRows[1] : '',
+				// 'rule_masuk' => $row['id_divisi'] != null ? $detRows[0] : '',
+				// 'rule_keluar' => $row['id_divisi'] != null ? $detRows[1] : '',
 			);
 		}
 
@@ -118,7 +122,7 @@ if (isset($_REQUEST['ajax'])) {
 		$sidx       = 'nama'; // get index row - i.e. user click to sort
 		// $sidx       = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord       = $_GET['sord']; // get the direction
-		$searchTerm = $_GET['searchTerm'];
+		$searchTerm = trim($_GET['searchTerm']);
 
 		$ss = 'SELECT
 					i.*, d.*, j.*
@@ -364,6 +368,20 @@ if (isset($_REQUEST['ajax'])) {
 		return $nn; // 1=libur, 0=tdk libur 
 	}
 
+	// count : libur tgl merah 
+	function GetNumHoliday($date1, $date2)
+	{
+		global $dbconnect;
+		$ss = 'SELECT count(*)num
+				FROM vw_hari_libur
+				WHERE
+					kode_hari_libur >= "' . $date1 . '"
+					AND kode_hari_libur <= "' . $date2 . '"';
+		$ee = mysqli_query($dbconnect, $ss);
+		$rr = mysqli_fetch_assoc($ee);
+		return $rr['num']; // 1=libur, 0=tdk libur 
+	}
+
 	function GetDayName($date)
 	{
 		$dayName = [
@@ -393,7 +411,7 @@ if (isset($_REQUEST['ajax'])) {
 		$nn = mysqli_num_rows($ee);
 		// vd($nn);
 		return $nn; // 1=libur, 0 = tidak libur
-		 // > 0 ? 'true' : false;
+		// > 0 ? 'true' : false;
 	}
 
 
@@ -509,7 +527,6 @@ if (isset($_REQUEST['ajax'])) {
 		return $datas;
 	}
 
-
 	function GetJadwalByDivisi($id_divisi)
 	{
 		global $dbconnect;
@@ -517,7 +534,10 @@ if (isset($_REQUEST['ajax'])) {
 			FROM tb1_setting2
 			WHERE id_divisi =' . $id_divisi . ' AND isActive ="1"';
 		$exe = mysqli_query($dbconnect, $sql);
+		$num = mysqli_num_rows($exe);
+		// pr($sql);
 		$r = [];
+
 		while ($row = mysqli_fetch_assoc($exe)) {
 			if ($row['no'] == '1') {
 				// masuk 
@@ -567,49 +587,59 @@ if (isset($_REQUEST['ajax'])) {
 			// $r[] = $row;
 		}
 
-		$out = array(
-			// masuk 
-			'mas_jam' => $mas_jam,
-			'mas_menit' => $mas_menit,
+		if ($num < 2) {
+			// pr($num);
+			$out = [
+				'status' => false,
+				'msg' => 'Jadwal (by divisi) belum di-setting, ',
+			];
+		} else {
 
-			// batas 
-			'mas_bts_1' => $mas_bts_1,
-			'mas_bts_2' => $mas_bts_2,
-			'kel_bts_1' => $kel_bts_1,
-			'kel_bts_2' => $kel_bts_2,
+			$out = array(
+				'status' => true,
+				// masuk 
+				'mas_jam' => $mas_jam,
+				'mas_menit' => $mas_menit,
 
-			// telat 
-			'mas_tel_1a' => $mas_tel_1a,
-			'mas_tel_1b' => $mas_tel_1b,
-			'mas_tel_2a' => $mas_tel_2a,
-			'mas_tel_2b' => $mas_tel_2b,
-			'mas_tel_3a' => $mas_tel_3a,
-			'mas_tel_3b' => $mas_tel_3b,
+				// batas 
+				'mas_bts_1' => $mas_bts_1,
+				'mas_bts_2' => $mas_bts_2,
+				'kel_bts_1' => $kel_bts_1,
+				'kel_bts_2' => $kel_bts_2,
 
-			// potongan %
-			'mas_per_1' => $mas_per_1,
-			'mas_per_2' => $mas_per_2,
-			'mas_per_3' => $mas_per_3,
-			'mas_per_4' => $mas_per_4,
+				// telat 
+				'mas_tel_1a' => $mas_tel_1a,
+				'mas_tel_1b' => $mas_tel_1b,
+				'mas_tel_2a' => $mas_tel_2a,
+				'mas_tel_2b' => $mas_tel_2b,
+				'mas_tel_3a' => $mas_tel_3a,
+				'mas_tel_3b' => $mas_tel_3b,
 
-			// keluar
-			'kel_jam' => $kel_jam,
-			'kel_menit' => $kel_menit,
+				// potongan %
+				'mas_per_1' => $mas_per_1,
+				'mas_per_2' => $mas_per_2,
+				'mas_per_3' => $mas_per_3,
+				'mas_per_4' => $mas_per_4,
 
-			// telat 
-			'kel_tel_1a' => $kel_tel_1a,
-			'kel_tel_1b' => $kel_tel_1b,
-			'kel_tel_2a' => $kel_tel_2a,
-			'kel_tel_2b' => $kel_tel_2b,
-			'kel_tel_3a' => $kel_tel_3a,
-			'kel_tel_3b' => $kel_tel_3b,
+				// keluar
+				'kel_jam' => $kel_jam,
+				'kel_menit' => $kel_menit,
 
-			// potongan %
-			'kel_per_1' => $kel_per_1,
-			'kel_per_2' => $kel_per_2,
-			'kel_per_3' => $kel_per_3,
-			'kel_per_4' => $kel_per_4,
-		);
+				// telat 
+				'kel_tel_1a' => $kel_tel_1a,
+				'kel_tel_1b' => $kel_tel_1b,
+				'kel_tel_2a' => $kel_tel_2a,
+				'kel_tel_2b' => $kel_tel_2b,
+				'kel_tel_3a' => $kel_tel_3a,
+				'kel_tel_3b' => $kel_tel_3b,
+
+				// potongan %
+				'kel_per_1' => $kel_per_1,
+				'kel_per_2' => $kel_per_2,
+				'kel_per_3' => $kel_per_3,
+				'kel_per_4' => $kel_per_4,
+			);
+		}
 		return $out;
 	}
 

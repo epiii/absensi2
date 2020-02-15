@@ -28,7 +28,13 @@ $per_1_tot = isset($_POST['id_divisi'])  && $_POST['id_divisi'] != '' ? $mas_per
 
 // filter : tanggal 
 $tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date('Y-m-01');
-$tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-t');
+$tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-d');
+
+// total libur hai besar 
+$tot_lbr_bsr = GetNumHoliday($tanggal_awal, $tanggal_akhir);
+// pr($tot_lbr_bsr);
+
+// $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-t');
 $query = 'SELECT
 			k.id,
 			k.nama,
@@ -365,10 +371,30 @@ $query = 'SELECT
 		FROM
 			tb_id k';
 // tb1_karyawan k';
+// pr($query);
 $query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
-// pr($query);
+
+// $dt1 = strtotime($tanggal_awal);
+// $dt2 = strtotime($tanggal_akhir);
+// $arr = [];
+
+// $hari = ['Saturday', 'Sunday'];
+// for ($i = $dt1; $i < $dt2; $i += 86400) {
+// 	// array_push($arr, $i);
+// 	$day = date("Y-m-d", $i);
+// 	$unixTimestamp = strtotime($day);
+
+// 	$dayOfWeek = date("l", $unixTimestamp);
+
+// 	if(in_array())
+// 	// if ($dayOfWeek == "Monday") {
+// 	// 	$arr[] = $day;
+// 	// 	// echo $day . "is a" . $dayOfWeek;
+// 	// }
+// }
+// pr($arr);
 
 ?>
 <!-- <span class="label label-default">Default</span> -->
@@ -435,11 +461,11 @@ $divisi = GetDivisiRule();
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Awal</label>
-								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
+								<input required onchange="this.form.submit()" class="form-control" type="date" max="<?php echo $tanggal_akhir; ?>" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Akhir</label>
-								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
+								<input required onchange="this.form.submit()" class="form-control" type="date" max="<?php echo $tanggal_akhir; ?>" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
 							</div>
 							<div class="col-sm-3">
 								<label>.</label>
@@ -580,14 +606,14 @@ $divisi = GetDivisiRule();
 
 											// tmk 1 hari & alpha																	
 											$jml_tel_tmk = $r['jml_tel_tmk'];
-											
+
 											// total hari 
 											$jml_hari = $r['jml_hari'];
 											$jml_presensi = $r['jml_presensi'];
 											$jml_presensi_harian_hadir = $r['jml_presensi_harian_hadir'];
 											$jml_libur_tglmerah = $r['jml_libur_tglmerah'];
 											$jml_hari_aktif = $jml_hari - $jml_libur_tglmerah;
-											
+
 											$jml_tidak_absen = $jml_hari_aktif - $jml_presensi_harian_hadir;
 											$jml_tel_tmk = $jml_tel_tmk + $jml_tidak_absen;
 											$jml_pot_tmk = $jml_tel_tmk * 4;
@@ -611,6 +637,7 @@ $divisi = GetDivisiRule();
 													<td class="text-right">' . ($jml_pot_3 == 0 ? '-' : $jml_pot_3 . '%') . '</td>
 													<td class="text-right">' . ($jml_tel_4 == 0 ? '-' : $jml_tel_4) . '</td>
 													<td class="text-right">' . ($jml_pot_4 == 0 ? '-' : $jml_pot_4 . '%') . '</td>
+													
 													<td class="text-right">' . ($jml_tel_tmk == 0 ? '-' : $jml_tel_tmk) . '</td>
 													<td class="text-right">' . ($jml_pot_tmk == 0 ? '-' : $jml_pot_tmk . '%') . '</td>
 

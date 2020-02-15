@@ -5,27 +5,10 @@ if (isset($_SESSION['page'])) {
 }
 require_once './func/func_pegawai.php';
 require_once './func/func_absensi.php';
-// $karyawan = GetKaryawan();
-// $agama = GetAgama();
-// $status = GetStatus();
-// $divisi = GetDivisi();
-// $jabatan = GetJabatan();
-// $kategori = GetKatKaryawan();
-// $provinsi = GetProvinsi();
-
-// $agama = GetAgama2();
-// $status = GetStatus2();
-// $divisi = GetDivisi2();
-// $jabatan = GetJabatan2();
-// $kategori = GetKatKaryawan2();
 $karyawan = GetKaryawan2();
 $tipe_presensi = GetTipePresensi2();
 // pr($karyawan);
-// $provinsi = GetProvinsi2();
-
 ?>
-
-
 
 <div class="content-header ml-3 mr-3">
 	<div class="container-fluid">
@@ -172,7 +155,7 @@ $tipe_presensi = GetTipePresensi2();
 
 				<div class="form-group">
 					<label for="exampleInputEmail1">Tanggal</label>
-					<input required id="date" type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="date">
+					<input required id="date" type="date" max="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="date">
 				</div>
 
 

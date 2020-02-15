@@ -1,4 +1,4 @@
-<title>anu</title>
+<!-- <title>anu</title> -->
 <?php
 // print_r($_SESSION);
 // if (isset($_SESSION['page'])) {
@@ -43,9 +43,16 @@ $query = ' 	SELECT
 					a.terlambat,
 					k.nip,
 					k.nama,
-					tp.nama_tipepresensi
+					k.uid,
+					tp.nama_tipepresensi,
+					tp.kode_tipepresensi,
+					k.id_divisi,
+					a.masuk_minus,
+					a.keluar_minus,
+					d.nama_divisi
 				FROM tb_absen a
 					JOIN tb_id k ON k.id = a.id_karyawan
+					JOIN vw_divisi d ON d.id_divisi= k.id_divisi
 					JOIN vw_tipepresensi tp ON tp.id_tipepresensi = a.id_tipe_presensi
 				WHERE
 					a.date >= "' . $tanggal_awal . '"
@@ -119,11 +126,11 @@ $sql = mysqli_query($dbconnect, $query);
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Awal</label>
-								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
+								<input required onchange="this.form.submit()" class="form-control" type="date" max="<?php echo $tanggal_akhir; ?>" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal" id="tanggal_awal">
 							</div>
 							<div class="col-sm-3">
 								<label>Tanggal Akhir</label>
-								<input required onchange="this.form.submit()" class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
+								<input required onchange="this.form.submit()" class="form-control" type="date" max="<?php echo $tanggal_akhir; ?>" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir" id="tanggal_akhir">
 							</div>
 							<div class="col-sm-3">
 								<label>.</label>
@@ -132,7 +139,7 @@ $sql = mysqli_query($dbconnect, $query);
 						</div>
 					</form>
 				</div>
-<!-- 
+				<!-- 
 				<div class="card-header bg-secondary" style="height: 82px;">
 
 					<div class="row">
@@ -163,11 +170,12 @@ $sql = mysqli_query($dbconnect, $query);
 										<tr>
 											<th>No.</th>
 											<th>Tipe</th>
+											<th>UID</th>
 											<th>NIP </th>
-											<th>Nama Pegawai</th>
+											<th>Nama</th>
+											<th>Tanggal</th>
 											<th>Jam Masuk</th>
 											<th>Jam Keluar</th>
-											<th>Tanggal</th>
 											<th>Status</th>
 											<th>Mode</th>
 											<th>Capture</th>
@@ -183,7 +191,36 @@ $sql = mysqli_query($dbconnect, $query);
 										$no = 0;
 										while ($data = mysqli_fetch_assoc($sql)) {
 											$no++;
-											// pr($data);
+											$jdw = getJadwalAbsen($data['id_divisi']);
+
+											// col : jam masuk 
+											if ($data['masuk_minus'] > 0) {
+												$clrMas = "danger";
+											} else if ($data['masuk_minus'] == 0) {
+												$clrMas = "success";
+											} 
+											// else if ($data['masuk_minus'] < 0) {
+											// 	$clrMas = "primary";
+											// }
+											 else {
+												$clrMas = "secondary";
+											}
+
+											// col : jam keluar 
+											// pr($data['keluar_minus'] );
+											if ($data['keluar_minus'] > 0) {
+												$clrKel = "danger";
+											} else if ($data['keluar_minus'] == 0) {
+												$clrKel = "success";
+											}
+											//  else if ($data['keluar_minus'] < 0) {
+											// 	$clrKel = "primary";
+											// } 
+											else {
+												$clrKel = "secondary";
+											}
+
+											// row : status
 											$status = '';
 											$color = '';
 											if ($data['status'] == 'H') {
@@ -218,16 +255,34 @@ $sql = mysqli_query($dbconnect, $query);
 											<tr class="table-<?php echo $color; ?>">
 												<td><?php echo $no; ?></td>
 												<td><?php echo $data['nama_tipepresensi']; ?></td>
+												<td><?php echo $data['uid']; ?></td>
 												<td><?php echo $data['nip']; ?></td>
-												<td><?php echo $data['nama']; ?></td>
-												<td><?php echo $data['masuk']; ?></td>
-												<td><?php echo $data['keluar']; ?></td>
+												<td>
+													<?php echo $data['nama']; ?>
+													<br>
+													Divisi
+													<span class="badge badge-secondary">
+														<?php echo $data['nama_divisi'] ?>
+													</span>
+												</td>
 												<td><?php echo $data['tanggal']; ?></td>
 												<td>
-													<!-- <div class="alert alert-<?php echo $color; ?>" role="alert"> -->
-													<?php echo $status; ?>
-													<!-- </div> -->
+													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														Real <span class="badge badge-<?php echo $clrMas; ?>"> <?php echo $data['masuk']; ?></span>
+														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['mas_jam'] . ':' . $jdw['mas_menit']; ?></span>
+													<?php } else { ?>
+														<center>-</center>
+													<?php } ?>
 												</td>
+												<td>
+													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														Real <span class="badge badge-<?php echo $clrKel; ?>"> <?php echo $data['keluar']; ?></span>
+														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['kel_jam'] . ':' . $jdw['kel_menit']; ?></span>
+													<?php } else { ?>
+														<center>-</center>
+													<?php } ?>
+												</td>
+												<td><?php echo $status; ?></td>
 												<td><?php echo $data['mode']; ?></td>
 												<td class="text-center">
 													<a href="#" style="display:block;" onclick="openModal('<?php echo $capture; ?>')" class="">
@@ -239,8 +294,20 @@ $sql = mysqli_query($dbconnect, $query);
 													</a>
 												</td>
 												<td><?php echo $data['keterangan']; ?></td>
-												<td><?php echo $data['potongan']; ?>%</td>
-												<td><?php echo $data['terlambat']; ?> min</td>
+												<td>
+													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														<?php echo $data['potongan']; ?> %
+													<?php } else { ?>
+														<center>-</center>
+													<?php } ?>
+												</td>
+												<td>
+													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														<?php echo $data['terlambat']; ?> menit
+													<?php } else { ?>
+														<center>-</center>
+													<?php } ?>
+												</td>
 												<td>
 													<?php if ($data['mode'] == 'manual') { ?>
 														<center>

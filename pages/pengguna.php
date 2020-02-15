@@ -44,7 +44,8 @@ if (isset($_SESSION['page'])) {
 
           <tbody class="bg-white">
             <?php
-            $sql = mysqli_query($dbconnect, "SELECT * FROM tb_pengguna");
+            $query = 'SELECT * FROM tb_pengguna ORDER BY level desc';
+            $sql = mysqli_query($dbconnect, $query);
             $no = '0';
             while ($data = mysqli_fetch_assoc($sql)) {
               if ($data['level'] == '0') {
@@ -80,61 +81,61 @@ if (isset($_SESSION['page'])) {
 <script>
   $(document).ready(function() {
     var table = $('#penggunaTbl').DataTable({
-      dom: 'Bfrtip',
+      // dom: 'Bfrtip',
       paging: true,
-      pageLength: 5,
+      pageLength: 10,
       pageSize: 'A4',
       alignment: 'center',
       blengthChange: false,
       bPaginate: false,
       bInfo: false,
-      buttons: [{
-          // extend: 'pdf',
-          // orientation: 'landscape',
-          // messageTop: 'Januari 2020 || Divisi Keuangan ',
-          // footer:true,
-          extend: 'pdfHtml5',
-          className: 'btn-danger',
-          download: 'open',
-          messageTop: 'Total Data : <?php echo $no; ?>',
-          messageBottom: '\nTotal Data : <?php echo $no; ?>',
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4, 5]
-          },
-          title: function() {
-            let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
-            return title;
-          },
-        },
-        {
-          extend: 'excel',
-          className: 'btn-success',
-          messageTop: 'Total Data : <?php echo $no; ?>',
-          messageBottom: '\nTotal Data : <?php echo $no; ?>',
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4, 5]
-          },
-          title: function() {
-            let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
-            return title;
-          },
+      // buttons: [{
+      //     // extend: 'pdf',
+      //     // orientation: 'landscape',
+      //     // messageTop: 'Januari 2020 || Divisi Keuangan ',
+      //     // footer:true,
+      //     extend: 'pdfHtml5',
+      //     className: 'btn-danger',
+      //     download: 'open',
+      //     messageTop: 'Total Data : <?php echo $no; ?>',
+      //     messageBottom: '\nTotal Data : <?php echo $no; ?>',
+      //     exportOptions: {
+      //       columns: [0, 1, 2, 3, 4, 5]
+      //     },
+      //     title: function() {
+      //       let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
+      //       return title;
+      //     },
+      //   },
+      //   {
+      //     extend: 'excel',
+      //     className: 'btn-success',
+      //     messageTop: 'Total Data : <?php echo $no; ?>',
+      //     messageBottom: '\nTotal Data : <?php echo $no; ?>',
+      //     exportOptions: {
+      //       columns: [0, 1, 2, 3, 4, 5]
+      //     },
+      //     title: function() {
+      //       let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
+      //       return title;
+      //     },
 
-        },
-        {
-          extend: 'print',
-          className: 'btn-info',
-          messageTop: 'Total Data : <?php echo $no; ?>',
-          messageBottom: '\nTotal Data : <?php echo $no; ?>',
-          exportOptions: {
-            columns: [0, 1, 2, 3, 4, 5]
-          },
-          title: function() {
-            let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
-            return title;
-          },
+      //   },
+      //   {
+      //     extend: 'print',
+      //     className: 'btn-info',
+      //     messageTop: 'Total Data : <?php echo $no; ?>',
+      //     messageBottom: '\nTotal Data : <?php echo $no; ?>',
+      //     exportOptions: {
+      //       columns: [0, 1, 2, 3, 4, 5]
+      //     },
+      //     title: function() {
+      //       let title = 'Daftar Pegawai Satpol PP Sidoarjo\n'
+      //       return title;
+      //     },
 
-        }
-      ]
+      //   }
+      // ]
     });
   });
 </script>
