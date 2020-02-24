@@ -57,20 +57,28 @@ if ($parameter == 'hari_libur') {
 				LEFT JOIN (
 					SELECT DISTINCT(id_kategori_karyawan) from tb1_karyawan 
 				)tb on tb.id_kategori_karyawan= v.id_katkaryawan';
-} else {
+} else { // divisi
 	$query = 'SELECT
-				v.id_' . $parameter . ' as id,
-				v.kode_' . $parameter . ' as param,
-				v.nama_' . $parameter . ' as value,
+				v.id_divisi AS id,
+				v.kode_divisi AS param,
+				v.nama_divisi AS value ,
 				v.isActive,
-				tb.id_' . $parameter . ' as hasUsed
-			FROM vw_' . $parameter . ' v
-			left JOIN  (
-				SELECT
-					DISTINCT(k.id_' . $parameter . ')
-				FROM
-					tb1_karyawan k
-			) tb on tb.id_' . $parameter . ' = v.id_' . $parameter;
+				null AS hasUsed
+			FROM
+				vw_divisi v';
+	// $query = 'SELECT
+	// 			v.id_' . $parameter . ' as id,
+	// 			v.kode_' . $parameter . ' as param,
+	// 			v.nama_' . $parameter . ' as value,
+	// 			v.isActive,
+	// 			tb.id_' . $parameter . ' as hasUsed
+	// 		FROM vw_' . $parameter . ' v
+	// 		left JOIN  (
+	// 			SELECT
+	// 				DISTINCT(k.id_' . $parameter . ')
+	// 			FROM
+	// 				tb1_karyawan k
+	// 		) tb on tb.id_' . $parameter . ' = v.id_' . $parameter;
 }
 // $query = "SELECT * from tb2_setting where id_parent =" . $id;
 // vd($query);
@@ -256,6 +264,7 @@ $num = mysqli_num_rows($sql);
 			cancelButtonText: 'Tidak'
 		}).then((res) => {
 			console.log(res)
+			// return false;
 
 			if (res.value) {
 				$.ajax({

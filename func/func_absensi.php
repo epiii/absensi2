@@ -358,6 +358,86 @@ if (isset($_REQUEST['ajax'])) {
 	// var_dump($dbconnect);
 	// exit();
 
+	function GetWeekendByDiv($id_divisi)
+	{
+		global $dbconnect;
+		if (!isset($id_divisi)) {
+			return 'param is required (id divisi)';
+		} else {
+			$s = 'SELECT * FROM vw_hari_libur_2 WHERE id_divisi=' . $id_divisi . ' and isACtive=1';
+			$e = mysqli_query($dbconnect, $s);
+			// pr($s);
+			$out = [];
+			while ($r = mysqli_fetch_assoc($e)) {
+				$out[] = $r['hari'];
+			}
+			return $out;
+		}
+	}
+
+	function GetNumWeekendByRange($startDate, $endDate, $searchDay)
+	{
+		$lbr_tgl_merah = GetHolidayByRange($startDate, $endDate);
+
+		$endDate = strtotime($endDate);
+		$days = array(
+			'senin' => 'Monday',
+			'selasa' => 'Tuesday',
+			'rabu' => 'Wednesday',
+			'kamis' => 'Thursday',
+			'jumat' => 'Friday',
+			'sabtu' => 'Saturday',
+			'minggu' => 'Sunday'
+		);
+
+		$date_array = [];
+		foreach ($searchDay as $k => $val) {
+			for ($i = strtotime($days[$val], strtotime($startDate)); $i <= $endDate; $i = strtotime('+1 week', $i)) {
+				$x = date('Y-m-d', $i);
+
+				if(in_array($x,$lbr_tgl_merah)){
+					continue;
+				}else{
+					$date_array[] = date('Y-m-d', $i);
+				}
+			}
+		}
+		return count($date_array);
+		// https://stackoverflow.com/questions/7061802/php-function-for-get-all-mondays-within-date-range
+	}
+
+	function GetDayNameEng($dayx)
+	{
+		$days = array(
+			'Senin' => 'Monday',
+			'2' => 'Tuesday',
+			'3' => 'Wednesday',
+			'4' => 'Thursday',
+			'5' => 'Friday',
+			'6' => 'Saturday',
+			'7' => 'Sunday'
+		);
+
+		return $days[$dayx];
+	}
+
+	function GetNumDayByDateRange($d1, $d2)
+	{
+		global $dbconnect;
+		return $d1;
+	}
+
+	// function GetNumWeekend($d1, $d2)
+	// {
+	// 	$endDate = strtotime($d2);
+	// 	for ($i = strtotime('Monday', strtotime($d1)); $i <= $endDate; $i = strtotime('+1 week', $i)) {
+	// 		echo date('l Y-m-d', $i);
+	// 	}
+	// 	// return $d1;
+
+	// 	// GetNumDayByDateRange($d1, $d2);
+	// }
+
 	// libur : tanggal merah 
 	function IsHoliday($date)
 	{
@@ -369,7 +449,7 @@ if (isset($_REQUEST['ajax'])) {
 	}
 
 	// count : libur tgl merah 
-	function GetNumHoliday($date1, $date2)
+	function GetNumHolidayByRange($date1, $date2)
 	{
 		global $dbconnect;
 		$ss = 'SELECT count(*)num
@@ -380,6 +460,23 @@ if (isset($_REQUEST['ajax'])) {
 		$ee = mysqli_query($dbconnect, $ss);
 		$rr = mysqli_fetch_assoc($ee);
 		return $rr['num']; // 1=libur, 0=tdk libur 
+	}
+
+	function GetHolidayByRange($date1, $date2)
+	{
+		global $dbconnect;
+		$ss = '	SELECT kode_hari_libur
+				FROM vw_hari_libur
+				WHERE
+					isActive=1 
+					AND kode_hari_libur >= "' . $date1 . '"
+					AND kode_hari_libur <= "' . $date2 . '"';
+		$ee = mysqli_query($dbconnect, $ss);
+		$r = [];
+		while ($rr = mysqli_fetch_assoc($ee)) {
+			$r[] = $rr['kode_hari_libur']; // 1=libur, 0=tdk libur 
+		}
+		return $r;
 	}
 
 	function GetDayName($date)
@@ -459,47 +556,48 @@ if (isset($_REQUEST['ajax'])) {
 		return $datas;
 	}
 
+	// function GetMasterJam($id_divisi)
+	// {
+	// 	global $dbconnect;
+	// 	$s = 'SELECT *
+	// 				FROM tb1_setting2 
+	// 				WHERE id_divisi = "' . $id_divisi . '" AND isActive="1"';
+	// 	$e = mysqli_query($dbconnect, $s);
+	// 	while
+	// }
+
 	function GetKaryawanAbsensi($id)
 	{
 		global $dbconnect;
-		$query = '	SELECT 
-			-- DATE_FORMAT(a.date, "%d %M %Y") as tanggal,
-			a.id,
-			a.date,
-			a.masuk,
-			a.terlambat,
-			a.potongan,
-			a.masuk_minus,
-			a.keluar,
-			a.keluar_minus,
-			a.capture,
-			a.keterangan,
-			a.status,
-			a.id_karyawan,
-			k.nama
-		FROM tb_absen a
-		JOIN tb1_karyawan k ON k.id = a.id_karyawan
-		WHERE a.id=' . $id;
+		$query = 'SELECT
+					j.*, d.*, k.*, a.*
+				FROM
+					tb_absen a
+					JOIN tb_id k ON k.id = a.id_karyawan
+					LEFT JOIN vw_divisi d ON d.id_divisi = k.id_divisi
+					LEFT JOIN vw_jabatan j ON j.id_jabatan = k.id_jabatan
+				WHERE
+				 a.id=' . $id;
 		// vd($query);
 
 		$exe = mysqli_query($dbconnect, $query);
 		$data = mysqli_fetch_assoc($exe);
-		$res = array(
-			'id' => $data['id'],
-			'id_karyawan' => $data['id_karyawan'],
-			'masuk' => $data['masuk'],
-			'keluar' => $data['keluar'],
-			'masuk_minus' => $data['masuk_minus'],
-			'keluar_minus' => $data['keluar_minus'],
-			'date' => $data['date'],
-			'status' => $data['status'],
-			'capture' => $data['capture'],
-			'keterangan' => $data['keterangan'],
-			'terlambat' => $data['terlambat'],
-			'potongan' => $data['potongan'],
-			// 'mode' => $data['mode'],
-		);
-		return $res;
+		// $res = array(
+		// 	'id' => $data['id'],
+		// 	'id_karyawan' => $data['id_karyawan'],
+		// 	'masuk' => $data['masuk'],
+		// 	'keluar' => $data['keluar'],
+		// 	'masuk_minus' => $data['masuk_minus'],
+		// 	'keluar_minus' => $data['keluar_minus'],
+		// 	'date' => $data['date'],
+		// 	'status' => $data['status'],
+		// 	'capture' => $data['capture'],
+		// 	'keterangan' => $data['keterangan'],
+		// 	'terlambat' => $data['terlambat'],
+		// 	'potongan' => $data['potongan'],
+		// 	// 'mode' => $data['mode'],
+		// );
+		return $data;
 	}
 
 

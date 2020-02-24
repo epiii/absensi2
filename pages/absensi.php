@@ -1,3 +1,9 @@
+<!-- by pass : u/ ngetes absen auto  -->
+<!-- <form action="./konfig/absen.php" method="post">
+	<input name="id" type="text" value="8667E073">
+	<button>ok</button>
+</form> -->
+
 <!-- <title>anu</title> -->
 <?php
 // print_r($_SESSION);
@@ -188,21 +194,22 @@ $sql = mysqli_query($dbconnect, $query);
 
 									<tbody>
 										<?php
+										$potTotal = 0;
 										$no = 0;
 										while ($data = mysqli_fetch_assoc($sql)) {
 											$no++;
 											$jdw = getJadwalAbsen($data['id_divisi']);
-
+											// pr($jdw);
 											// col : jam masuk 
 											if ($data['masuk_minus'] > 0) {
 												$clrMas = "danger";
 											} else if ($data['masuk_minus'] == 0) {
 												$clrMas = "success";
-											} 
+											}
 											// else if ($data['masuk_minus'] < 0) {
 											// 	$clrMas = "primary";
 											// }
-											 else {
+											else {
 												$clrMas = "secondary";
 											}
 
@@ -212,11 +219,7 @@ $sql = mysqli_query($dbconnect, $query);
 												$clrKel = "danger";
 											} else if ($data['keluar_minus'] == 0) {
 												$clrKel = "success";
-											}
-											//  else if ($data['keluar_minus'] < 0) {
-											// 	$clrKel = "primary";
-											// } 
-											else {
+											} else {
 												$clrKel = "secondary";
 											}
 
@@ -250,7 +253,19 @@ $sql = mysqli_query($dbconnect, $query);
 												$color = "";
 											}
 											$capture =  'img/' . ($data['capture'] == '' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
-											// vd($capture);
+
+											$jamSkrg = date('H:i');
+											$maxFinger = $jdw['kel_bts_2'] . ':00';
+											$potTdkFinger = 0;
+
+											// if ($data['masuk'] == '' || $data['keluar'] == '') {
+											// 	if ($jamSkrg > $maxFinger) {
+											// 		$potTdkFinger = 2;
+											// 	}
+											// }
+
+											$potongan = $potTdkFinger + $data['potongan'];
+
 										?>
 											<tr class="table-<?php echo $color; ?>">
 												<td><?php echo $no; ?></td>
@@ -268,6 +283,7 @@ $sql = mysqli_query($dbconnect, $query);
 												<td><?php echo $data['tanggal']; ?></td>
 												<td>
 													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														<?php echo $data['masuk_minus'] > 0 ? 'Telat  <span class="badge badge-danger">' . $data['masuk_minus'] . ' </span> menit<br>' : '' ?>
 														Real <span class="badge badge-<?php echo $clrMas; ?>"> <?php echo $data['masuk']; ?></span>
 														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['mas_jam'] . ':' . $jdw['mas_menit']; ?></span>
 													<?php } else { ?>
@@ -276,6 +292,7 @@ $sql = mysqli_query($dbconnect, $query);
 												</td>
 												<td>
 													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+														<?php echo $data['keluar_minus'] > 0 ? 'Lbh cpt  <span class="badge badge-danger">' . $data['keluar_minus'] . ' </span> menit<br>' : '' ?>
 														Real <span class="badge badge-<?php echo $clrKel; ?>"> <?php echo $data['keluar']; ?></span>
 														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['kel_jam'] . ':' . $jdw['kel_menit']; ?></span>
 													<?php } else { ?>
@@ -296,7 +313,7 @@ $sql = mysqli_query($dbconnect, $query);
 												<td><?php echo $data['keterangan']; ?></td>
 												<td>
 													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
-														<?php echo $data['potongan']; ?> %
+														<?php echo $potongan ?> %
 													<?php } else { ?>
 														<center>-</center>
 													<?php } ?>
@@ -309,17 +326,24 @@ $sql = mysqli_query($dbconnect, $query);
 													<?php } ?>
 												</td>
 												<td>
-													<?php if ($data['mode'] == 'manual') { ?>
-														<center>
-															<!-- <a href="index.php?page=edit_absensi&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">edit</a> -->
-															<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
-														</center>
-													<?php } ?>
+													<?php //if ($data['mode'] == 'manual') { 
+													?>
+													<center>
+														<a href="index.php?page=edit_absensi&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">
+															<i class="fas fa-pencil-alt"></i>
+														</a>
+														<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">
+															<i class="fas fa-trash"></i>
+														</a>
+													</center>
+													<?php //} 
+													?>
 
 												</td>
 											</tr>
 
 										<?php
+											$potTotal += $potongan;
 										}
 										?>
 									</tbody>
@@ -381,12 +405,11 @@ $sql = mysqli_query($dbconnect, $query);
 						// }
 					},
 					messageTop: 'Total Data : <?php echo $no; ?>',
-					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?> \nTotal Potongan : <?php echo $potTotal; ?> %',
 					title: function() {
 						let title = 'Daftar Presensi Satpol PP Sidoarjo\n'
 						return title;
 					},
-
 				},
 				{
 					extend: 'excel',
@@ -398,7 +421,7 @@ $sql = mysqli_query($dbconnect, $query);
 						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 					},
 					messageTop: 'Total Data : <?php echo $no; ?>',
-					messageBottom: '\nTotal Data : <?php echo $no; ?>',
+					messageBottom: '\nTotal Data : <?php echo $no; ?> \nTotal Potongan : <?php echo $potTotal; ?> %',
 					title: function() {
 						let title = 'Daftar Presensi Satpol PP Sidoarjo\n'
 						return title;

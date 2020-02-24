@@ -142,8 +142,7 @@ $count_alpa = mysqli_num_rows($sql6);
               </div>
             </div>
 
-            <div class="col-lg-4 col-6">
-              <!-- small box -->
+            <!-- <div class="col-lg-4 col-6">
               <div class="small-box bg-danger">
                 <div class="inner">
                   <h3>
@@ -162,7 +161,7 @@ $count_alpa = mysqli_num_rows($sql6);
                 </div>
                 <a href="index.php?page=laporan_absensi" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
               </div>
-            </div>
+            </div> -->
             <!-- ./col -->
           </div>
           <!-- /.row -->

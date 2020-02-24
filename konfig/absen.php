@@ -6,6 +6,7 @@ include 'function.php';
 include '../konfig/dev.php';
 
 if (isset($_POST['id'])) {
+	// pr('$_POST');
 
 	// $time_start= microtime(true);
 	$uid = trim($_POST['id']);

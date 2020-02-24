@@ -12,7 +12,29 @@ if (isset($_SESSION['page'])) {
 		// $id = mysql_real_escape_string(trim($_POST['id']));
 		// $parameter = mysql_real_escape_string(trim($_POST['param']));
 		$kolom = "";
+
 		if ($id == '1') {
+			$kolom = "masuk_mulai";
+		} else if ($id == '2') {
+			$kolom = "masuk_akhir";
+		} else if ($id == '3') {
+			$kolom = "keluar_mulai";
+		} else if ($id == '4') {
+			$kolom = "keluar_akhir";
+		} else if ($id == '5') {
+			$kolom = "libur1";
+		} else if ($id == '6') {
+			$kolom = "libur2";
+		} else if ($id == 'timezone') {
+			$kolom = "timezone";
+		} else if ($id == 'email') {
+			$kolom = "email";
+		} else if ($id == 'pwdemail') {
+			$kolom = "pwdemail";
+		} else if ($id == 'admin_uid') {
+			$kolom = "admin_uid";
+		}
+/* 		if ($id == '1') {
 			$kolom = "masuk_mulai";
 		} else if ($id == '2') {
 			$kolom = "masuk_akhir";
@@ -33,8 +55,10 @@ if (isset($_SESSION['page'])) {
 		} else if ($id == '10') {
 			$kolom = "admin_uid";
 		}
-
-		$sql = mysqli_query($dbconnect, "UPDATE tb_settings SET $kolom='$parameter'");
+ */
+		$ss = "UPDATE tb_settings SET $kolom='$parameter'";
+		// pr($ss);
+		$sql = mysqli_query($dbconnect, $ss);
 
 		if ($sql) {
 			header("location:../index.php?page=konfigurasi");

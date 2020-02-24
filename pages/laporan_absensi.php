@@ -31,13 +31,14 @@ $tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date(
 $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-d');
 
 // total libur hai besar 
-$tot_lbr_bsr = GetNumHoliday($tanggal_awal, $tanggal_akhir);
+$tot_lbr_bsr = GetNumHolidayByRange($tanggal_awal, $tanggal_akhir);
 // pr($tot_lbr_bsr);
 
 // $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-t');
 $query = 'SELECT
 			k.id,
 			k.nama,
+			k.id_divisi,
 			k.nip,(
 				SELECT
 					count(*)
@@ -375,26 +376,12 @@ $query = 'SELECT
 $query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
+// $numDay = GetNumDayByDateRange($tanggal_awal, $tanggal_akhir);
+// $xx= Get($tanggal_awal, $tanggal_akhir, $wkend_daynames);
+// $xx= getDateForSpecificDayBetweenDates($tanggal_awal, $tanggal_akhir, 1);
 
-// $dt1 = strtotime($tanggal_awal);
-// $dt2 = strtotime($tanggal_akhir);
-// $arr = [];
-
-// $hari = ['Saturday', 'Sunday'];
-// for ($i = $dt1; $i < $dt2; $i += 86400) {
-// 	// array_push($arr, $i);
-// 	$day = date("Y-m-d", $i);
-// 	$unixTimestamp = strtotime($day);
-
-// 	$dayOfWeek = date("l", $unixTimestamp);
-
-// 	if(in_array())
-// 	// if ($dayOfWeek == "Monday") {
-// 	// 	$arr[] = $day;
-// 	// 	// echo $day . "is a" . $dayOfWeek;
-// 	// }
-// }
-// pr($arr);
+// $wkend_daynames = GetWeekendByDiv($id_divisi);
+// $tot_lbr_wkend = GetNumWeekendByRange($tanggal_awal, $tanggal_akhir, $wkend_daynames);
 
 ?>
 <!-- <span class="label label-default">Default</span> -->
@@ -574,6 +561,7 @@ $divisi = GetDivisiRule();
 										<?php
 										$no = 0;
 										while ($r = mysqli_fetch_assoc($sql)) {
+											// pr($r);
 											// harian	
 											// > 5 m  
 											$jml_tel_1 = $r['jml_tel_mas_1'] + $r['jml_tel_kel_1'];
@@ -604,15 +592,20 @@ $divisi = GetDivisiRule();
 											$jml_tel_dispensasi = $r['jml_tel_dispensasi'];
 											$jml_pot_dispensasi = floatval($r['jml_pot_dispensasi']);
 
+											// libur dll. 
+											$wkend_daynames = GetWeekendByDiv($r['id_divisi']); // 2 : sabtu , minggu
+											$tot_lbr_wkend = GetNumWeekendByRange($tanggal_awal, $tanggal_akhir, $wkend_daynames); // 7
+
 											// tmk 1 hari & alpha																	
 											$jml_tel_tmk = $r['jml_tel_tmk'];
-
+											// pr($jml_tel_tmk);
 											// total hari 
-											$jml_hari = $r['jml_hari'];
+											$jml_hari = $r['jml_hari'] + 1; // 24
 											$jml_presensi = $r['jml_presensi'];
-											$jml_presensi_harian_hadir = $r['jml_presensi_harian_hadir'];
-											$jml_libur_tglmerah = $r['jml_libur_tglmerah'];
-											$jml_hari_aktif = $jml_hari - $jml_libur_tglmerah;
+											$jml_presensi_harian_hadir = $r['jml_presensi_harian_hadir']; // 2
+											$jml_libur_tglmerah = $r['jml_libur_tglmerah']; // 2 
+											$jml_hari_aktif = $jml_hari - ($jml_libur_tglmerah + $tot_lbr_wkend);
+											// pr($jml_hari_aktif);
 
 											$jml_tidak_absen = $jml_hari_aktif - $jml_presensi_harian_hadir;
 											$jml_tel_tmk = $jml_tel_tmk + $jml_tidak_absen;

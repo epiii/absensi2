@@ -122,7 +122,7 @@ if (isset($_SESSION['page'])) {
 								<td><?php echo $data['timezone']; ?></td>
 								<td>Parameter zona waktu berdasarkan area</td>
 								<td>
-									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['timezone']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
+									<center><a href="./index.php?page=edit_konfigurasi&id=timezone&param=<?php echo $data['timezone']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
 								<?php $no += '1'; ?>
 							</tr>
@@ -134,7 +134,7 @@ if (isset($_SESSION['page'])) {
 								<td><?php echo $data['email']; ?></td>
 								<td>Parameter untuk email presensi & hanya bisa Gmail</td>
 								<td>
-									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['email']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
+									<center><a href="./index.php?page=edit_konfigurasi&id=email&param=<?php echo $data['email']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
 								<?php $no += '1'; ?>
 							</tr>
@@ -145,7 +145,7 @@ if (isset($_SESSION['page'])) {
 								<td>********</td>
 								<td>Password login dari email presensi</td>
 								<td>
-									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
+									<center><a href="./index.php?page=edit_konfigurasi&id=pwdemail" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
 								<?php $no += '1'; ?>
 							</tr>
@@ -156,7 +156,7 @@ if (isset($_SESSION['page'])) {
 								<td><?php echo $data['admin_uid']; ?></td>
 								<td>Tag UID Admin untuk menambahkan pegawai baru</td>
 								<td>
-									<center><a href="./index.php?page=edit_konfigurasi&id=<?php echo $no; ?>&param=<?php echo $data['admin_uid']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
+									<center><a href="./index.php?page=edit_konfigurasi&id=admin_uid&param=<?php echo $data['admin_uid']; ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-cog" data-toggle="tooltip" title="Edit"></i></a></center>
 								</td>
 							</tr>
 

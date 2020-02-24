@@ -79,7 +79,7 @@ if (!$ee) {
 										$no = 0;
 										while ($data = mysqli_fetch_assoc($sql)) {
 											$clr = $data['notifikasi'] == '1' || $data['nama'] == '' || $data['id_divisi'] == '' ? 'success' : '';
-											$uid = $data['notifikasi'] == '1' || $data['nama'] == '' || $data['id_divisi'] == '' ? $data['uid'].' <span class="badge badge-success"> new</span>' : $data['uid'];
+											$uid = $data['notifikasi'] == '1' || $data['nama'] == '' || $data['id_divisi'] == '' ? $data['uid'] . ' <span class="badge badge-success"> new</span>' : $data['uid'];
 											$no++;
 										?>
 											<tr class="table-<?php echo $clr; ?>">
@@ -91,8 +91,12 @@ if (!$ee) {
 												<td><?php echo $data['email']; ?></td>
 												<td>
 													<center>
-														<a href="index.php?page=edit_pegawai&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">edit</a>
-														<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">delete</a>
+														<a href="index.php?page=edit_pegawai&id=<?php echo $data['id']; ?>" class="btn btn-primary btn-sm text-center">
+															<i class="fas fa-pencil-alt"></i>
+														</a>
+														<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center">
+															<i class="fas fa-trash"></i>
+														</a>
 													</center>
 												</td>
 											</tr>

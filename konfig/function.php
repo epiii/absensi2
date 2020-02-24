@@ -335,11 +335,13 @@ function getKalkulasi($id_divisi, $mode)
 	// $jdw = getJadwalAbsen($id_divisi);
 
 	$sql = 'SELECT *
-	FROM tb1_setting2
-	WHERE id_divisi =' . $id_divisi . ' AND isActive ="1"';
+			FROM tb1_setting2
+			WHERE 
+				id_divisi =' . $id_divisi . ' 
+				AND isActive ="1"';
 	$exe = mysqli_query($dbconnect, $sql);
 	// $num = mysqli_num_rows($exe);
-	// vd($num);
+	// vd($sql);
 
 	while ($row = mysqli_fetch_assoc($exe)) {
 		if ($row['no'] == '1') {
@@ -444,7 +446,6 @@ function getKalkulasi($id_divisi, $mode)
 		$mas_selisih = getTimeDiff_($mas_jam_real, $mas_jam_rule);
 		$mas_pot_per = 0;
 		$mas_kat = 0;
-		$kel_kat = 0;
 
 		if ($mas_jam_real > $mas_jam_rule) {
 			if ($mas_selisih >= $jdw['mas_tel_1a'] && $mas_selisih <= $jdw['mas_tel_1b']) {
@@ -463,41 +464,27 @@ function getKalkulasi($id_divisi, $mode)
 		}
 
 		$terlambat_masuk = $mas_selisih < 0 || $mode == 'masuk' ?  $mas_selisih : 0;
-		// $terlambat_keluar = $kel_selisih < 0 || $mode == 'keluar' ?  $kel_selisih : 0;
-
 		$kat_terlambat_masuk = $mode == 'masuk' ?  $mas_kat : '0';
-		// $kat_terlambat_keluar = $mode == 'keluar' ?  $kel_kat : '0';
 
 		$ret = [
 			'kat_terlambat_masuk' => $kat_terlambat_masuk,
-			// 'kat_terlambat_keluar' => $kat_terlambat_keluar,
-
 			'potongan_masuk' =>  $mas_pot_per,
-			// 'potongan_keluar' =>  $kel_pot_per,
-			// 'potongan_total' =>  $mas_pot_per + $kel_pot_per,
-
 			'terlambat_masuk' =>  $terlambat_masuk,
-			// 'terlambat_keluar' =>  $terlambat_keluar,
-			// 'terlambat_total' => $terlambat_masuk + $terlambat_keluar,
 		];
 	} else {
 
 		// absen keluar
 		$kel_jam_real = $mode == 'keluar' ? date('H:i') : ''; // $par['keluk'];
 		$kel_jam_rule = $jdw['kel_jam'] . ':' . $jdw['kel_menit'];
-		$kel_selisih = getTimeDiff_($kel_jam_real, $kel_jam_rule);
-		// $kel_selisih = getTimeDiff_($kel_jam_rule, $kel_jam_real);
+		$kel_selisih = getTimeDiff_($kel_jam_rule, $kel_jam_real);
+		// $kel_selisih = getTimeDiff_($kel_jam_real, $kel_jam_rule);
 		$kel_pot_per = 0;
-		// vd($kel_selisih);
-		// var_dump($kel_jam_rule);
-		// var_dump($jdw['kel_tel_1a']);
-		// var_dump($kel_jam_real < $kel_jam_rule);
-		// exit();
-
-		// var_dump($kel_jam_real < $kel_jam_rule);
-		// exit();
+		$kel_kat = 0;
 
 		if ($kel_jam_real < $kel_jam_rule) {
+			// vd($kel_jam_rule);
+			// vd($kel_selisih <= $jdw['kel_tel_1b']);
+
 			if ($kel_selisih >= $jdw['kel_tel_1a'] && $kel_selisih <= $jdw['kel_tel_1b']) {
 				$kel_pot_per = $jdw['kel_per_1'];
 				$kel_kat = '1';
@@ -512,31 +499,19 @@ function getKalkulasi($id_divisi, $mode)
 				$kel_kat = '4';
 			}
 		}
-		// $terlambat_masuk = $mas_selisih < 0 || $mode == 'masuk' ?  $mas_selisih : 0;
-		$terlambat_keluar = $kel_selisih < 0 && $mode == 'keluar' ?  $kel_selisih : 0;
-		// pr($kel_selisih < 0 && $mode == 'keluar');
-		// $kat_terlambat_masuk = $mode == 'masuk' ?  $mas_kat : '0';
-		$kat_terlambat_keluar = $mode == 'keluar' && $kel_selisih < 0 ?  $kel_kat : '0';
-		// var_dump($mode == 'keluar' && $kel_selisih < 0);
-		// exit();
-		// pr($kel_pot_per);
+
+		// $terlambat_keluar = $kel_selisih < 0 || $mode == 'keluar' ?  $kel_selisih : 0;
+		$terlambat_keluar = $kel_selisih > 0 && $mode == 'keluar' ?  $kel_selisih : 0;
+		$kat_terlambat_keluar = $mode == 'keluar'  ?  $kel_kat : '0';
+		// pr($terlambat_keluar);
+
 		$ret = [
-			// 'kat_terlambat_masuk' => $kat_terlambat_masuk,
 			'kat_terlambat_keluar' => $kat_terlambat_keluar,
-
-			// 'potongan_masuk' =>  $mas_pot_per,
 			'potongan_keluar' =>  $kel_pot_per,
-			// 'potongan_total' =>  $mas_pot_per + $kel_pot_per,
-
-			// 'terlambat_masuk' =>  $terlambat_masuk,
 			'terlambat_keluar' =>  $terlambat_keluar,
-			// 'terlambat_total' => $terlambat_masuk + $terlambat_keluar,
 		];
 	}
-	// $time_end = microtime(true);
-	// $execution_time = ($time_end - $time_start) / 60;
-	// vd($execution_time);
-	// vd($ret['kel_tel_1a']);
+	// vd($ret);
 	return $ret;
 }
 
@@ -653,8 +628,8 @@ function postdata($uid, $id_divisi, $mode)
 					,terlambat="' . $telatTot . '"
 					';
 
+		// vd($query);
 		$exe = mysqli_query($dbconnect, $query);
-		// vd($exe);
 		if ($exe) {
 			if (isset($kalku['kat_terlambat_masuk']) && $kalku['kat_terlambat_masuk'] > 0) {
 				$ret = 'Terlambat';
@@ -668,9 +643,10 @@ function postdata($uid, $id_divisi, $mode)
 		}
 	} else { // sudah absen
 		$abs = getAbsensiByKaryawan($kary['id']);
-
 		// var_dump($mode == 'keluar' && $abs['keluar'] == '');
 		// exit();
+		// vd($abs['keluar']);
+
 		if ($mode == 'masuk' && $abs['masuk'] == '') { // absen masuk masih kosong
 			$query = 'UPDATE tb_absen SET ' . $query . ' 
 						,masuk="' . ($mode == 'masuk' ? date('H:i') : '') . '"
@@ -687,7 +663,7 @@ function postdata($uid, $id_divisi, $mode)
 			}
 		} else if ($mode == 'keluar' && $abs['keluar'] == '') { // absen keluar masih kosong 
 			// $km = ($mode == 'keluar' ? $kalku['terlambat_keluar'] : '');
-			// pr(abs($potKel));
+			// pr('mask');
 
 			$query = 'UPDATE tb_absen SET ' . $query . '
 						,keluar="' . ($mode == 'keluar' ? date('H:i') : '') . '"
@@ -696,7 +672,8 @@ function postdata($uid, $id_divisi, $mode)
 						,kat_terlambat_keluar="' . ($mode == 'keluar' ? $kalku['kat_terlambat_keluar'] : '') . '"
 						,potongan=potongan+"' . $potKel . '"
 						,terlambat=terlambat+"' . $telatKel . '"
-					WHERE id=' . $abs['id'];
+						WHERE id=' . $abs['id'];
+			// pr($query);
 			$exe = mysqli_query($dbconnect, $query);
 			if ($exe) {
 				$ret = $kalku['kat_terlambat_keluar'] > 0 ? 'plg sblm wktunya' : 'Absen plg';

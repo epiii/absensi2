@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-02-15 15:56:30
+Date: 2020-02-24 15:52:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -440,7 +440,7 @@ CREATE TABLE `tb1_setting2` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isActive` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb1_setting2
@@ -450,7 +450,7 @@ INSERT INTO `tb1_setting2` VALUES ('2', '2', '16', '30', '5', '30', '31', '60', 
 INSERT INTO `tb1_setting2` VALUES ('3', '1', '08', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '06', '16', '03', '25', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('15', '2', '17', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2', '0', '15', '19', '03', '25', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('16', '1', '08', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '15', '02', '24', '0000-00-00 00:00:00', '1');
-INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '00', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
+INSERT INTO `tb1_setting2` VALUES ('17', '1', '18', '09', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '2.5', '08', '21', '04', '26', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('18', '2', '16', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '15', '19', '02', '24', '0000-00-00 00:00:00', '1');
 INSERT INTO `tb1_setting2` VALUES ('19', '2', '01', '30', '5', '30', '31', '60', '61', '120', '0.25', '1', '2.5', '0', '23', '03', '04', '26', '0000-00-00 00:00:00', '1');
 
@@ -505,7 +505,7 @@ CREATE TABLE `tb2_setting` (
   `isActive` int(11) DEFAULT 1,
   `isFixed` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of tb2_setting
@@ -530,7 +530,7 @@ INSERT INTO `tb2_setting` VALUES ('23', '01', 'Keuangan', null, '22', null, '1',
 INSERT INTO `tb2_setting` VALUES ('24', '02', 'Humas', null, '22', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('25', '03', 'Kebersihan', null, '22', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('26', '04', 'Pasukan', null, '22', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('27', 'hari_libur', 'Hari Libur', 'List Hari libur (tanggal merah/hari besar)', null, null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('27', 'hari_libur', 'Libur Tgl Merah', 'List Hari libur (tanggal merah/hari besar)', null, null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('28', '2019-01-22', 'Ultah Bos', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('39', 'kategori_karyawan', 'Kategori Karyawan', 'Parameter kategori karyawan tetap/tidak tetap', null, null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('40', '01', 'karyawan tetap', null, '39', null, '1', '0');
@@ -552,8 +552,9 @@ INSERT INTO `tb2_setting` VALUES ('115', '26', 'senin', null, '75', null, '1', '
 INSERT INTO `tb2_setting` VALUES ('116', '26', 'minggu', null, '75', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('134', '2020-02-06', 'Nyepi', null, '27', null, '1', '0');
 INSERT INTO `tb2_setting` VALUES ('143', '24', 'minggu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('144', '23', 'sabtu', null, '75', null, '1', '0');
-INSERT INTO `tb2_setting` VALUES ('145', '23', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('152', '23', 'sabtu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('153', '23', 'minggu', null, '75', null, '1', '0');
+INSERT INTO `tb2_setting` VALUES ('154', '2020-02-15', 'fogging kantor', null, '27', null, '1', '0');
 
 -- ----------------------------
 -- Table structure for tb_absen
@@ -579,12 +580,20 @@ CREATE TABLE `tb_absen` (
   `mode` enum('otomatis','manual') DEFAULT NULL,
   `id_tipe_presensi` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_absen
 -- ----------------------------
-INSERT INTO `tb_absen` VALUES ('165', '3', '', '17:11', '0', '0', '0', '0', '2020-02-14', 'H', null, '', '0', '0.00', '0.00', '0.00', 'otomatis', '47');
+INSERT INTO `tb_absen` VALUES ('171', '3', '08:15', '16:00', '15', '30', '1', '1', '2020-02-18', 'H', null, '', '45', '0.25', '0.25', '0.50', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('172', '3', '11:28', '16:45', '208', '0', '4', '0', '2020-02-17', 'H', null, '', '208', '0.00', '2.50', '2.50', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('173', '3', '', '16:45', '0', '0', '0', '0', '2020-02-21', 'H', null, '', '0', '0.00', '0.00', '0.00', 'manual', '47');
+INSERT INTO `tb_absen` VALUES ('174', '3', '', '', '0', '0', '0', '0', '2020-02-10', 'I', null, 'liburan', '0', '0.00', '0.00', '3.00', 'manual', '50');
+INSERT INTO `tb_absen` VALUES ('175', '3', '', '', '0', '0', '0', '0', '2020-02-24', 'A', null, 'ktiduran', '0', '0.00', '0.00', '2.00', 'manual', '49');
+INSERT INTO `tb_absen` VALUES ('176', '3', '', '', '0', '0', '0', '0', '2020-02-07', 'H', null, 'ktiduran', '0', '0.00', '0.00', '2.00', 'manual', '48');
+INSERT INTO `tb_absen` VALUES ('177', '3', '', '', '0', '0', '0', '0', '2020-02-12', 'A', null, 'males', '0', '0.00', '0.00', '2.00', 'manual', '48');
+INSERT INTO `tb_absen` VALUES ('178', '3', '08:45', '', '45', '0', '2', '0', '2020-02-03', 'H', null, '', '45', '0.00', '1.00', '1.00', 'otomatis', '47');
+INSERT INTO `tb_absen` VALUES ('179', '3', '09:30', '', '90', '0', '3', '0', '2020-02-04', 'H', null, '', '90', '0.00', '2.50', '2.50', 'otomatis', '47');
 
 -- ----------------------------
 -- Table structure for tb_id
@@ -608,7 +617,7 @@ CREATE TABLE `tb_id` (
   `goldar` varchar(2) NOT NULL,
   `id_agama` int(11) NOT NULL,
   `id_status_kawin` varchar(11) NOT NULL,
-  `id_divisi` int(11) NOT NULL,
+  `id_divisi` int(11) DEFAULT NULL,
   `pendidikan` text NOT NULL,
   `gelar` varchar(22) NOT NULL,
   `no_sk` text NOT NULL,
@@ -620,12 +629,12 @@ CREATE TABLE `tb_id` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_id
 -- ----------------------------
-INSERT INTO `tb_id` VALUES ('3', '8667E073', 'Yuwono', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '23', '', '', '', '', '0', '', '', '1', '0', '2020-02-13 12:53:06');
+INSERT INTO `tb_id` VALUES ('3', '8667E073', 'Yuwono', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '23', '', '', '', '123456', '0', '', '', '1', '0', '2020-02-24 13:34:57');
 INSERT INTO `tb_id` VALUES ('5', '454F7276', 'Wahyudi', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '24', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:29');
 INSERT INTO `tb_id` VALUES ('6', '964EDF73', 'Asfiatul ', '', '0', '0', '2', '', '0000-00-00', '', '', '', '', '', '', '0', '', '26', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:36');
 INSERT INTO `tb_id` VALUES ('7', '5642DF73', 'Alit Catur', '', '0', '0', '1', '', '0000-00-00', '', '', '', '', '', '', '0', '', '25', '', '', '', '', '0', '', '', '1', '0', '2020-02-14 06:10:23');
@@ -690,7 +699,7 @@ CREATE TABLE `tb_settings` (
 -- ----------------------------
 -- Records of tb_settings
 -- ----------------------------
-INSERT INTO `tb_settings` VALUES ('00:00:00', '08:15:00', '16:00:00', '20:30:00', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'taufikhosting@gmail.com', '9kali9=81', '59C28E50');
+INSERT INTO `tb_settings` VALUES ('00:00:00', '00:00:00', '16:00:00', '00:00:59', 'Sabtu', 'Minggu', 'Asia/Jakarta', 'emailpresensi@gmail.com', 'dtproduction', '59C28E50');
 
 -- ----------------------------
 -- View structure for vw_agama

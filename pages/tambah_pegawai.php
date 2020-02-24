@@ -140,7 +140,7 @@ if (!isset($_SESSION['page'])) {
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">divisi</label>
-								<select name="divisi" class="form-control input-medium">
+								<select required name="divisi" class="form-control input-medium">
 									<option value=""></option>
 									<?php
 									foreach ($divisi as $data_divisi) { ?>

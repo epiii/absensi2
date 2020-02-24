@@ -1,42 +1,16 @@
 <?php
 if (isset($_SESSION['page'])) {
-	if (isset($_GET['id'])) {
-		// lanjut
-	} else {
-		echo '<h3><center> Permintaan ditolak :( </center></h3>';
-		exit;
-	}
 } else {
 	header("location: ../index.php?page=dashboard&error=true");
 }
+require_once './func/func_pegawai.php';
 require_once './func/func_absensi.php';
-// $karyawan = GetKaryawan();
-// $agama = GetAgama();
-// $status = GetStatus();
-// $divisi = GetDivisi();
-// $jabatan = GetJabatan();
-// $kategori = GetKatKaryawan();
-// $provinsi = GetProvinsi();
-
-// $agama = GetAgama2();
-// $status = GetStatus2();
-// $divisi = GetDivisi2();
-// $jabatan = GetJabatan2();
-// $kategori = GetKatKaryawan2();
 $karyawan = GetKaryawan2();
-$data = GetKaryawanAbsensi2($_GET['id']);
-// pr($data);
-// $provinsi = GetProvinsi2();
-
+$tipe_presensi = GetTipePresensi2();
+$dt = GetKaryawanAbsensi($_GET['id']);
+$jdw = GetJadwalByDivisi($dt['id_divisi']);
+// vd($jdw);
 ?>
-
-<script src="vendor/js/jquery/jquery.min.js"></script>
-
-<script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>
-<script src="vendor/js/combogrid/jquery.ui.combogrid-1.6.3.js"></script>
-
-<link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery-ui-1.10.1.custom.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery.ui.combogrid.css" />
 
 <div class="content-header ml-3 mr-3">
 	<div class="container-fluid">
@@ -47,7 +21,7 @@ $data = GetKaryawanAbsensi2($_GET['id']);
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
 					<li class="breadcrumb-item"><a href="index.php?page=absensi">Daftar Absensi</a></li>
-					<li class="breadcrumb-item active">Tambah Absensi</li>
+					<li class="breadcrumb-item active">Edit Absensi</li>
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -57,71 +31,89 @@ $data = GetKaryawanAbsensi2($_GET['id']);
 <section class="content ml-3 mr-3">
 	<div class="content">
 		<div class="container-fluid">
+			<!-- <button onclick="onsubmitFormx();">o</button> -->
 
-			<form action="./konfig/add_absensi.php" method="POST">
-
+			<form onsubmit="onsubmitForm(this);return false;" action="./konfig/add_absensi.php" method="POST">
 				<div class="form-group">
 					<label for="exampleInputEmail1">Tipe Presensi</label>
-					<select required onchange="tipePresensiFunc(this.value)" class="form-control input-large" data-placeholder="Choose a Category" tabindex="1">
-						<option value="">Pilih Tipe Presensi</option>
-						<option value="1">Presensi Harian</option>
-						<option value="2">Tidak SKJ</option>
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="exampleInputEmail1">Pilih Karyawan</label>
-					<!-- <input type="text" class="form-control input-medium" id="karyawan" name='karyawan' placeholder='karyawan'> -->
-					<select id="karyawan" name="karyawan" required onchange="karyawanFunc(this)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
-						<option value="">Pilih Karyawan</option>
+					<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+					<input type="hidden" name="edit_absensi">
+					<select id="id_tipe_presensi" name="id_tipe_presensi" required onchange="tipePresensiFunc(this.value)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
+						<option value="">-Pilih Tipe Presensi-</option>
 						<?php
-						foreach ($karyawan as $data_karyawan) { ?>
-							<option <?php echo $data_karyawan['id'] == $data['id_karyawan'] ? 'selected' : ''; ?> value="<?php echo $data_karyawan['id']; ?>"><?php echo $data_karyawan['nama'] . " - <b>" . $data_karyawan['nip'] . "</b>"; ?></option>
+						foreach ($tipe_presensi as $data) { ?>
+							<option <?php echo $dt['id_tipe_presensi'] == $data['id'] ? 'selected' : '' ?> value="<?php echo $data['id'] . '-' . $data['kode_tipe_presensi']; ?>"><?php echo $data['nama_tipe_presensi']; ?></option>
 						<?php } ?>
 					</select>
 				</div>
 
-				<!-- <select id="cc" class="easyui-combogrid" name="dept" style="width:250px;" data-options="
-					panelWidth:450,
-					value:'006',
-					idField:'code',
-					textField:'name',
-					url:'datagrid_data.json',
-					columns:[[
-						{field:'code',title:'Code',width:60},
-						{field:'name',title:'Name',width:100},
-						{field:'addr',title:'Address',width:120},
-						{field:'col4',title:'Col41',width:100}
-					]]
-				"></select> -->
-
-				<div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> jabatan:</label>
-					<input type="text" class="form-control input-medium" id="tag" name='tag' placeholder='Tag' readonly>
-				</div>
-
-				<!-- <div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> kode_jabatan:</label>
-					<input type="text" class="form-control input-medium" id="nama" name='nama' placeholder='Nama Karyawan' readonly>
-				</div> -->
-
-				<div class="form-group karyawan-info" style="display:none;">
-					<label for="kode_jabatan"> NIP:</label>
-					<input type="text" class="form-control input-medium" id="nip" name='nip' placeholder='NIP' readonly>
-				</div>
-
-				<div class="form-group status-presensi" style="display:none;">
-					<div class="radio-list">
-						<label class="radio-inline">
-							<input type="radio" name="status" id="hadir" value="H" checked> Hadir </label>
-						<label class="radio-inline">
-							<input type="radio" name="status" id="ijin" value="I"> Ijin </label>
-						<label class="radio-inline">
-							<input type="radio" name="status" id="dinas" value="D"> Dinas Luar </label>
-						<label class="radio-inline">
-							<input type="radio" name="status" id="alpha" value="A"> Alpha </label>
+				<div class="form-group mb-3">
+					<label for="exampleInputEmail1">Karyawan</label>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">search</span>
+						</div>
+						<input value="<?php echo $dt['id_karyawan'] ?>" type="hidden" required id="id_karyawan" name="id_karyawan">
+						<input value="<?php echo $dt['nama'] ?>" required onkeyup="onkeyupKaryawan(this.value)" id="karyawan" name="karyawan" type="text" class="form-control" placeholder="ketik nama atau nip karyawan ..." aria-label="ketik nama atau nip karyawan ..." aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button id="resetKaryawanBtn" class="btn btn-secondary" onclick="resetKaryawan()" type="button">x</button>
+						</div>
 					</div>
 				</div>
+
+				<div class="row mb-2">
+					<div class="col-md-4">
+
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> NIP:</label>
+							<input value="<?php echo $dt['nip'] ?>" type="text" class="form-control " id="nip" name='nip' placeholder='NIP' readonly>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> jabatan:</label>
+							<input value="<?php echo $dt['nip'] ?>" type="hidden" name="id_jabatan" id="id_jabatan">
+							<input value="<?php echo $dt['nama_jabatan'] ?>" type="text" class="form-control " id="jabatan" name='jabatan' placeholder='jabatan' readonly>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group karyawan-info">
+							<label for="kode_jabatan"> divisi:</label>
+							<input value="<?php echo $dt['id_divisi'] ?>" type="hidden" name="id_divisi" id="id_divisi">
+							<input value="<?php echo $dt['nama_divisi'] ?>" type="text" class="form-control " id="divisi" name='divisi' placeholder='divisi' readonly>
+						</div>
+					</div>
+				</div>
+
+				<label for="kode_jabatan">Status</label>
+				<div class="status-presensi">
+					<div class="form-check-inline">
+						<input <?php echo $dt['status'] == 'H' ? 'checked' : '' ?> required class="form-check-input" type="radio" name="status" id="hadir" value="H">
+						<label class="form-check-label" for="hadir">
+							Hadir
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input <?php echo $dt['status'] == 'I' ? 'checked' : '' ?> required class="form-check-input" type="radio" name="status" id="ijin" value="I">
+						<label class="form-check-label" for="ijin">
+							Ijin
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input <?php echo $dt['status'] == 'D' ? 'checked' : '' ?> required class="form-check-input" type="radio" name="status" id="dinas" value="D">
+						<label class="form-check-label" for="dinas">
+							Dinas Luar
+						</label>
+					</div>
+					<div class="form-check-inline">
+						<input <?php echo $dt['status'] == 'A' ? 'checked' : '' ?> required class="form-check-input" type="radio" name="status" id="alpha" value="A">
+						<label class="form-check-label" for="alpha">
+							Alpha
+						</label>
+					</div>
+				</div><br>
 
 				<div class="form-group keterangan" style="display:none;">
 					<label for="exampleInputEmail1">Keterangan</label>
@@ -130,101 +122,87 @@ $data = GetKaryawanAbsensi2($_GET['id']);
 
 				<div class="form-group">
 					<label for="exampleInputEmail1">Tanggal</label>
-					<input id="date_absensi" type="date" value="<?php echo $data['date']; ?>" class="form-control" name="date">
+					<input value="<?php echo $dt['date'] ?>" required id="date" type="date" max="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="date">
 				</div>
 
 				<div class="row mb-2">
 					<div class="col-md-6">
-						<div class="form-group jam" style="display:none;">
-							<label for="exampleInputEmail1">Jam Masuk (sekarang)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" name="masuk">
+
+						<div class="form-group jam" <?php echo $dt['status'] == 'H' ? '' : 'style="display:none;"' ?>>
+							<label for="exampleInputEmail1">Jam Masuk (real)</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('masuk')" type="button">now</button>
+								</div>
+								<input value="<?php echo $dt['masuk'] ?>" placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam" />
+								<div class="input-group-append">
+									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('masuk')" type="button">x</button>
+								</div>
+							</div>
+
 						</div>
 					</div>
 
 					<div class="col-md-6">
-						<div class="form-group jam-rule" style="display:none;">
-							<label for="exampleInputEmail1">Jam Masuk (seharusnya)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly>
+						<div class="form-group jam-rule" value="<?php echo $dt['status'] == 'H' ? '' : 'style="display:none;"' ?>">
+							<label for="exampleInputEmail1">Jam Masuk (rule)</label>
+							<input value="<?php echo $jdw['mas_jam'] . ':' . $jdw['mas_menit'] ?>" id="masuk_rule" type="text" class="form-control" readonly>
+							<!-- <input id="masuk_rule" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly> -->
 						</div>
 					</div>
 				</div>
 
 				<div class="row mb-2">
 					<div class="col-md-6">
-						<div class="form-group jam" style="display:none;">
-							<label for="exampleInputEmail1">Jam Pulang (sekarang)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" name="keluar">
+						<div class="form-group jam" <?php echo $dt['status'] == 'H' ? '' : 'style="display:none;"' ?>>
+							<!-- <div class="form-group jam" style="display:none;"> -->
+							<label for="exampleInputEmail1">Jam Pulang (real)</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('keluar')" type="button">now</button>
+								</div>
+								<input value="<?php echo $dt['keluar'] ?>" placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam" />
+								<div class="input-group-append">
+									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('keluar')" type="button">x</button>
+								</div>
+							</div>
+
 						</div>
 					</div>
 
 					<div class="col-md-6">
-						<div class="form-group jam-rule" style="display:none;">
-							<label for="exampleInputEmail1">Jam Pulang (sharusnya)</label>
-							<input id="date_absensi" type="time" value="<?php echo date('h:i'); ?>" class="form-control" readonly>
+						<div class="form-group jam-rule" value="<?php echo $dt['status'] == 'H' ? '' : 'style="display:none;"' ?>">
+							<label for="exampleInputEmail1">Jam Pulang (rule)</label>
+							<input value="<?php echo $jdw['kel_jam'] . ':' . $jdw['kel_menit'] ?>" id="keluar_rule" type="text" class="form-control" readonly>
 						</div>
 					</div>
 				</div>
 
-
-
-				<input type='submit' name='add_absensi' value='Edit Data' class='btn btn-primary'>
+				<input type='submit' name='add_absensi' value='Simpan Data' class='btn btn-primary'>
 			</form>
-
-			<!-- <form action="./konfig/add_pengguna.php" method="POST">
-				<div class="form-group">
-					<label for="exampleInputEmail1">Username</label>
-					<input required class="form-control" type="text" name="username" placeholder="Masukan Username">
-
-				</div>
-
-				<div class="form-group">
-					<label for="exampleInputEmail1">Password</label>
-					<input required class="form-control" type="text" name="password" placeholder="Masukan Password">
-				</div>
-
-				<div class="form-group pt-2">
-					<label for="exampleFormControlSelect1">Level</label>
-					<select class="form-control" name="role">
-						<option>Admin</option>
-					</select>
-
-				</div>
-
-				<button type="submit" class="btn btn-outline-primary mt-3 float-right" value="simpan">Tambahkan</button>
-			</form> -->
 
 		</div>
 	</div>
 </section>
 
-<!-- <script src="./vendor/js/jquery/2_2_1/jquery.min.js"></script> -->
-<script src="~/assets/cube/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
 
-<script>
-	// Date.prototype.toDateInputValue = (function() {
-	// 	var local = new Date(this);
-	// 	local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-	// 	return local.toJSON().slice(0, 10);
-	// });
+<!-- <script src="vendor/js/jquery/jquery.min.js"></script> -->
+<!-- <script src="vendor/js/combogrid/jquery-1.9.1.min.js"></script> -->
+<script src="vendor/js/jquery/jquery-3.4.1.min.js"></script>
+<script src="vendor/js/jquery/jquery-migrate-3.0.0.min.js"></script>
+<script src="vendor/js/inputmask/jquery.inputmask.js"></script>
 
-	// var dt = new Date().toDateInputValue()
-	// $(document).ready(function() {
-	// 	alert(dt)
-	// 	$('#date_absensi').val(dt);
-	// });​
+<!-- <script src="vendor/js/combogrid/jquery-ui-1.10.1.custom.min.js"></script>
+<script src="vendor/js/combogrid/jquery.ui.combogrid-1.6.3.js"></script>
 
-	// $('#date').inputmask("h:s", {
-	// 	"placeholder": "hh:mm"
-	// });
-</script>
-
+<link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery-ui-1.10.1.custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="vendor/css/combogrid/jquery.ui.combogrid.css" /> -->
 
 <script>
 	$(document).ready(function() {
 		$('input[type=radio][name=status]').on('change', function() {
 			statusPresensiFunc($(this).val())
 		});
-
 
 		$('#mySelect2').select2({
 			ajax: {
@@ -238,80 +216,231 @@ $data = GetKaryawanAbsensi2($_GET['id']);
 			}
 		});
 
-		$("#karyawan").combogrid({
+		let hasSelectedKary = false
+		$('#karyawan').combogrid({
 			debug: true,
-			width: '600px',
+			width: '700px',
 			colModel: [{
-				// 'align':'left',
-				'columnName': 'kode',
-				// 'hide':true,
-				'width': '15',
-				'label': 'KODE'
+				'align': 'left',
+				'columnName': 'nip',
+				// 'hide': true,
+				'width': '25',
+				'label': 'NIP'
 			}, {
 				'align': 'left',
 				'columnName': 'nama',
-				'width': '85',
-				'label': 'NAMA'
+				'width': '25',
+				'label': 'Nama'
+			}, {
+				'align': 'left',
+				'columnName': 'jabatan',
+				'width': '25',
+				'label': 'Jabatan'
+			}, {
+				'align': 'left',
+				'columnName': 'divisi',
+				'width': '25',
+				'label': 'Divisi'
 			}],
-			url: './func/func_pegawai.php?karyawan_absensi',
-			// url: '?aksi=autocomp',
+			url: './func/func_absensi.php?karyawan_absensi&ajax',
+			// url: './func/func_absensi.php?karyawan_absensi=&tanggal='+$('#date').val(),
 			select: function(event, ui) {
-				// $('#d_rekeningH').val(ui.item.replid);
-				// $(this).val(ui.item.nama);
+				resetInput('masuk')
+				resetInput('keluar')
 
-				alert('masuk select')
+				hasSelectedKary = true;
+				console.table(ui)
+
+				// set : header 
+				$('#karyawan').val(ui.item.nama);
+				$('#id_karyawan').val(ui.item.id);
+				$('#karyawan').attr('readonly', true);
+
+				// set detail
+				// jabatan  
+				$('.karyawan-info').removeAttr('style')
+				$('#nip').val(ui.item.nip);
+				$('#jabatan').val(ui.item.jabatan);
+				$('#id_jabatan').val(ui.item.id_jabatan);
+				$('#divisi').val(ui.item.divisi);
+				$('#id_divisi').val(ui.item.id_divisi);
+
+				// jam dll
+				let mas = ui.item.rule_masuk
+				let masuk_rule = mas.jam == undefined ? '' : (mas.jam + ':' + mas.menit)
+				$('#masuk_rule').val(masuk_rule);
+
+				let kel = ui.item.rule_keluar
+				let keluar_rule = kel.jam == undefined ? '' : (kel.jam + ':' + kel.menit)
+				$('#keluar_rule').val(keluar_rule);
+
 				// validasi input (tidak sesuai data dr server)
-				$(this).on('keyup', function(e) {
-					alert('masuk keyup')
-					// var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-					// var keyCode = $.ui.keyCode;
-					// if (key != keyCode.ENTER && key != keyCode.LEFT && key != keyCode.RIGHT && key != keyCode.UP && key != keyCode.DOWN) {
-					// 	if ($('#d_rekeningH').val() != '') {
-					// 		$('#d_rekeningH').val('');
-					// 		$('#d_rekeningTB').val('');
-					// 	}
-					// }
-				});
+				console.log('masuk set value')
+				// $('#' + el.elemFrom).on('keyup', function(e) {
+				// 	var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+				// 	console.log('has selected', key);
+				// 	var keyCode = $.ui.keyCode;
+				// 	if (key != keyCode.ENTER && key != keyCode.LEFT && key != keyCode.RIGHT && key != keyCode.UP && key != keyCode.DOWN) {
+				// 		if ($('#' + el.elemFrom).val() != '') {
+				// 			$('#' + el.elemFrom).val('')
+				// 		}
+				// 	}
+				// });
 				return false;
 			}
 		});
 
 	})
 
+	function resetInput(el) {
+		$('#' + el).val('').focus()
+	}
+
+	function setNow(el) {
+		let d = new Date();
+		let h = d.getHours();
+		let m = d.getMinutes();
+		$('#' + el).val((h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m))
+	}
+
+	function convertTime12to24(time12h) {
+		const [time, modifier] = time12h.split(' ');
+		let [hours, minutes] = time.split(':');
+		if (hours === '12') {
+			hours = '00';
+		}
+		if (modifier === 'PM') {
+			hours = parseInt(hours, 10) + 12;
+		}
+		return `${hours}:${minutes}`;
+	}
+
+	function onsubmitForm(el) {
+		swal({
+			title: 'Yakin melanjutkan?',
+			text: 'Pastikan semua data sudah terisi dengan benar',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: 'btn btn-success',
+			// confirmButtonColor: '#DD6B55',
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((res) => {
+			console.log(res)
+			if (res.value) {
+				$.ajax({
+					url: './konfig/update_absensi.php',
+					data: $(el).serialize(),
+					// url: './konfig/add_absensi.php',
+					// data: 'ajax&' + $(el).serialize(),
+					dataType: 'json',
+					method: 'post',
+					success: function(dt) {
+						console.log(dt);
+						let titlex, textx, typex, colorx;
+						if (dt.status) {
+							titlex = 'Success'
+							textx = 'Berhasil menyimpan data'
+							typex = 'success'
+							colorx = 'btn btn-success'
+						} else {
+							titlex = 'Failed'
+							textx = 'Gagal menyimpan data, ' + dt.msg
+							typex = 'error'
+							colorx = 'btn btn-danger'
+						}
+
+						swal({
+							title: titlex,
+							text: textx,
+							type: typex,
+							confirmButtonColor: colorx,
+							confirmButtonText: 'ok',
+						}).then(function() {
+							// alert('hahah')
+							location.href = '?page=absensi'
+						})
+					},
+				})
+			}
+		});
+		return false;
+	}
+
+	function onkeyupKaryawan(x) {
+		if (x != '')
+			$('#resetKaryawanBtn').addClass('btn-danger')
+		else
+			$('#resetKaryawanBtn').removeClass('btn-danger')
+	}
+
+	function resetKaryawan() {
+		resetInput('karyawan')
+		$('#karyawan').removeAttr('readonly')
+		$('#resetKaryawanBtn').removeClass('btn-danger')
+		$('.karyawan-info>input').val('')
+		$('#id_karyawan').val('')
+		$('#masuk_rule').val('')
+		$('#keluar_rule').val('')
+	}
+
 	function statusPresensiFunc(sel) {
-		if (sel == 'hadir') {
-			$('.jam').removeAttr('style')
-			if ($('#karyawan').val() == '') {
+
+		let el = $('#id_tipe_presensi').val()
+		let tipex = el.split('-')
+		let tp = tipex[1]
+		console.log('status-=', sel);
+		console.log('tipe=', tp);
+
+		resetInput('masuk')
+		resetInput('keluar')
+
+		if (tp == 'harian') { // presensi harian
+			if (sel == 'H') {
+				$('.jam').removeAttr('style')
+				$('.input-jam').attr('required', true)
 				$('.keterangan').attr('style', 'display:none;')
-				$('.jam-rule').attr('style', 'display:none;')
 			} else {
-				$('.keterangan').attr('style', 'display:none;')
-				$('.jam-rule').removeAttr('style')
+				$('.keterangan').removeAttr('style')
+				$('.input-jam').removeAttr('required')
+				$('.jam-rule').attr('style', 'display:none;')
+				$('.jam').attr('style', 'display:none')
 			}
 		} else { // ijin , dll
-			$('.keterangan').removeAttr('style')
+			if (sel == 'H') {
+				$('.keterangan').attr('style', 'display:none;')
+			} else {
+				$('.keterangan').removeAttr('style')
+			}
 			$('.jam').attr('style', 'display:none;')
+			$('.input-jam').removeAttr('required')
 			$('.jam-rule').attr('style', 'display:none;')
 		}
 	}
 
 	function karyawanFunc(sel) {
-		var tag = sel.options[sel.selectedIndex].value;
-		var data = sel.options[sel.selectedIndex].text;
-		// var nama = data.split(" - ")[0];
-		var nip = data.split(" - ")[1];
-		// console.log('nip',nip);
+		console.log('kary', sel)
+		// var tag = sel.options[sel.selectedIndex].value;
+		// var data = sel.options[sel.selectedIndex].text;
+		// // var nama = data.split(" - ")[0];
+		// var nip = data.split(" - ")[1];
+		// // console.log('nip',nip);
 
-		if (tag == "") {
-			// document.getElementById("jabatan").value = "";
-			document.getElementById("tag").value = "";
-			// document.getElementById("nama").value = "";
-			document.getElementById("nip").value = "";
-		} else {
-			// document.getElementById("jabatan").value = tag ? tag : '';
-			document.getElementById("tag").value = tag ? tag : '';
-			// document.getElementById("nama").value = nama;
-			document.getElementById("nip").value = nip ? nip : '';
+		// if (tag == "") {
+		// 	// document.getElementById("jabatan").value = "";
+		// 	document.getElementById("tag").value = "";
+		// 	// document.getElementById("nama").value = "";
+		// 	document.getElementById("nip").value = "";
+		// } else {
+		// 	// document.getElementById("jabatan").value = tag ? tag : '';
+		// 	document.getElementById("tag").value = tag ? tag : '';
+		// 	// document.getElementById("nama").value = nama;
+		// 	document.getElementById("nip").value = nip ? nip : '';
+		// }
+
+		// set : karyawan detail 
+		if (sel == '') {
+			$('#nama').val()
 		}
 
 		// kosong | tidak skj 
@@ -333,19 +462,55 @@ $data = GetKaryawanAbsensi2($_GET['id']);
 	}
 
 	function tipePresensiFunc(sel) {
-		if (sel == '1') {
-			$('.status-presensi').removeAttr('style')
-			$('.jam-rule').removeAttr('style')
-			statusPresensiFunc($('input[type=radio]').val())
+		$('input[type=radio]').prop('checked', false);
+		let selx = sel.split('-')
+		let kode = selx[1]
+		console.log('tipe', kode)
 
-		} else {
-			$('.status-presensi').attr('style', 'display:none')
-			$('.jam').attr('style', 'display:none;')
+		resetInput('masuk')
+		resetInput('keluar')
+
+		if (kode == 'harian') {
+			$('#hadir').removeAttr('disabled')
+			$('.jam').removeAttr('style')
+			$('.jam-rule').removeAttr('style')
+			// $('.status-presensi').removeAttr('style')
+		} else if (kode == 'skj' || kode == 'dispensasi') {
+			$('#hadir').attr('disabled', true)
 			$('.jam-rule').attr('style', 'display:none;')
+			$('.jam').attr('style', 'display:none;')
+			// } else if (kode == 'skj' || kode == '' || kode == undefined) { // tidak ikut skj
+			// statusPresensiFunc($('input[type=radio]').val())
+		} else { // 
+			$('#hadir').removeAttr('disabled')
+			$('.jam-rule').attr('style', 'display:none;')
+			$('.jam').attr('style', 'display:none;')
+			// $('.status-presensi').removeAttr('style')
+			// $('.status-presensi #hadir').removeAttr('disabled')
+			// statusPresensiFunc($('input[type=radio]').val())
 		}
 	}
 
+	// $('input#masuk').inputmask(
+	// 	"hh:mm", {
+	// 		placeholder: "HH:MM",
+	// 		// insertMode: false,
+	// 		showMaskOnHover: false,
+	// 		hourFormat: 12
+	// 	}
+	// );
 
+	Inputmask("datetime", {
+		inputFormat: "HH:MM",
+		max: 24,
+		hourFormat: 24,
+	}).mask("input.input-jam");
+
+	// Inputmask("datetime", {
+	// 	inputFormat: "HH:MM",
+	// 	max: 24,
+	// 	hourFormat: 24,
+	// }).mask("input");
 
 	// function jamFunc(sel) {
 	// 	if (sel == '1') {

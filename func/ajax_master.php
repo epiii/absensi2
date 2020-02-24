@@ -27,7 +27,7 @@ function Update()
 		// 			value ="' . $value_sub . '"
 		// 			WHERE id=' . $id_sub;
 		// } else {
-			$query = 'UPDATE tb2_setting SET 
+		$query = 'UPDATE tb2_setting SET 
 					param ="' . $param_sub . '",
 					value ="' . $value_sub . '"
 					WHERE id=' . $id_sub;
@@ -48,12 +48,29 @@ function Update()
 function Delete($id)
 {
 	global $dbconnect;
-	$query = "DELETE  FROM `tb2_setting` WHERE id='" . $id . "'";
-	// pr($query);
 
-	$sql = mysqli_query($dbconnect, $query);
-	$msg = $sql ? 'berhasil menghapus data' : 'failed,' . mysqli_error($dbconnect);
-	$ret = json_encode(['status' => $sql ? true : false, 'msg' => $msg]);
+	// hapus master jam 
+	$sJam = 'DELETE  FROM tb1_setting2 WHERE id_divisi=' . $id;
+	$eJam = mysqli_query($dbconnect, $sJam);
+
+	if (!$eJam) {
+		$stat =  false;
+		$msg =  'failed to delete tb1_setting2 ,' . mysqli_error($dbconnect);
+	} else {
+		// hapus master jam 
+		$sKary = 'UPDATE tb_id SET id_divisi=NULL WHERE id_divisi=' . $id;
+		$eKary = mysqli_query($dbconnect, $sKary);
+		if (!$eKary) {
+			$stat =  false;
+			$msg =  'failed to update tb_id ,' . mysqli_error($dbconnect);
+		} else {
+			$query = "DELETE  FROM `tb2_setting` WHERE id='" . $id . "'";
+			$sql = mysqli_query($dbconnect, $query);
+			$msg = $sql ? 'berhasil menghapus data' : 'failed,' . mysqli_error($dbconnect);
+			$stat = $sql ? true : false;
+		}
+	}
+	$ret = json_encode(['status' => $stat, 'msg' => $msg]);
 	echo $ret;
 }
 

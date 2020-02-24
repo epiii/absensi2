@@ -10,12 +10,22 @@ if (isset($_SESSION['page'])) {
 	header("location: ../index.php?page=dashboard&error=true");
 }
 
-$id = $_GET['id'];
-$mode = $id == '1' ? 'Masuk' : 'Keluar';
-$query = "	SELECT s.*,v.nama_divisi
-			FROM tb1_setting2 s 
-			LEFT JOIN vw_divisi v on v.id_divisi = s.id_divisi 
-			WHERE s.no =" . $id;
+$no = $_GET['id'];
+$mode = $no == '1' ? 'Masuk' : 'Keluar';
+$query = 	'SELECT 
+				v.id_divisi as id_div, 
+				v.kode_divisi,
+				v.nama_divisi,
+				s.*
+			FROM vw_divisi v 
+			LEFT JOIN tb1_setting2 s ON v.id_divisi = s.id_divisi AND s.no = ' . $no . '
+			WHERE v.isActive=1';
+
+// pr($query);
+// $query = "	SELECT s.*,v.nama_divisi
+// 			FROM tb1_setting2 s 
+// 			LEFT JOIN vw_divisi v on v.id_divisi = s.id_divisi 
+// 			WHERE s.no =" . $id;
 $sql = mysqli_query($dbconnect, $query);
 
 // pr($query);
@@ -27,7 +37,7 @@ $divisi = GetDivisi2();
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">EDIT KONFIGURASI </h1>
+				<h1 class="m-0 text-dark">EDIT MASTER JAM </h1>
 				<h4 class="m-0 text-muted">Jam <?php echo $mode; ?></h4>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
@@ -52,6 +62,7 @@ $divisi = GetDivisi2();
 					<form id="formParam" method="POST">
 						<input type="hidden" name="mode" value="<?php echo $mode; ?>" id="mode">
 						<input type="hidden" name="id" id="id">
+						<input type="hidden" name="submit">
 
 						<div class="form-group text-left">
 							<label for="id_divisi">Divisi</label>
@@ -88,7 +99,7 @@ $divisi = GetDivisi2();
 							</div>
 						</div>
 
-						<h5 class="text-left text-muted">Telat 1</h5>
+						<h5 class="text-left text-muted"><?php echo strtolower($mode) == 'keluar' ? 'Lebih Cepat' : 'Telat' ?> 1</h5>
 						<div class="row mb-3">
 							<div class="col-md-4">
 								<div class="form-group text-left">
@@ -135,7 +146,7 @@ $divisi = GetDivisi2();
 							</div>
 						</div>
 
-						<h4 class="text-left text-muted">Telat 2</h4>
+						<h5 class="text-left text-muted"><?php echo strtolower($mode) == 'keluar' ? 'Lebih Cepat' : 'Telat' ?> 2</h5>
 						<div class="row mb-3">
 							<div class="col-md-4">
 								<div class="form-group text-left">
@@ -182,7 +193,7 @@ $divisi = GetDivisi2();
 							</div>
 						</div>
 
-						<h4 class="text-left text-muted">Telat 3</h4>
+						<h5 class="text-left text-muted"><?php echo strtolower($mode) == 'keluar' ? 'Lebih Cepat' : 'Telat' ?> 3</h5>
 						<div class="row mb-3">
 							<div class="col-md-4">
 								<div class="form-group text-left">
@@ -229,7 +240,7 @@ $divisi = GetDivisi2();
 							</div>
 						</div>
 
-						<h4 class="text-left text-muted">Telat 4</h4>
+						<h5 class="text-left text-muted"><?php echo strtolower($mode) == 'keluar' ? 'Lebih Cepat' : 'Telat' ?> 4</h5>
 						<div class="col-md-4">
 							<div class="form-group text-left">
 								<label for="param_sub">Potongan</label>
@@ -290,6 +301,49 @@ $divisi = GetDivisi2();
 		</div>
 	</div>
 
+	<div class="modal fade" id="myModal_" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Form Sub Parameter</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body text-center">
+					<table id="detKonfigTbl_modal" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
+						<thead>
+							<tr class="bg-secondary text-center">
+								<th>ID</th>
+								<th>id_divisi</th>
+								<th>No</th>
+								<th>Divisi</th>
+								<th>Jam <?php echo $mode; ?></th>
+								<th>Batas Absen</th>
+								<th>Telat 1</th>
+								<th>Telat 2</th>
+								<th>Telat 3</th>
+								<th>Telat 4</th>
+								<th>Status</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+						</tbody>
+
+					</table>
+				</div>
+				<div class="modal-footer">
+					<!-- <button type="button" class="btn btn-default" onclick="resetFormSub()">Reset</button> -->
+					<!-- <button type="button" onclick="onsubmitForm($('#formParam'));" class="btn btn-primary">Simpan</button> -->
+				</div>
+			</div>
+
+		</div>
+	</div>
+
 </div>
 
 <section class="content ml-3 mr-3" id="box">
@@ -314,32 +368,29 @@ $divisi = GetDivisi2();
 					<div class="col-md-12 col-md-offset-2">
 						<div class="table table-hover">
 
-							<div class="text-right">
+							<!-- <div class="text-right">
 								<button onclick="openModal()" class="btn btn-primary ">
 									<i class="fas fa-plus" data-toggle="tooltip" title="Tambah"></i>
 								</button>
-							</div>
+							</div> -->
 
 							<table id="detKonfigTbl" class="table table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
-								<!-- <table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;"> -->
 								<thead>
 									<tr class="bg-secondary text-center">
-										<th>ID</th>
-										<th>id_divisi</th>
-										<th>No</th>
 										<th>Divisi</th>
 										<th>Jam <?php echo $mode; ?></th>
 										<th>Batas Absen</th>
-										<th>Telat 1</th>
-										<th>Telat 2</th>
-										<th>Telat 3</th>
-										<th>Telat 4</th>
-										<th>Status</th>
+										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 1</th>
+										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 2</th>
+										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 3</th>
+										<th><?php echo $mode=='Keluar'?'Lebih Cepat':'Telat'?> 4</th>
+										<!-- <th>Status</th> -->
 										<th>Action</th>
 									</tr>
 								</thead>
 
 								<tbody>
+
 									<?php
 									$no = 1;
 									while ($data = mysqli_fetch_assoc($sql)) {
@@ -349,29 +400,42 @@ $divisi = GetDivisi2();
 										$txt = $status == '1' ? 'Active' : 'Inactive';
 										$clr = $status == '1' ? 'success' : 'default';
 										$color = $status == '1' ? 'success' : 'default';
+										$jam = $data['jam'] == '' ? '-' : $data['jam'] . ':' . $data['menit'];
+										$batas_absen = $data['batas1'] == '' ? '-' : $data['batas1'] . ':00' . ' - ' . $data['batas2'] . ':00';
+										$telat1 = $data['telat1a'] == '' ? '-' : $data['telat1a'] . ' s/d ' . $data['telat1b'] . ' menit';
+										$potongan1 = $data['persen1'] == '' ? '-' : '<b>Potongan :' . $data['persen1'] . ' % </b>';
+										$telat2 = $data['telat2a'] == '' ? '-' : $data['telat2a'] . ' s/d ' . $data['telat2b'] . ' menit';
+										$potongan2 = $data['persen2'] == '' ? '-' : '<b>Potongan :' . $data['persen2'] . ' % </b>';
+										$telat3 = $data['telat3a'] == '' ? '-' : $data['telat3a'] . ' s/d ' . $data['telat3b'] . ' menit';
+										$potongan3 = $data['persen3'] == '' ? '-' : '<b>Potongan :' . $data['persen3'] . ' % </b>';
+
+										$telat4 = $data['telat3b'] == '' ? '-' : '> ' . $data['telat3b'] . ' menit';
+										$potongan4 = $data['persen4'] == '' ? '-' : '<b>Potongan :' . $data['persen4'] . ' % </b>';
+										// pr($data['id']);
+
+										$id = $data['id'] == '' ? '' : $data['id'];
+										$id_divisi = $data['id_div'] == '' ? '' : $data['id_div'];
 									?>
+
 										<tr class="text-center table-<?php echo $color; ?>">
-											<td><?php echo $data['id']; ?></td>
-											<td><?php echo $data['id_divisi']; ?></td>
-											<td><?php echo $no; ?></td>
-											<td class="text-left"><?php echo $data['nama_divisi']; ?></td>
-											<td><?php echo $data['jam'] . ':' . $data['menit']; ?></td>
-											<td><?php echo $data['batas1'] . ':00' . ' - ' . $data['batas2'] . ':00'; ?></td>
-											<td class="text-left"><?php echo $data['telat1a'] . ' s/d ' . $data['telat1b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen1'] . ' %'; ?></b><?php echo ''; ?></td>
-											<td class="text-left"><?php echo $data['telat2a'] . ' s/d ' . $data['telat2b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen2'] . ' %'; ?></b><?php echo ''; ?></td>
-											<td class="text-left"><?php echo $data['telat3a'] . ' s/d ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen3'] . ' %'; ?></b><?php echo ''; ?></td>
-											<td class="text-left"><?php echo '> ' . $data['telat3b'] . ' menit'; ?><br><b>Potongan : <?php echo $data['persen4'] . ' %'; ?></b><?php echo ''; ?></td>
+											<td class="text-left"><?php echo '[' . $data['kode_divisi'] . '] ' . $data['nama_divisi']; ?></td>
+											<td><?php echo $jam; ?></td>
+											<td><?php echo $batas_absen ?></td>
+											<td class="text-left"><?php echo $telat1 . '<br>' . $potongan1; ?></td>
+											<td class="text-left"><?php echo $telat2 . '<br>' . $potongan2; ?></td>
+											<td class="text-left"><?php echo $telat3 . '<br>' . $potongan3; ?></td>
+											<td class="text-left"><?php echo $telat4 . '<br>' . $potongan4; ?></td>
 											<!-- <td class="text-center"><span class="badge badge-<?php echo $clr; ?>"><?php echo $txt; ?></span></td> -->
-											<td class="text-center">
+											<!-- <td class="text-center">
 												<button onclick="changeStatus(<?php echo $data['id']; ?>);return false;" class="btn btn-sm btn-<?php echo $clr; ?>">
 													<i class="fas fa-<?php echo $ico; ?>"></i>
 													<?php echo ' ' . $txt; ?>
 												</button>
-											</td>
+											</td> -->
 											<td class="text-center">
-												<!-- <button  class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button> -->
-												<button onclick="onEdit(<?php echo $data['id']; ?>)" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
-												<a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a>
+												<!-- <?php echo ($data['id'] == '' ? 'g' : 'y'); ?> -->
+												<button onclick="onEdit('<?php echo $id;  ?>','<?php echo $id_divisi;  ?>')" class="btn btn-primary btn-sm edit-btn text-center"><i class="fas fa-pencil-alt"></i></button>
+												<!-- <a href="#" onclick="onDelete(<?php echo $data['id']; ?>)" class="btn btn-danger btn-sm text-center"><i class="fas fa-trash"></i></a> -->
 											</td>
 
 										</tr>
@@ -381,6 +445,7 @@ $divisi = GetDivisi2();
 									?>
 								</tbody>
 							</table>
+
 						</div>
 					</div>
 				</div><!-- end row-->
@@ -520,13 +585,14 @@ $divisi = GetDivisi2();
 		})
 	}
 
-	function onEdit(par) {
-		console.log(par)
+	function onEdit(id, id_div) {
+		// console.log(par)
+		// return false
 		$.ajax({
 			url: './func/ajax_master_jam.php',
-			data: 'get_master_jam&id=' + par,
+			data: 'get_master_jam&id=' + (id ? id : '') + '&id_divisi=' + id_div + '&mode=' + $('#mode').val(),
 			dataType: 'json',
-			method: 'post',
+			method: 'get',
 			success: function(dt) {
 				if (dt.sts == false) {
 					titlex = 'Failed'
@@ -543,9 +609,10 @@ $divisi = GetDivisi2();
 					})
 				} else {
 					$('#id').val(dt.msg.id)
+					// $('#mode').val(dt.msg.id)
 
-					$('#id_divisi').val(dt.msg.id_divisi)
-					$('#jam').val(dt.msg.jam + ':00')
+					$('#id_divisi').val(dt.msg.id_div)
+					$('#jam').val(dt.msg.jam ? dt.msg.jam + ':00' : '')
 
 					$('#persen1').val(dt.msg.persen1)
 					$('#persen2').val(dt.msg.persen2)
@@ -738,7 +805,8 @@ $divisi = GetDivisi2();
 					$.ajax({
 						// url: './konfig/update_master_jam.php',
 						url: './func/ajax_master_jam.php',
-						data: 'update&ajax&' + $(el).serialize(),
+						data: $(el).serialize(),
+						// data: 'update&ajax&' + $(el).serialize(),
 						dataType: 'json',
 						method: 'post',
 						success: function(dt) {
@@ -804,6 +872,9 @@ $divisi = GetDivisi2();
 		$('#value_sub').removeClass('is-invalid')
 	}
 
+
+	var editor; // use a global for the submit and return data rendering in the examples
+
 	$(document).ready(function() {
 
 		$('#myModal').on('hidden.bs.modal', function() {
@@ -814,16 +885,17 @@ $divisi = GetDivisi2();
 
 		var table = $('#detKonfigTbl').DataTable({
 			paging: true,
-			columnDefs: [{
-					targets: [0],
-					visible: false,
-					searchable: false
-				},
-				{
-					targets: [1],
-					visible: false,
-					searchable: false
-				}
+			columnDefs: [
+				// {
+				// 	targets: [0],
+				// 	visible: false,
+				// 	searchable: false
+				// },
+				// {
+				// 	targets: [1],
+				// 	visible: false,
+				// 	searchable: false
+				// }
 			],
 			pageLength: 10,
 			lengthMenu: [
@@ -835,60 +907,125 @@ $divisi = GetDivisi2();
 			bInfo: false,
 		});
 
+		// var table_modal = $('#detKonfigTbl_modal').DataTable({
+		// 	processing: true,
+		// 	serverSide: true,
+		// 	ajax: "../server_side/scripts/server_processing.php",
 
-		/* $('#detKonfigTbl tbody').on('click', '.edit-btn', function() {
-			// var dt = table.row(this).data();
-			let tr = $(this).parents('tr')
-			let dt = table.row(tr)
-			console.log(tr)
+		// 	paging: true,
+		// 	columnDefs: [{
+		// 			targets: [0],
+		// 			visible: false,
+		// 			searchable: false
+		// 		},
+		// 		{
+		// 			targets: [1],
+		// 			visible: false,
+		// 			searchable: false
+		// 		}
+		// 	],
+		// 	pageLength: 10,
+		// 	lengthMenu: [
+		// 		[5, 10, 25, 50, -1],
+		// 		[5, 10, 25, 50, "All"]
+		// 	],
+		// 	blengthChange: false,
+		// 	bPaginate: false,
+		// 	bInfo: false,
+		// });
 
-			// id 
-			$('#id').val(dt[0])
+		editor = new $.fn.dataTable.Editor({
+			"ajax": "../php/staff.php",
+			"table": "#example",
+			"fields": [{
+				"label": "First name:",
+				"name": "first_name"
+			}, {
+				"label": "Last name:",
+				"name": "last_name"
+			}, {
+				"label": "Position:",
+				"name": "position"
+			}, {
+				"label": "Office:",
+				"name": "office"
+			}, {
+				"label": "Extension:",
+				"name": "extn"
+			}, {
+				"label": "Start date:",
+				"name": "start_date",
+				"type": "datetime"
+			}, {
+				"label": "Salary:",
+				"name": "salary"
+			}]
+		});
 
-			// telat 1 
-			let tel1 = dt[6].split(' ')
-			console.log('tel 1', tel1)
+		$('#example').DataTable({
+			dom: "Bfrtip",
+			ajax: {
+				// url: "../php/staff.php",
+				// type: "POST"
+				type: "GET",
+				url: "./func/ajax_master.php",
+				data: 'get_detail',
+				// url: './func/ajax_master_jam.php',
+			},
+			serverSide: true,
+			columns: [{
+					data: "first_name"
+				},
+				{
+					data: "last_name"
+				},
+				{
+					data: "position"
+				},
+				{
+					data: "office"
+				},
+				{
+					data: "start_date"
+				},
+				{
+					data: "salary",
+					render: $.fn.dataTable.render.number(',', '.', 0, '$')
+				}
+			],
+			select: true,
+			buttons: [{
+					extend: "create",
+					editor: editor
+				},
+				{
+					extend: "edit",
+					editor: editor
+				},
+				{
+					extend: "remove",
+					editor: editor
+				}
+			]
+		});
 
-			// telat 2 
-			let tel2 = dt[7].split(' ')
-			console.log('tel 2', tel2)
-
-			// telat 3 
-			let tel3 = dt[8].split(' ')
-			console.log('tel 3', tel3)
-
-			// telat 4 
-			let tel4 = dt[9].split(' ')
-			console.log('tel 4', tel4)
-
-			// batas  
-			let bts = dt[5].split('-')
-			let bts1 = bts[0].split(':')[0]
-			let bts2 = bts[1].split(':')[0]
-			console.log('bts', bts)
-
-			// return false;
-			$('#id_divisi').val(dt[1])
-			$('#jam').val(dt[4])
-
-			$('#persen1').val(tel1[5])
-			$('#persen2').val(tel2[5])
-			$('#persen3').val(tel3[5])
-			$('#persen4').val(tel4[4])
-
-			$('#telat1a').val(tel1[0])
-			$('#telat1b').val(tel1[2])
-
-			$('#telat2a').val(tel2[0])
-			$('#telat2b').val(tel2[2])
-
-			$('#telat3a').val(tel3[0])
-			$('#telat3b').val(tel3[2])
-
-			$('#batas1').val(bts1)
-			$('#batas2').val(bts2)
-
-			openModal()
-		}); */
 	})
 </script>
+
+<style>
+	/* @media (min-width: 576px) {
+		.modal-dialog {
+			max-width: none;
+		}
+	}
+
+	.modal-dialog {
+		width: 98%;
+		height: 92%;
+		padding: 0;
+	}
+
+	.modal-content {
+		height: 99%;
+	} */
+</style>

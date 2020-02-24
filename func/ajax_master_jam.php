@@ -3,14 +3,14 @@
 require_once '../konfig/connection.php';
 require_once '../konfig/dev.php';
 
-// pr($_POST);
-function Update()
+function Submit()
 {
 	global $dbconnect;
-	require_once '../konfig/connection.php';
-	require_once '../konfig/dev.php';
-	require_once '../func/func_absensi.php';
+	// require_once '../konfig/connection.php';
+	// require_once '../konfig/dev.php';
+	// require_once '../func/func_absensi.php';
 
+	// pr($id);
 	$id = $_POST['id'];
 	$id_divisi = $_POST['id_divisi'];
 	$jam = $_POST['jam'];
@@ -80,6 +80,7 @@ function Update()
 function Delete($id)
 {
 	global $dbconnect;
+
 	$query = "DELETE  FROM `tb1_setting2` WHERE id='" . $id . "'";
 	// pr($query);
 
@@ -89,12 +90,26 @@ function Delete($id)
 	echo $ret;
 }
 
-function GetMasterJam($id)
+function GetMasterJam($id, $id_divisi, $mode)
 {
 	global $dbconnect;
-	$ss = '	SELECT * 
+	if ($id == '') {
+		$ss = 'SELECT
+					v.id_divisi as id_div,
+					v.kode_divisi,
+					v.nama_divisi,
+					s.*
+				FROM vw_divisi v
+					LEFT JOIN tb1_setting2 s ON v.id_divisi = s.id_divisi
+					AND s. NO = ' . (strtolower($mode) == 'masuk' ? '1' : '2') . '
+				WHERE 
+					v.isActive=1 AND v.id_divisi = ' . $id_divisi;
+	} else {
+		$ss = '	SELECT *, id_divisi as id_div  
 			FROM tb1_setting2 
-			WHERE  id="' . $id . '"';
+			WHERE isActive=1 AND id="' . $id . '"';
+	}
+	// pr($ss);
 	$exe = mysqli_query($dbconnect, $ss);
 	$num = mysqli_num_rows($exe);
 
@@ -106,6 +121,70 @@ function GetMasterJam($id)
 	}
 	return json_encode($ret);
 }
+
+function GetDetail($id = 16)
+{
+	global $dbconnect;
+	$ss = '	SELECT * 
+			FROM tb1_setting2 
+			WHERE  id="' . $id . '"';
+	pr($ss);
+	$exe = mysqli_query($dbconnect, $ss);
+	$num = mysqli_num_rows($exe);
+
+	if ($num <= 0) {
+		$ret = ['sts' => false, 'msg' => 'data kosong'];
+	} else {
+		$row = mysqli_fetch_assoc($exe);
+		$ret = ['sts' => true, 'msg' => $row];
+	}
+	return json_encode($ret);
+}
+
+/* 
+function GetDetail($id)
+{
+	global $dbconnect;
+	$table = 'datatables_demo';
+
+	// Table's primary key
+	$primaryKey = 'id';
+
+	$columns = array(
+		array('db' => 'first_name', 'dt' => 0),
+		array('db' => 'last_name', 'dt' => 1),
+		array('db' => 'position', 'dt' => 2),
+		array('db' => 'office', 'dt' => 3),
+		array(
+			'db' => 'start_date',
+			'dt' => 4,
+			'formatter' => function ($d, $row) {
+				return date('jS M y', strtotime($d));
+			}
+		),
+		array(
+			'db' => 'salary',
+			'dt' => 5,
+			'formatter' => function ($d, $row) {
+				return '$' . number_format($d);
+			}
+		)
+	);
+
+	// SQL server connection information
+	$sql_details = array(
+		'user' => '',
+		'pass' => '',
+		'db'   => '',
+		'host' => ''
+	);
+
+	require('ssp.class.php');
+
+	echo json_encode(
+		SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+	);
+} */
 
 function UpdateStatus($id)
 {
@@ -128,14 +207,20 @@ function UpdateStatus($id)
 	return json_encode($ret);
 }
 
-if (isset($_POST['insert'])) {
-	Insert();
-} else if (isset($_POST['update'])) {
-	Update();
-} else if (isset($_POST['delete'])) {
+// pr($_POST);
+
+if (isset($_POST['submit'])) {
+	Submit();
+}
+// else if (isset($_POST['submit']) && $_POST['id'] != '') {
+// 	Update();
+// }
+else if (isset($_POST['delete'])) {
 	Delete($_POST['id']);
-} else if (isset($_POST['get_master_jam'])) {
-	echo GetMasterJam($_POST['id']);
+} else if (isset($_GET['get_detail'])) {
+	echo GetDetail($_GET['id']);
+} else if (isset($_GET['get_master_jam'])) {
+	echo GetMasterJam($_GET['id'], $_GET['id_divisi'], $_GET['mode']);
 } else if (isset($_POST['update_status'])) {
 	echo UpdateStatus($_POST['id']);
 }
