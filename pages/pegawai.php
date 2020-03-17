@@ -65,7 +65,7 @@ if (!$ee) {
 										<tr>
 											<!-- <th>no</th> -->
 											<th>UID</th>
-											<th>NIP</th>
+											<!-- <th>NIP</th> -->
 											<th>Nama</th>
 											<th>Divisi</th>
 											<th>HP</th>
@@ -83,10 +83,11 @@ if (!$ee) {
 											$no++;
 										?>
 											<tr class="table-<?php echo $clr; ?>">
+												<!-- <td><?php echo $no; ?></td> -->
 												<td><?php echo $uid; ?></td>
-												<td><?php echo $data['nip']; ?></td>
+												<!-- <td><?php echo $data['nip']; ?></td> -->
 												<td><?php echo $data['nama']; ?></td>
-												<td><?php echo $data['nama_divisi']; ?></td>
+												<td><?php echo $data['nama_divisi'] == '' ? '-' : $data['nama_divisi']; ?></td>
 												<td><?php echo $data['no_hp']; ?></td>
 												<td><?php echo $data['email']; ?></td>
 												<td>
@@ -129,12 +130,16 @@ if (!$ee) {
 	// 	}
 	// 	e.preventDefault();
 	// });
-
+	var table
 	$(document).ready(function() {
-		var table = $('#pegawaiTbl').DataTable({
+		let urlx = window.location.href
+		let par = urlx.split('#')
+		let searchTxt = par[1]
+
+		table = $('#pegawaiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
-			pageLength: 5,
+			pageLength: 10,
 			pageSize: 'A4',
 			alignment: 'center',
 			blengthChange: false,
@@ -186,27 +191,17 @@ if (!$ee) {
 					},
 
 				}
-			]
+			],
+			oSearch: {
+				"sSearch": searchTxt
+			},
+			initComplete: function(settings, json) {
+				console.log('wes')
+			},
 		});
-
+		// todo 
+			// - search multi col : http://jsfiddle.net/fxts7o61/
 	});
-
-	// $('form').on('submit', function() {
-	// 	alert('wkwk')
-	// })
-
-
-	// function onDelete(id) {
-	// 	var action = 'index.php?page=update_pegawai'; 
-	// 	var choice = confirm('yakin mau menghapus data ' + id + ' ?');
-	// 	alert(choice)
-	// 	return false
-
-	// 	if (choice) {
-
-	// 		window.location.href = 'index.php?page=update_pegawai&id=' + id;
-	// 	}
-	// }
 
 	function onDelete(id) {
 		// alert(id)

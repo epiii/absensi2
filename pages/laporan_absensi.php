@@ -370,21 +370,17 @@ $query = 'SELECT
 			)jml_libur_tglmerah
 				
 		FROM
-			tb_id k';
-// tb1_karyawan k';
+			tb_id k
+		WHERE
+		k.id_divisi IS NOT NULL
+		AND k.id_divisi IN (SELECT id_divisi from vw_divisi)	
+		';
+$query = $id_divisi == '' ? $query : $query . ' AND k.id_divisi = "' . $id_divisi . '"';
 // pr($query);
-$query = $id_divisi == '' ? $query : $query . ' WHERE k.id_divisi = "' . $id_divisi . '"';
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
-// $numDay = GetNumDayByDateRange($tanggal_awal, $tanggal_akhir);
-// $xx= Get($tanggal_awal, $tanggal_akhir, $wkend_daynames);
-// $xx= getDateForSpecificDayBetweenDates($tanggal_awal, $tanggal_akhir, 1);
-
-// $wkend_daynames = GetWeekendByDiv($id_divisi);
-// $tot_lbr_wkend = GetNumWeekendByRange($tanggal_awal, $tanggal_akhir, $wkend_daynames);
-
 ?>
-<!-- <span class="label label-default">Default</span> -->
+
 <div class="content-header ml-3 mr-3">
 	<div class="container-fluid">
 		<div class="row mb-2">
@@ -401,32 +397,93 @@ $divisi = GetDivisiRule();
 	</div><!-- /.container-fluid -->
 </div>
 
+<!-- <div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-6 col-md-12 big-box"> -->
+
+<div class="modal fade container-fluid" style="width:100%" id="warningModal" role="dialog">
+	<div class="modal-dialog ">
+
+		<!-- Modal content-->
+		<div class="modal-content ">
+			<div class="modal-header ">
+				<h4 class="modal-title text-center"><i class="fa fa-exclamation-triangle"></i> Peringatan </h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body text-center ">
+				<div class="text-justify">Pegawai yang belum lengkap biodatanya, tidak akan tampil di laporan absensi. Silakan lengkapi
+					<span class="badge badge-warning">nama</span> , <span class="badge badge-warning">divisi</span>
+					dan data lainnya di menu
+					<a target="_blank" href="?page=pegawai#-" class="btn btn-sm btn-primary">
+						Daftar Pegawai <i class="fa fa-arrow-right"></i>
+					</a>
+				</div> <br>
+
+				<table id="warningTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-example" style="width: 100%;">
+					<thead>
+						<tr class="bg-secondary">
+							<th class="text-center">No.</th>
+							<th class="text-center">UID</th>
+							<th class="text-center">Nama</th>
+							<th class="text-center">Divisi</th>
+							<th class="text-center">Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$sqlWarn = 'SELECT 
+												i.uid,i.nama,i.id_divisi,
+												d.nama_divisi
+											FROM tb_id i 
+												LEFT JOIN vw_divisi d on d.id_divisi = i.id_divisi
+											WHERE
+												i.id_divisi IS NULL 
+												OR i.id_divisi = "" 
+												OR i.id_divisi NOT IN (
+													SELECT
+														id_divisi 
+													FROM
+														vw_divisi
+												)';
+						$exeWarn = mysqli_query($dbconnect, $sqlWarn);
+						$noWarn = 0;
+						while ($resWarn = mysqli_fetch_assoc($exeWarn)) {
+							$noWarn++;
+							$btn = '<a href="?page=pegawai#' . $resWarn['uid'] . '" target="_blank"  class="btn btn-sm btn-primary"><i class="fa fa-arrow-right"></i></a>';
+							// $divisi = ($resWarn['id_divisi'] != '' || $resWarn['id_divisi'] != null ? '<span class="badge badge-warning">id_divisi </span> <br>belum terdaftar di master divis' : $resWarn['nama_divisi']);
+							$divisi = '???';
+							$tr = '<tr class="text-left">
+												<td>' . $noWarn . '</td>
+												<td>' . $resWarn['uid'] . '</td>
+												<td> ' . ($resWarn['nama'] == '' ? '???' : '<i class="fa fa-checkmark"></i>' . $resWarn['nama']) . '</td>
+												<td>' . $divisi . '</td>
+												<td>' . $btn . '</td>
+											</tr>
+											';
+							echo $tr;
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- </div>
+	</div>
+</div> -->
 
 <section class="content ml-3 mr-3">
 	<div class="content">
 		<div class="container-fluid">
 			<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
 			<!-- Modal -->
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog">
 
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Capture</h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-						<div class="modal-body text-center">
-							<p id="modalTxt"></p>
-							<img class="rounded img-fluid" id="modalImg">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-
-				</div>
-			</div>
 
 
 			<div class="card">
@@ -461,27 +518,6 @@ $divisi = GetDivisiRule();
 						</div>
 					</form>
 
-					<!-- <div class="row">
-						<div class="col-md-6 ">
-							<select id="id_tipe_presensi" name="id_tipe_presensi" required onchange="tipePresensiFunc(this.value)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
-								<option value="">-Semua Divisi-</option>
-								<?php
-								foreach ($divisi as $data) { ?>
-									<option value="<?php echo $data['id']; ?>"><?php echo '(' . $data['kode_divisi'] . ') ' . $data['nama_divisi']; ?></option>
-								<?php } ?>
-							</select>
-						</div>
-
-						<div class="col-md-6 ">
-							<form method="POST">
-								<input class="form-control" type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal">
-								s/d
-								<input class="form-control" type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir">
-								<button type="submit" class="btn btn-light btn-sm mb-1 ml-1"><i class="fas fa-search"></i> Tampilkan</button>
-							</form>
-						</div>
-					</div> -->
-
 				</div>
 
 				<div class="card-body">
@@ -496,13 +532,13 @@ $divisi = GetDivisiRule();
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">No.</th>
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">Nama</th>
 											<th style="vertical-align:middle" class="text-center bg-secondary" rowspan="3">NIP</th>
-											<th class="text-center bg-warning" colspan="19">Tingkat Ketidakhadiran Berdasarkan Rumus Skor</th>
+											<th class="text-center bg-primary" colspan="19">Tingkat Ketidakhadiran Berdasarkan Rumus Skor</th>
 											<th class="text-center bg-secondary" style="vertical-align:middle" rowspan="3">
 												Kehadiran %
 											</th>
 										</tr>
 
-										<tr class="bg-warning">
+										<tr class="bg-primary">
 											<th class="text-center" colspan="2">05-30 menit</th>
 											<th class="text-center" colspan="2">31-60 menit</th>
 											<th class="text-center" colspan="2">61-120 menit</th>
@@ -515,7 +551,7 @@ $divisi = GetDivisiRule();
 											<th class="text-center">JML</th>
 										</tr>
 
-										<tr class="bg-warning">
+										<tr class="bg-primary">
 											<!-- >5 m  -->
 											<th>jml</th>
 											<th><?php echo $mas_per_1; ?>%</th>
@@ -560,6 +596,7 @@ $divisi = GetDivisiRule();
 									<tbody>
 										<?php
 										$no = 0;
+										// vd($sql);
 										while ($r = mysqli_fetch_assoc($sql)) {
 											// pr($r);
 											// harian	
@@ -598,7 +635,7 @@ $divisi = GetDivisiRule();
 
 											// tmk 1 hari & alpha																	
 											// $jml_tel_tmk = $r['jml_tel_tmk'];
-											
+
 											// pr($jml_tel_tmk);
 											// total hari 
 											$jml_hari = $r['jml_hari'] + 1; // 24
@@ -670,10 +707,24 @@ $divisi = GetDivisiRule();
 
 		</div>
 	</div>
+
+	<a <?php echo $noWarn <= 0 ? 'style="display:none"' : '' ?> href="#" onclick="openWarning();" class="btn blink-elem btn-warning float ">
+		<i class="fa fa-exclamation-triangle my-float"></i>
+		<!-- <i class="fa  fa-exclamation my-float"></i> -->
+	</a>
+	<div class="label-container">
+		<div class="label-text"><?php echo $noWarn; ?> Pegawai belum lengkap biodatanya</div>
+		<i class="fa fa-play label-arrow"></i>
+	</div>
+
 </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<script>
+	function openWarning() {
+		$('#warningModal').modal('show');
+	}
+</script>
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script>
@@ -709,10 +760,10 @@ $divisi = GetDivisiRule();
 		$('#imagemodal').modal('show');
 	});
 
-	function openModal(urlx) {
-		$('#modalImg').attr('src', urlx);
-		$('#myModal').modal('show');
-	}
+	// function openModal(urlx) {
+	// 	$('#modalImg').attr('src', urlx);
+	// 	$('#myModal').modal('show');
+	// }
 
 	function getMonthName(date) {
 		const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -1348,6 +1399,20 @@ $divisi = GetDivisiRule();
 			]
 		});
 
+		var warnTable = $('#warningTbl').DataTable({
+			// dom: 'Bfrtip',
+			paging: true,
+			pageLength: 10,
+			lengthMenu: [
+				[5, 10, 25, 50, -1],
+				[5, 10, 25, 50, "All"]
+			],
+			blengthChange: false,
+			bPaginate: false,
+			// bInfo: false,
+
+		});
+
 		// $('#btn-pdf').on('click', function() {
 		// 	// alert(999)
 		// 	$('#absensiTbl').tableExport({
@@ -1412,3 +1477,118 @@ $divisi = GetDivisiRule();
 // pr($query);
 
 ?>
+<style>
+	.label-container {
+		position: fixed;
+		bottom: 48px;
+		right: 105px;
+		display: table;
+		visibility: hidden;
+	}
+
+	.label-text {
+		color: #FFF;
+		background: rgba(51, 51, 51, 0.5);
+		display: table-cell;
+		vertical-align: middle;
+		padding: 10px;
+		border-radius: 3px;
+	}
+
+	.label-arrow {
+		display: table-cell;
+		vertical-align: middle;
+		color: #333;
+		opacity: 0.5;
+	}
+
+	.float {
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 40px;
+		right: 40px;
+		/* background-color: #06C; */
+		color: #FFF;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.my-float {
+		font-size: 24px;
+		vertical-align: middle;
+		/* margin-top: 18px; */
+	}
+
+	a.float+div.label-container {
+		visibility: hidden;
+		opacity: 0;
+		transition: visibility 0s, opacity 0.5s ease;
+	}
+
+	a.float:hover+div.label-container {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	/* .blinking {
+		animation: blinkingText 1.2s infinite;
+	}
+
+	@keyframes blinkingText {
+		0% {
+			color: #000;
+		}
+
+		49% {
+			color: #000;
+		}
+
+		60% {
+			color: transparent;
+		}
+
+		99% {
+			color: transparent;
+		}
+
+		100% {
+			color: #000;
+		}
+	} */
+
+	.blink-elem {
+		-moz-animation: glowing 1500ms infinite;
+	}
+
+	@-moz-keyframes glowing {
+		0% {
+			background-color: 'orange';
+			-moz-box-shadow: 0 0 3px 'orange';
+		}
+
+		50% {
+			background-color: #ff3300;
+			-moz-box-shadow: 0 0 40px #ff3300;
+		}
+
+		100% {
+			background-color: 'orange';
+			-moz-box-shadow: 0 0 3px 'orange';
+		}
+
+		/* 0% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+		50% { background-color: #FF0000; -moz-box-shadow: 0 0 40px #FF0000; }
+		100% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; } */
+	}
+
+
+	/* ref  
+	https://codepen.io/androidcss/pen/yOopGp
+	http://androidcss.com/css/css3-floating-button-tutorial/
+	https://html-online.com/articles/blinking-text-css-animation/
+		https://html-online.com/articles/blinking-text-css-animation/
+		https://jsfiddle.net/hajtwbot/
+	*/
+</style>

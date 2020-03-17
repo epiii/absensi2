@@ -58,21 +58,31 @@ if (isset($_SESSION['page'])) {
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
-                </label>
+          <div>
+            <!-- <h4 class="text-center">DEMO :</h4> -->
+            <div>
+              <!-- <div class="badge badge-success">admin</div>
+              <br>- username : admin
+              <br>- password : admin
+              <br>
+              <div class="badge badge-warning">user</div>
+              <br>- username : yuwono
+              <br>- password : yuwono -->
+              <div class="row">
+                <div class="col-8">
+                  <div class="icheck-primary">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">
+                      Remember Me
+                    </label>
+                  </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-4">
+                  <button type="submit" class="btn btn-info btn-block">Masuk</button>
+                </div>
+                <!-- /.col -->
               </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-info btn-block">Masuk</button>
-            </div>
-            <!-- /.col -->
-          </div>
         </form>
       </div>
       <!-- /.login-card-body -->

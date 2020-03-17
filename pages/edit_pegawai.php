@@ -14,7 +14,7 @@ if (!isset($_SESSION['page'])) {
 	// $jabatan = GetJabatan();
 	// $provinsi = GetProvinsi();
 	// $kategori = GetKatKaryawan();
-	
+
 	$status = GetStatus2();
 	$agama = GetAgama2();
 	$divisi = GetDivisi2();
@@ -99,29 +99,24 @@ if (!isset($_SESSION['page'])) {
 								<input required class="form-control" type="text" value="<?php echo $data['uid']; ?>" name="uid" placeholder="Masukan uid">
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">nama</label>
+								<label for="exampleInputEmail1">Nama <small style="color:red">* wajib diisi</small></label>
 								<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
 								<input required class="form-control" type="text" value="<?php echo $data['nama']; ?>" name="nama" placeholder="Masukan nama">
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">tanggal_lahir</label>
+								<label for="exampleInputEmail1">Tanggal Lahir</label>
 								<input type="date" class="form-control" value="<?php echo $data['tanggal_lahir']; ?>" name="tanggal_lahir">
 								<!-- <input required class="form-control" type="text" value="<?php echo $data['tanggal_lahir']; ?>" name="tanggal_lahir" placeholder="Masukan tanggal_lahir"> -->
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">jenis_kelamin</label>
+								<label for="exampleInputEmail1">Jenis Kelamin</label>
 								<select name="jenis_kelamin" required class="form-control input-medium">
 									<option <?php echo $data['jenis_kelamin'] == '1' ? 'selected' : '' ?> value="1"> Laki-Laki</option>
 									<option <?php echo $data['jenis_kelamin'] == '2' ? 'selected' : '' ?> value="2"> Perempuan</option>
 								</select>
 							</div>
-							<!-- <div class="form-group">
-							<label for="exampleInputEmail1">goldar</label>
-							<input required class="form-control" type="text" value="<?php echo $data['nama']; ?>" name="goldar" placeholder="Masukan goldar">
-						</div> -->
 							<div class="form-group">
-								<label for="exampleInputEmail1">agama</label>
-								<!-- <input required class="form-control" type="text" value="<?php echo $data['nama']; ?>" name="agama" placeholder="Masukan agama"> -->
+								<label for="exampleInputEmail1">Agama</label>
 								<select name="agama" class="form-control input-medium">
 									<option value=""></option>
 									<?php
@@ -131,7 +126,7 @@ if (!isset($_SESSION['page'])) {
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">status_kawin</label>
+								<label for="exampleInputEmail1">Status Kawin</label>
 								<select name="status_kawin" class="form-control input-medium">
 									<option value=""></option>
 									<?php
@@ -141,7 +136,7 @@ if (!isset($_SESSION['page'])) {
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">divisi</label>
+								<label for="exampleInputEmail1">Divisi <small style="color:red">* wajib diisi</small></label>
 								<select required name="divisi" class="form-control input-medium">
 									<option value=""></option>
 									<?php
@@ -153,11 +148,11 @@ if (!isset($_SESSION['page'])) {
 
 						<div class="tab-pane" id="tab_2">
 							<div class="form-group">
-								<label for="exampleInputEmail1">no_hp</label>
+								<label for="exampleInputEmail1">No. Hp</label>
 								<input class="form-control" type="text" value="<?php echo $data['no_hp']; ?>" name="no_hp" placeholder="Masukan no_hp">
 							</div>
 							<div class="form-group">
-								<label for="exampleInputEmail1">alamat</label>
+								<label for="exampleInputEmail1">Alamat</label>
 								<input class="form-control" type="text" value="<?php echo $data['alamat']; ?>" name="alamat" placeholder="Masukan alamat">
 							</div>
 							<div class="form-group">
@@ -206,7 +201,7 @@ if (!isset($_SESSION['page'])) {
 						</div> -->
 							<div class="form-group">
 								<label for="exampleInputEmail1">nip</label>
-								<input  class="form-control" type="text" value="<?php echo $data['nip']; ?>" name="nip" placeholder="Masukan nip">
+								<input class="form-control" type="text" value="<?php echo $data['nip']; ?>" name="nip" placeholder="Masukan nip">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">jabatan</label>
@@ -233,7 +228,7 @@ if (!isset($_SESSION['page'])) {
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">npwp</label>
-								<input  class="form-control" type="text" value="<?php echo $data['npwp']; ?>" name="npwp" placeholder="Masukan npwp">
+								<input class="form-control" type="text" value="<?php echo $data['npwp']; ?>" name="npwp" placeholder="Masukan npwp">
 							</div>
 							<!-- <div class="form-group">
 							<label for="exampleInputEmail1">norek</label>

@@ -145,27 +145,7 @@ $sql = mysqli_query($dbconnect, $query);
 						</div>
 					</form>
 				</div>
-				<!-- 
-				<div class="card-header bg-secondary" style="height: 82px;">
-
-					<div class="row">
-						<div class="col-md-6 pt-3">
-							<a href="./index.php?page=<?php echo $link_tambah; ?>">
-								<button type="button" class="btn btn-light btn-sm float-left"><i class="fas fa-plus-square"></i> Absen Manual</button>
-							</a>
-						</div>
-						<div class="col-md-push-6 pt-3 col-right">
-							<form method="POST">
-								<input type="date" value="<?php echo $tanggal_awal ? $tanggal_awal : date('Y-m-d'); ?>" name="tanggal_awal">
-								s/d
-								<input type="date" value="<?php echo $tanggal_akhir ? $tanggal_akhir : date('Y-m-d'); ?>" name="tanggal_akhir">
-								<button type="submit" class="btn btn-light btn-sm mb-1 ml-1"><i class="fas fa-search"></i> Tampilkan</button>
-							</form>
-						</div>
-					</div>
-
-				</div> -->
-
+				
 				<div class="card-body">
 					<div class="row mt-2">
 						<div class="col-md-12 col-md-offset-2">
