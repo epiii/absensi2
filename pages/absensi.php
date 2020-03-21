@@ -32,7 +32,7 @@ $absent = $date;
 
 $link_tambah = isset($_SESSION['id_karyawan']) ? 'tambah_absensi_user' : 'tambah_absensi';
 
-$tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date('Y-m-d');
+$tanggal_awal = (isset($_POST['tanggal_awal'])) ? $_POST['tanggal_awal'] : date('Y-m-01');
 $tanggal_akhir = (isset($_POST['tanggal_akhir'])) ? $_POST['tanggal_akhir'] : date('Y-m-d');
 // pr($tanggal_awal);
 $query = ' 	SELECT 
@@ -46,6 +46,8 @@ $query = ' 	SELECT
 					a.mode,
 					a.id_karyawan,
 					a.potongan,
+					a.potongan_masuk,
+					a.potongan_keluar,
 					a.terlambat,
 					k.nip,
 					k.nama,
@@ -55,7 +57,8 @@ $query = ' 	SELECT
 					k.id_divisi,
 					a.masuk_minus,
 					a.keluar_minus,
-					d.nama_divisi
+					d.nama_divisi,
+					tp.kode_tipepresensi
 				FROM tb_absen a
 					JOIN tb_id k ON k.id = a.id_karyawan
 					JOIN vw_divisi d ON d.id_divisi= k.id_divisi
@@ -63,7 +66,9 @@ $query = ' 	SELECT
 				WHERE
 					a.date >= "' . $tanggal_awal . '"
 					AND a.date <=  "' . $tanggal_akhir . '" ' . (isset($_SESSION['id_karyawan']) ? '
-					and a.id_karyawan = ' . $_SESSION['id_karyawan'] : '');
+					AND a.id_karyawan = ' . $_SESSION['id_karyawan'] : '') . '
+				ORDER BY 
+					a.date DESC';
 // pr($query);
 $sql = mysqli_query($dbconnect, $query);
 // }
@@ -145,7 +150,7 @@ $sql = mysqli_query($dbconnect, $query);
 						</div>
 					</form>
 				</div>
-				
+
 				<div class="card-body">
 					<div class="row mt-2">
 						<div class="col-md-12 col-md-offset-2">
@@ -153,22 +158,22 @@ $sql = mysqli_query($dbconnect, $query);
 
 								<table id="absensiTbl" class="table table-striped table-bordered dt-responsive nowrap" id="dataTables-absensiTbl" style="width: 100%;">
 									<thead>
-										<tr>
-											<th>No.</th>
-											<th>Tipe</th>
-											<th>UID</th>
-											<th>NIP </th>
-											<th>Nama</th>
-											<th>Tanggal</th>
-											<th>Jam Masuk</th>
-											<th>Jam Keluar</th>
-											<th>Status</th>
-											<th>Mode</th>
-											<th>Capture</th>
-											<th>Keterangan</th>
-											<th>Potongan</th>
-											<th>Total Telat</th>
-											<th>Action</th>
+										<tr class="bg bg-secondary">
+											<th style="vertical-align:middle;text-align:center;">No.</th>
+											<th style="vertical-align:middle;text-align:center;">Tipe</th>
+											<th style="vertical-align:middle;text-align:center;">UID</th>
+											<th style="vertical-align:middle;text-align:center;">NIP </th>
+											<th style="vertical-align:middle;text-align:center;">Nama</th>
+											<th style="vertical-align:middle;text-align:center;">Tanggal</th>
+											<th style="vertical-align:middle;text-align:center;">Jam <br>Masuk</th>
+											<th style="vertical-align:middle;text-align:center;">Jam <br>Keluar</th>
+											<th style="vertical-align:middle;text-align:center;">Status</th>
+											<th style="vertical-align:middle;text-align:center;">Mode</th>
+											<th style="vertical-align:middle;text-align:center;">Capture</th>
+											<th style="vertical-align:middle;text-align:center;">Keterangan</th>
+											<th style="vertical-align:middle;text-align:center;">Total <br>Potongan</th>
+											<th style="vertical-align:middle;text-align:center;">Total <br>Telat</th>
+											<th style="vertical-align:middle;text-align:center;">Action</th>
 										</tr>
 									</thead>
 
@@ -207,31 +212,32 @@ $sql = mysqli_query($dbconnect, $query);
 											$status = '';
 											$color = '';
 											if ($data['status'] == 'H') {
-												$status = "Hadir";
+												$statusTxt = "Hadir";
 												// $color = "table-success";
 												$color = "success";
 											} else if ($data['status'] == 'T') {
-												$status = "Terlambat";
+												$statusTxt = "Terlambat";
 												$color = "secondary";
 											} else if ($data['status'] == 'A') {
-												$status = "Alpha";
+												$statusTxt = "Alpha";
 												$color = "danger";
 											} else if ($data['status'] == 'I') {
-												$status = "Ijin";
-												$color = "primary";
+												$statusTxt = "Ijin";
+												$color = "warning";
 											} else if ($data['status'] == 'S') {
-												$status = "Sakit";
+												$statusTxt = "Sakit";
 												$color = "info";
 											} else if ($data['status'] == 'B') {
-												$status = "Bolos";
+												$statusTxt = "Bolos";
 												$color = "warning";
 											} else if ($data['status'] == 'D') {
-												$status = "Dinas";
+												$statusTxt = "Dinas";
 												$color = "primary";
 											} else {
-												$status = "";
+												$statusTxt = "";
 												$color = "";
 											}
+											$status = '<span class="badge badge-' . $color . '">' . $statusTxt . '</span>';
 											$capture =  'img/' . ($data['capture'] == '' ? 'no-image-icon.png' : 'captures/' . $data['capture']);
 
 											$jamSkrg = date('H:i');
@@ -243,8 +249,63 @@ $sql = mysqli_query($dbconnect, $query);
 											// 		$potTdkFinger = 2;
 											// 	}
 											// }
+											$potTdkFingerTxt = '';
+											$potongan_masuk = $data['potongan_masuk'];
+											$potongan_keluar = $data['potongan_keluar'];
+											$potongan =  $data['potongan'];
+											$keterangan = $data['keterangan'];
 
-											$potongan = $potTdkFinger + $data['potongan'];
+											if (
+												$data['kode_tipepresensi'] == 'harian'
+												&& $data['status'] == 'H'
+												&& ($data['masuk'] == '' || $data['keluar'] == '')
+											) {
+												$keterangan = 'Lupa Tidak Finger<br>(Tap ID)';
+												if ($data['masuk'] == '') {
+													$potongan_masuk = 2;
+													$potongan += $potongan_masuk;
+												}
+												if ($data['keluar'] == '') {
+													$potongan_keluar = 2;
+													$potongan += $potongan_keluar;
+												}
+											}
+
+											// $potongan = $potTdkFinger + $data['potongan'];
+
+											// if ($data['status'] == 'A') {
+											// }
+											// vd($potongan);
+
+
+											$jamMasuk = '';
+											if ($data['kode_tipepresensi'] == 'harian' && !in_array($data['status'], array('I', 'A', 'D'))) {
+												if ($data['masuk_minus'] > 0) {
+													$jamMasuk .= 'Telat  <span class="badge badge-danger">' . $data['masuk_minus'] . ' </span> menit<br>';
+												}
+												$jamMasuk .= '<i class="far fa-clock"></i> Real <span class="badge badge-' . $clrMas . '">' . $data['masuk'] . '</span>';
+												$jamMasuk .= '<br><i class="far fa-clock"></i> Rule <span class="badge badge-secondary"> ' . $jdw['mas_jam'] . ':' . $jdw['mas_menit'] . '</span>';
+												if ($potongan_masuk > 0) {
+													$jamMasuk .= '<br><br><i class="fas fa-balance-scale"></i> potongan <span class="badge badge-danger">' . $potongan_masuk . ' %</span> ';
+												}
+											} else {
+												$jamMasuk .= '<center>-</center>';
+											}
+
+											$jamKeluar = '';
+											if ($data['kode_tipepresensi'] == 'harian' && !in_array($data['status'], array('I', 'A', 'D'))) {
+												if ($data['keluar_minus'] > 0) {
+													$jamKeluar .= 'Lbh cpt <span class="badge badge-danger">' . $data['keluar_minus'] . ' </span> menit<br>';
+												}
+												$jamKeluar .= '<i class="far fa-clock"></i> Real <span class="badge badge-' . $clrKel . '">' . $data['keluar'] . '</span>';
+												$jamKeluar .= '<br><i class="far fa-clock"></i> Rule <span class="badge badge-secondary"> ' . $jdw['kel_jam'] . ':' . $jdw['kel_menit'] . '</span>';
+												if ($potongan_keluar > 0) {
+													$jamKeluar .= '<br><br><i class="fas fa-balance-scale"></i> potongan <span class="badge badge-danger">' . $potongan_keluar . ' %</span> ';
+												}
+											} else {
+												$jamKeluar .= '<center>-</center>';
+											}
+
 
 										?>
 											<tr class="table-<?php echo $color; ?>">
@@ -261,25 +322,9 @@ $sql = mysqli_query($dbconnect, $query);
 													</span>
 												</td>
 												<td><?php echo $data['tanggal']; ?></td>
-												<td>
-													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
-														<?php echo $data['masuk_minus'] > 0 ? 'Telat  <span class="badge badge-danger">' . $data['masuk_minus'] . ' </span> menit<br>' : '' ?>
-														Real <span class="badge badge-<?php echo $clrMas; ?>"> <?php echo $data['masuk']; ?></span>
-														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['mas_jam'] . ':' . $jdw['mas_menit']; ?></span>
-													<?php } else { ?>
-														<center>-</center>
-													<?php } ?>
-												</td>
-												<td>
-													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
-														<?php echo $data['keluar_minus'] > 0 ? 'Lbh cpt  <span class="badge badge-danger">' . $data['keluar_minus'] . ' </span> menit<br>' : '' ?>
-														Real <span class="badge badge-<?php echo $clrKel; ?>"> <?php echo $data['keluar']; ?></span>
-														<br>Rule <span class="badge badge-secondary"> <?php echo $jdw['kel_jam'] . ':' . $jdw['kel_menit']; ?></span>
-													<?php } else { ?>
-														<center>-</center>
-													<?php } ?>
-												</td>
-												<td><?php echo $status; ?></td>
+												<td><?php echo $jamMasuk; ?></td>
+												<td><?php echo $jamKeluar; ?></td>
+												<td class="text-center"><?php echo $status; ?></td>
 												<td><?php echo $data['mode']; ?></td>
 												<td class="text-center">
 													<a href="#" style="display:block;" onclick="openModal('<?php echo $capture; ?>')" class="">
@@ -290,16 +335,18 @@ $sql = mysqli_query($dbconnect, $query);
 														<!-- <img width="150" xclass="rounded img-fluid" src="<?php echo $capture; ?>"> -->
 													</a>
 												</td>
-												<td><?php echo $data['keterangan']; ?></td>
+												<td><?php echo $keterangan; ?></td>
 												<td>
 													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
 														<?php echo $potongan ?> %
-													<?php } else { ?>
+													<?php
+														echo $potTdkFingerTxt;
+													} else { ?>
 														<center>-</center>
 													<?php } ?>
 												</td>
 												<td>
-													<?php if ($data['kode_tipepresensi'] == 'harian') { ?>
+													<?php if ($data['kode_tipepresensi'] == 'harian' && !in_array($data['status'], array('I', 'A', 'D'))) { ?>
 														<?php echo $data['terlambat']; ?> menit
 													<?php } else { ?>
 														<center>-</center>
@@ -327,6 +374,28 @@ $sql = mysqli_query($dbconnect, $query);
 										}
 										?>
 									</tbody>
+
+									<tfoot class="bg bg-secondary">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+											<!-- <th style="text-align:right">Total:</th> -->
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th style="text-align:right">Total:</th>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+
 								</table>
 							</div>
 						</div>
@@ -364,13 +433,27 @@ $sql = mysqli_query($dbconnect, $query);
 	}
 
 	$(document).ready(function() {
+		// sum : by potongan 
+		let totPot = 0
+		let filteredTotPot = 0
+
+		// count row : semua 
+		let totRow = 0;
+		let filteredTotRow = 0
+
+		// messageBottom: '\nTotal Data : <?php echo $no; ?> \nTotal Potongan : <?php echo $potTotal; ?> %',
+
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
-			pageLength: 5,
+			pageLength: 20,
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
+			columnDefs: [{
+				targets: 14,
+				orderable: false
+			}],
 			buttons: [{
 					// extend: 'pdf',
 					filename: 'hahah',
@@ -379,17 +462,26 @@ $sql = mysqli_query($dbconnect, $query);
 					orientation: 'landscape',
 					download: 'open',
 					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
 						// modifier: {
 						// 	page: 'current'
 						// }
 					},
-					messageTop: 'Total Data : <?php echo $no; ?>',
-					messageBottom: '\nTotal Data : <?php echo $no; ?> \nTotal Potongan : <?php echo $potTotal; ?> %',
+					// messageTop: 'Total Data : <?php echo $no; ?>',
+					messageBottom: function() {
+						return '\nTotal Data : ' + filteredTotRow + ' dari ' + totRow
+					},
+					messageTop: function() {
+						return '\nTotal Data : ' + filteredTotRow + ' dari ' + totRow
+					},
+					// messageBottom: function() {
+					// 	return '\nTotal Data : ' + filteredTotRow+' dari '+totRow- 
+					// },
 					title: function() {
 						let title = 'Daftar Presensi Satpol PP Sidoarjo\n'
 						return title;
 					},
+					footer: true
 				},
 				{
 					extend: 'excel',
@@ -398,7 +490,7 @@ $sql = mysqli_query($dbconnect, $query);
 					orientation: 'landscape',
 					download: 'open',
 					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+						columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
 					},
 					messageTop: 'Total Data : <?php echo $no; ?>',
 					messageBottom: '\nTotal Data : <?php echo $no; ?> \nTotal Potongan : <?php echo $potTotal; ?> %',
@@ -410,10 +502,86 @@ $sql = mysqli_query($dbconnect, $query);
 				{
 					extend: 'print',
 					className: 'btn-info'
+				},
+				'colvis',
+			],
+
+			footerCallback: function(row, data, start, end, display) {
+				var api = this.api(),
+					data;
+				console.log('api ', api)
+				let colTotPot = 12
+
+				// ex : 1.50 % => 1.5 (split string to float)
+				var getNum = function(x) {
+					let ret = x.split(' ')
+					return parseFloat(ret[0])
 				}
-			]
+
+				// total rows ---------------------------
+				// filtered 
+				filteredTotRow = api.column(2, {
+					filter: 'applied',
+				}).data().length
+				// Total : filtered rows
+				currTotRow = api.column(2, {
+					filter: 'current',
+				}).data().length
+				totRow = api.column(2).data().length
+
+				// potongan ----------------------
+				// total : all rows 
+				totPot = api
+					.column(colTotPot)
+					.data()
+					.reduce(function(a, b) {
+						return parseFloat(a) + parseFloat(getNum(b));
+					}, 0);
+				// Total : current page
+				currTotPot = api
+					.column(colTotPot, {
+						page: 'current'
+					})
+					.data()
+					.reduce(function(a, b) {
+						return parseFloat(a) + parseFloat(getNum(b));
+					}, 0);
+				// Total : filtered page
+				filteredTotPot = api
+					.column(colTotPot, {
+						filter: 'applied'
+					})
+					.data()
+					.reduce(function(a, b) {
+						return parseFloat(a) + parseFloat(getNum(b));
+					}, 0);
+
+				// set global var 
+				// totPot = totPot
+				// filteredTotPot = pageTotal
+
+				// Update footer
+				// $(api.column(1).footer()).html(
+				// 	'Total Data '
+				// );
+				// $(api.column(2).footer()).html(
+				// 	': ' + currTotRow
+				// 	// ': ' + table.rows().count()
+				// );
+				$(api.column(colTotPot).footer()).html(
+					filteredTotPot + ' %'
+				);
+				// pageTotal + '% (All: ' + total + ' % )'
+			}
 		});
 
+		// table.on('select', function(e, dt, type, indexes) {
+		// 	// var info = myTable.page.info();
+		// 	// var rowstot = info.recordsTotal;
+		// 	// var rowsshown = info.recordsDisplay;
+		// 	alert("rowstot: ");
+		// 	// alert("rowsshown: " + rowsshown);
+		// });
 		// table.buttons().container()
 		// 	.appendTo('#absensiTbl_wrapper .col-md-6:eq(0)');
 

@@ -5,9 +5,7 @@ if (isset($_SESSION['page'])) {
 }
 require_once './func/func_pegawai.php';
 require_once './func/func_absensi.php';
-$karyawan = GetKaryawan2();
 $tipe_presensi = GetTipePresensi2();
-// pr($karyawan);
 ?>
 
 <div class="content-header ml-3 mr-3">
@@ -33,17 +31,6 @@ $tipe_presensi = GetTipePresensi2();
 
 			<form onsubmit="onsubmitForm(this);return false;" action="./konfig/add_absensi.php" method="POST">
 
-				<!-- <div class="form-group">
-					<label for="exampleInputEmail1">Tipe Presensi</label>
-					<select required onchange="tipePresensiFunc(this.value)" class="form-control input-large" data-placeholder="Choose a Category" tabindex="1">
-						<option value="">-Pilih Tipe Presensi-</option>
-						<option value="1">Harian</option>
-						<option value="2">SKJ</option>
-						<option value="3">Diklat</option>
-						<option value="4">Dispensasi</option>
-					</select>
-				</div> -->
-
 				<div class="form-group">
 					<label for="exampleInputEmail1">Tipe Presensi</label>
 					<input type="hidden" name="add_absensi">
@@ -68,31 +55,7 @@ $tipe_presensi = GetTipePresensi2();
 							<button id="resetKaryawanBtn" class="btn btn-secondary" onclick="resetKaryawan()" type="button">x</button>
 						</div>
 					</div>
-
-					<!-- <input type="search" class="form-control input-medium" id="karyawan" name='karyawan' placeholder='karyawan'> -->
-					<!-- <select id="karyawan" name="karyawan" required onchange="karyawanFunc(this.value)" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
-						<option value="">-Pilih Karyawan-</option>
-						<?php
-						foreach ($karyawan as $data) { ?>
-							<option value="<?php echo $data['id']; ?>"><?php echo $data['nama'] . " - <b>" . $data['nip'] . "</b>"; ?></option>
-						<?php } ?>
-					</select> -->
 				</div>
-
-				<!-- <select id="cc" class="easyui-combogrid" name="dept" style="width:250px;" data-options="
-					panelWidth:450,
-					value:'006',
-					idField:'code',
-					textField:'name',
-					url:'datagrid_data.json',
-					columns:[[
-						{field:'code',title:'Code',width:60},
-						{field:'name',title:'Name',width:100},
-						{field:'addr',title:'Address',width:120},
-						{field:'col4',title:'Col41',width:100}
-					]]
-				"></select> -->
-
 
 				<div class="row mb-2">
 					<div class="col-md-4">
@@ -168,7 +131,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('masuk')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam"  />
+								<input placeholder="HH:MM" id="masuk" name="masuk" class="form-control input-jam" />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('masuk')" type="button">x</button>
 								</div>
@@ -194,7 +157,7 @@ $tipe_presensi = GetTipePresensi2();
 								<div class="input-group-prepend">
 									<button id="resetKaryawanBtn" class="btn btn-success" onclick="setNow('keluar')" type="button">now</button>
 								</div>
-								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam"  />
+								<input placeholder="HH:MM" id="keluar" name="keluar" class="form-control input-jam" />
 								<div class="input-group-append">
 									<button id="resetKaryawanBtn" class="btn btn-danger" onclick="resetInput('keluar')" type="button">x</button>
 								</div>
@@ -359,37 +322,61 @@ $tipe_presensi = GetTipePresensi2();
 			confirmButtonText: 'Ya',
 			cancelButtonText: 'Tidak'
 		}).then((res) => {
-			console.log(res)
+			console.log('swal value', res)
 			if (res.value) {
-				$.ajax({
-					url: './konfig/add_absensi.php',
-					data: 'ajax&' + $(el).serialize(),
-					dataType: 'json',
-					method: 'post',
-					success: function(dt) {
-						console.log(dt);
-						let titlex, textx, typex, colorx;
-						if (dt.status) {
-							titlex = 'Success'
-							textx = 'Berhasil menyimpan data'
-							typex = 'success'
-							colorx = 'btn btn-success'
-						} else {
-							titlex = 'Failed'
-							textx = 'Gagal menyimpan data, ' + dt.msg
-							typex = 'error'
-							colorx = 'btn btn-danger'
-						}
+				let jamMasuk = $('#masuk').val()
+				let jamKeluar = $('#keluar').val()
+				let tipeP = $('#id_tipe_presensi').val()
+				let tp = tipeP.split('-')
+				// console.log(jamMasuk, jamKeluar, tp[1])
+				// return false
+				let statusx = $('input[type=radio][name=status]:checked').val()
+				console.log('status khdiran', statusx)
+				// return false
 
-						swal({
-							title: titlex,
-							text: textx,
-							type: typex,
-							confirmButtonColor: colorx,
-							confirmButtonText: 'ok',
-						})
-					},
-				})
+				if (
+					tp[1] == 'harian' &&
+					statusx == 'H' &&
+					(jamMasuk == '' && jamKeluar == '')
+				) {
+					swal({
+						title: 'Failed',
+						text: 'JAM MASUK atau JAM PULANG, silakan diisi, minimal salah satu',
+						type: 'error',
+						confirmButtonColor: 'btn btn-danger',
+						confirmButtonText: 'ok',
+					})
+				} else {
+					$.ajax({
+						url: './konfig/add_absensi.php',
+						data: 'ajax&' + $(el).serialize(),
+						dataType: 'json',
+						method: 'post',
+						success: function(dt) {
+							console.log(dt);
+							let titlex, textx, typex, colorx;
+							if (dt.status) {
+								titlex = 'Success'
+								textx = 'Berhasil menyimpan data'
+								typex = 'success'
+								colorx = 'btn btn-success'
+							} else {
+								titlex = 'Failed'
+								textx = 'Gagal menyimpan data, ' + dt.msg
+								typex = 'error'
+								colorx = 'btn btn-danger'
+							}
+
+							swal({
+								title: titlex,
+								text: textx,
+								type: typex,
+								confirmButtonColor: colorx,
+								confirmButtonText: 'ok',
+							})
+						},
+					})
+				}
 			}
 		});
 		return false;

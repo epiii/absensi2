@@ -178,7 +178,7 @@ if (isset($_POST['add_absensi'])) {
 	// pr($liburHariBesar);
 	if ($liburWeekend == '1' || $liburHariBesar == '1') {
 		$ret = json_encode([
-			'msg' => $liburWeekend == '1' ? GetDayName_($date).' hari libur weekend' : date('d F Y', strtotime($date)).' hari libur ' . $getNamaLibur,
+			'msg' => $liburWeekend == '1' ? GetDayName_($date) . ' hari libur weekend' : date('d F Y', strtotime($date)) . ' hari libur ' . $getNamaLibur,
 			'status' => false
 		]);
 		echo $ret;
@@ -206,21 +206,13 @@ if (isset($_POST['add_absensi'])) {
 		} else if ($itp == 'dispensasi') {
 			$potongan_total = '3'; // 3 %
 		} else { // harian
-			// $liburHariBesar = IsHoliday_($date);
-			// $liburWeekend = IsHoliday2_($date, $id_divisi);
 
-			// // pr($liburHariBesar);
-			// if ($liburWeekend == '1' || $liburHariBesar == '1') {
-			// 	echo "Hari Libur";
-			// } else {
-
-			if ($status == 'H') {
+			if ($status == 'H') { // hadir
 				$kalku = GetKeterlambatan([
 					'id_divisi' => $id_divisi,
 					'masuk' => $masuk,
 					'keluar' => $keluar,
 				]);
-				// vd($kalku);
 
 				// kategori telat 
 				$kat_terlambat_masuk = $kalku['kat_terlambat_masuk'];
@@ -235,11 +227,13 @@ if (isset($_POST['add_absensi'])) {
 				$potongan_masuk = $kalku['potongan_masuk'];
 				$potongan_keluar = $kalku['potongan_keluar'];
 				$potongan_total = $kalku['potongan_total'];
-			} else if ($status == 'A') {
-				$kat_terlambat_masuk = 4;
-				$kat_terlambat_keluar = 4;
+				// } else if ($status == 'A') { // alpha / absen
+			} else if ($status == 'A' || $status == 'I') {
+				$kat_terlambat_masuk = '';
+				$kat_terlambat_keluar = '';
 				$masuk = '';
 				$keluar = '';
+				$potongan_total = 4;
 			}
 			// }
 		}

@@ -5,7 +5,7 @@ if (isset($_SESSION['page'])) {
 }
 require_once './func/func_pegawai.php';
 require_once './func/func_absensi.php';
-$karyawan = GetKaryawan2();
+// $karyawan = GetKaryawan2();
 $tipe_presensi = GetTipePresensi2();
 $dt = GetKaryawanAbsensi($_GET['id']);
 $jdw = GetJadwalByDivisi($dt['id_divisi']);

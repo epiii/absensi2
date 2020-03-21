@@ -207,7 +207,36 @@ if (isset($_POST['edit_absensi'])) {
 		} else if ($itp == 'dispensasi') {
 			$potongan_total = '3'; // 3 %
 		} else { // harian
-			if ($status == 'H') {
+
+			if ($status == 'H') { // hadir
+				$kalku = GetKeterlambatan([
+					'id_divisi' => $id_divisi,
+					'masuk' => $masuk,
+					'keluar' => $keluar,
+				]);
+
+				// kategori telat 
+				$kat_terlambat_masuk = $kalku['kat_terlambat_masuk'];
+				$kat_terlambat_keluar = $kalku['kat_terlambat_keluar'];
+
+				// terlambat (menit)
+				$terlambat_masuk = $kalku['terlambat_masuk'];
+				$terlambat_keluar = $kalku['terlambat_keluar'];
+				$terlambat_total = $kalku['terlambat_total'];
+
+				// potongan (persen %)
+				$potongan_masuk = $kalku['potongan_masuk'];
+				$potongan_keluar = $kalku['potongan_keluar'];
+				$potongan_total = $kalku['potongan_total'];
+				// } else if ($status == 'A') { // alpha / absen
+			} else if ($status == 'A' || $status == 'I') {
+				$kat_terlambat_masuk = '';
+				$kat_terlambat_keluar = '';
+				$masuk = '';
+				$keluar = '';
+				$potongan_total = 4;
+			}
+			/* 	if ($status == 'H') {
 				$kalku = GetKeterlambatan([
 					'id_divisi' => $id_divisi,
 					'masuk' => $masuk,
@@ -233,7 +262,7 @@ if (isset($_POST['edit_absensi'])) {
 				$kat_terlambat_keluar = 4;
 				$masuk = '';
 				$keluar = '';
-			}
+			} */
 		}
 
 		$query = 'UPDATE  tb_absen SET 
@@ -253,7 +282,7 @@ if (isset($_POST['edit_absensi'])) {
 					,terlambat="' . $terlambat_total . '"
 					,kat_terlambat_masuk="' . $kat_terlambat_masuk . '"
 					,kat_terlambat_keluar="' . $kat_terlambat_keluar . '" 
-				WHERE id='.$id;
+				WHERE id=' . $id;
 		// vd($query);
 		$exe = mysqli_query($dbconnect, $query);
 		$msg = $exe ? 'success' : 'failed,' . mysqli_error($dbconnect);

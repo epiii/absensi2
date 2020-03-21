@@ -29,8 +29,11 @@ if (isset($_REQUEST['ajax'])) {
 				LEFT JOIN vw_divisi d on d.id_divisi = i.id_divisi
 				LEFT JOIN vw_katkaryawan kk on kk.id_katkaryawan= i.id_kategori_karyawan
 			WHERE 
-				i.nama LIKE "%' . $searchTerm . '%"  
-				OR i.nip LIKE "%' . $searchTerm . '%"  
+				i.id_divisi IN (SELECT id_divisi FROM vw_divisi) 
+				AND  (
+					i.nama LIKE "%' . $searchTerm . '%"  
+					OR i.nip LIKE "%' . $searchTerm . '%"
+				)  
 			';
 		// pr($ss);
 		// $ss = 'SELECT 
@@ -75,8 +78,8 @@ if (isset($_REQUEST['ajax'])) {
 		} else {
 			$ss .= 'ORDER BY ' . $sidx . ' ' . $sord;
 		}
+		// pr($ss);
 		$result2 = mysqli_query($dbconnect, $ss); //or die("Couldn t execute query." . mysqli_error());
-		// vd($result2);
 		$rows 	= array();
 		while ($row = mysqli_fetch_assoc($result2)) {
 			$s = '	SELECT *
@@ -395,9 +398,9 @@ if (isset($_REQUEST['ajax'])) {
 			for ($i = strtotime($days[$val], strtotime($startDate)); $i <= $endDate; $i = strtotime('+1 week', $i)) {
 				$x = date('Y-m-d', $i);
 
-				if(in_array($x,$lbr_tgl_merah)){
+				if (in_array($x, $lbr_tgl_merah)) {
 					continue;
-				}else{
+				} else {
 					$date_array[] = date('Y-m-d', $i);
 				}
 			}
@@ -532,6 +535,7 @@ if (isset($_REQUEST['ajax'])) {
 					vw_divisi vw
 					LEFT JOIN tb1_setting2 mas on mas.id_divisi = vw.id_divisi and mas.no='1'
 					LEFT JOIN tb1_setting2 kel on kel.id_divisi = vw.id_divisi and kel.no='2'
+			order by vw.kode_divisi asc
 				";
 		$exe = mysqli_query($dbconnect, $query);
 		while ($r = mysqli_fetch_assoc($exe)) {

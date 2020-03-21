@@ -379,6 +379,7 @@ $query = $id_divisi == '' ? $query : $query . ' AND k.id_divisi = "' . $id_divis
 // pr($query);
 $sql = mysqli_query($dbconnect, $query);
 $divisi = GetDivisiRule();
+// pr($divisi);
 ?>
 
 <div class="content-header ml-3 mr-3">
@@ -451,12 +452,12 @@ $divisi = GetDivisiRule();
 							$noWarn++;
 							$btn = '<a href="?page=pegawai#' . $resWarn['uid'] . '" target="_blank"  class="btn btn-sm btn-primary"><i class="fa fa-arrow-right"></i></a>';
 							// $divisi = ($resWarn['id_divisi'] != '' || $resWarn['id_divisi'] != null ? '<span class="badge badge-warning">id_divisi </span> <br>belum terdaftar di master divis' : $resWarn['nama_divisi']);
-							$divisi = '???';
+							$divisix = '???';
 							$tr = '<tr class="text-left">
 												<td>' . $noWarn . '</td>
 												<td>' . $resWarn['uid'] . '</td>
 												<td> ' . ($resWarn['nama'] == '' ? '???' : '<i class="fa fa-checkmark"></i>' . $resWarn['nama']) . '</td>
-												<td>' . $divisi . '</td>
+												<td>' . $divisix . '</td>
 												<td>' . $btn . '</td>
 											</tr>
 											';
@@ -496,10 +497,15 @@ $divisi = GetDivisiRule();
 								<select onchange="this.form.submit()" id="id_divisi" name="id_divisi" class="select2_category form-control input-large" data-placeholder="Choose a Category" tabindex="1">
 									<option value="">-Semua Divisi-</option>
 									<?php
-									foreach ($divisi as $data) { ?>
-										<option <?php echo $id_divisi == $data['id'] ? 'selected' : ''; ?> value="<?php echo $data['id'] . '-' . $data['mas_per_1'] . '-' . $data['mas_per_2'] . '-' . $data['mas_per_3'] . '-' . $data['mas_per_4'] . '-' . $data['kel_per_1'] . '-' . $data['kel_per_2'] . '-' . $data['kel_per_3'] . '-' . $data['kel_per_4']; ?>">
+									foreach ($divisi as $data) {
+										$val = $data['id'] . '-' . $data['mas_per_1'] . '-' . $data['mas_per_2'] . '-' . $data['mas_per_3'] . '-' . $data['mas_per_4'] . '-' . $data['kel_per_1'] . '-' . $data['kel_per_2'] . '-' . $data['kel_per_3'] . '-' . $data['kel_per_4'];
+									?>
+										<option <?php echo $id_divisi == $data['id'] ? 'selected' : ''; ?> value="<?php echo $val; ?>">
 											<?php echo '(' . $data['kode_divisi'] . ') ' . $data['nama_divisi']; ?>
 										</option>
+										<!-- <option <?php echo $id_divisi == $data['id'] ? 'selected' : ''; ?> value="<?php echo $data['id'] . '-' . $data['mas_per_1'] . '-' . $data['mas_per_2'] . '-' . $data['mas_per_3'] . '-' . $data['mas_per_4'] . '-' . $data['kel_per_1'] . '-' . $data['kel_per_2'] . '-' . $data['kel_per_3'] . '-' . $data['kel_per_4']; ?>">
+											<?php echo '(' . $data['kode_divisi'] . ') ' . $data['nama_divisi']; ?>
+										</option> -->
 									<?php } ?>
 								</select>
 							</div>
@@ -539,16 +545,16 @@ $divisi = GetDivisiRule();
 										</tr>
 
 										<tr class="bg-primary">
-											<th class="text-center" colspan="2">05-30 menit</th>
-											<th class="text-center" colspan="2">31-60 menit</th>
-											<th class="text-center" colspan="2">61-120 menit</th>
-											<th class="text-center" colspan="2">>120 menit</th>
-											<th class="text-center" colspan="2">TMK 1 hari</th>
-											<th class="text-center" colspan="2">Diklat</th>
-											<th class="text-center" colspan="2">Tidak SKJ</th>
-											<th class="text-center" colspan="2">Tidak Finger</th>
-											<th class="text-center" colspan="2">Dispensasi</th>
-											<th class="text-center">JML</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">05-30 menit</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">31-60 menit</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">61-120 menit</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">>120 menit</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">TMK 1 hari</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">Diklat</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">Tidak SKJ</th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">Tidak Finger<br><small>(Lupa Tap ID card)</small></th>
+											<th style="vertical-align:middle" class="text-center" colspan="2">Dispensasi</th>
+											<th style="vertical-align:middle" class="text-center">JML</th>
 										</tr>
 
 										<tr class="bg-primary">
