@@ -446,7 +446,7 @@ $sql = mysqli_query($dbconnect, $query);
 		var table = $('#absensiTbl').DataTable({
 			dom: 'Bfrtip',
 			paging: true,
-			pageLength: 20,
+			pageLength: 10,
 			blengthChange: false,
 			bPaginate: false,
 			bInfo: false,
